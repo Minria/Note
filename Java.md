@@ -17,6 +17,8 @@ int num = 1;//定义一个整型变量，数值为1
 System.out.println(num);
 ```
 
+
+
 ```java
 System.out.println(Integer.MAX_VALUE);//整型数据最大值
 System.out.println(Integer.MIN_VALUE);//整型数据最小值
@@ -35,6 +37,5 @@ long name = number;
 ```java
 long num=1L;//定义一个长整型变量，初始值为 1L 
 ```
-
 
 
