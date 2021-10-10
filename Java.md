@@ -38,4 +38,67 @@ long name = number;
 long num=1L;//定义一个长整型变量，初始值为 1L 
 ```
 
+### 双精度浮点型
+
+基本语法格式
+
+```java
+double num = number;
+```
+
+实例
+
+```java
+double num = 1.0;
+```
+
+### 单精度浮点型
+
+基本语法格式
+
+```java
+float num = number;
+```
+
+实例
+
+```java
+float num = 1.0f;
+```
+
+### 字符类型
+
+基本语法格式
+
+```java
+char ch = number;
+```
+
+实例
+
+```JAVA
+char ch = 'A';
+```
+
+### 字节类型变量
+
+基本语法格式
+
+```java
+byte num = number;
+```
+
+实例
+
+```JAVA
+byte value=0;
+```
+
+### 短整型变量
+
+基本语法格式
+
+```java
+short num = number;
+```
 
