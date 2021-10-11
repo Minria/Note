@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿[TOC]
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿[TOC]
 
 # 数组
 
@@ -1846,7 +1846,7 @@ int main() {
 
 结果是12
 
-![Snipaste_2021-10-07_18-26-34](https://gitee.com/wang-fuming/dawning/raw/master/202110071826009.png)
+![](https://gitee.com/wang-fuming/dawning/raw/master/202110071826009.png)
 
 ```c
 int main() {
@@ -1875,7 +1875,7 @@ int main() {
 
 计算大小是8，恰好满足是最大对齐数4的倍数，结果就是8
 
-![Snipaste_2021-10-07_18-27-19](https://gitee.com/wang-fuming/dawning/raw/master/202110071827288.png)
+![](https://gitee.com/wang-fuming/dawning/raw/master/202110071827288.png)
 
 ```c
 int main() {
