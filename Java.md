@@ -158,3 +158,136 @@ String result = str + a + b;
 System.out.println(result);
 ```
 
+## 运算符
+
+### 基本四则运算符
+
+整型相除还是整型，如果需要得到小数就需要double型变量进行运算
+
+### 关系运算符
+
+```== != < > <= >=```
+
+```java
+int a = 10;
+int b = 20;
+System.out.println(a == b);
+System.out.println(a != b);
+System.out.println(a < b);
+System.out.println(a > b);
+System.out.println(a <= b);
+System.out.println(a >= b);
+```
+
+![Snipaste_2021-10-11_16-39-27](https://gitee.com/wang-fuming/dawning/raw/master/202110111639797.png)
+
+### 逻辑运算符
+
+```&& || !```
+
+逻辑于------->两者都为真时为真
+
+逻辑或------->一个为真时即为真
+
+取反---------->真变假，假变真
+
+对于```a&&b```如果a为假则结束，不在判断b是真是假
+
+对于```a||b```如果a为真则结束，不在判断b是真是假
+
+### 位运算符
+
+```&  | ~ ^```
+
+**注意**：位操作符是对**二进制**位进行运算
+
+```a&b```--------->二进制位都是1则为1，否则取0
+
+```a|b```--------->二进制位只要有一个为1就是1
+
+```~a```---------->取反，二进制位是1则变0，0则变为1
+
+```a^b```--------->二进制位相同为0，相异为1
+
+# 分支和循环
+
+## 分支结构
+
+```java
+//格式1
+if(a){
+    
+}
+//格式2
+if(a){
+    
+}
+else{
+    
+}
+//格式3
+if(a){
+    
+}
+else if(b){
+    
+}
+else if(c){
+    
+}
+else{
+    
+}
+```
+
+```java
+switch(整数|枚举|字符|字符串){
+    case 内容1 : {
+        内容满足时执行语句;
+        [break;]
+    }
+    case 内容2 : {
+        内容满足时执行语句;
+        [break;]
+    }
+    default:{
+        内容都不满足时执行语句;
+        [break;]
+    }
+}
+```
+
+## 循环结构
+
+### while循环
+
+```java
+while(a){
+    
+}
+```
+
+### for循环
+
+```java
+for(a;b;c){
+    
+}
+```
+
+### do while循环
+
+```java
+do{
+    
+}while(a);
+```
+
+### break和continue
+
+两者都是让循环结束，但是不同的是
+
+break会直接结束整个循环
+
+continue结束当前循环，进入下一个循环
+
