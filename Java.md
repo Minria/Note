@@ -17,8 +17,6 @@ int num = 1;//定义一个整型变量，数值为1
 System.out.println(num);
 ```
 
-
-
 ```java
 System.out.println(Integer.MAX_VALUE);//整型数据最大值
 System.out.println(Integer.MIN_VALUE);//整型数据最小值
@@ -82,6 +80,8 @@ char name = data;
 char ch = 'A';
 ```
 
+需要注意的是，**Java中字符类型占两个字节**，与C语言中所占一个字节有区别
+
 ### 字节类型变量
 
 基本语法格式
@@ -95,6 +95,8 @@ byte name = data;
 ```JAVA
 byte value=0;
 ```
+
+在C语言中没有这个类型，这个类型占一个字节。
 
 ### 短整型变量
 
@@ -127,7 +129,7 @@ boolean value = false;
 
 ### 字符串类型变量
 
-在C语言中没有字符串类型，但是在java中有字符串类型
+在C语言中没有字符串类型，但是在Java中有字符串类型
 
 ```java
 String name = "data";
@@ -204,6 +206,10 @@ true // boolen 字面值常量, 同样的还有 false
 final int a = 10;
 a = 20; // 编译出错,提示无法为最终变量a分配值
 ```
+
+> 有点类似C语言中的const修饰变量
+
+![](https://gitee.com/wang-fuming/dawning/raw/master/202110131647709.png)
 
 ## 类型转换
 
@@ -419,4 +425,42 @@ do{
 break会直接结束整个循环
 
 continue结束当前循环，进入下一个循环
+
+# 数组
+
+## 数组基础
+
+### 数组是什么
+
+数组本质上就是一堆相同类型的变量。
+
+### 创建数组
+
+Java数组创建和C语言有所不同
+
+下面以整型数组为例
+
+```java
+int[] num = new int[]{1,2,3};//动态初始化
+int[] arr = {1,2,3};//静态初始化
+```
+
+### 数组使用
+
+一般是获取数组长度以及根据下标访问数组
+
+```java
+        int[] arr={1,2,3,4,5};
+        int len= arr.length;
+        for(int i=0;i<len;++i){
+            System.out.println(arr[i]);
+        }
+```
+
+![Snipaste_2021-10-13_20-01-16](https://gitee.com/wang-fuming/dawning/raw/master/202110132001300.png)
+
+需要注意的是
+
+1. 在Java中使用.length得到数组的长度
+2. 下标访问不可越界
 
