@@ -154,6 +154,25 @@ String str="A";
 2. 和上面的类型不同, String 不是基本类型, 而是引用类型。
 3. 字符串中的一些特定的不太方便直接表示的字符需要进行转义。
 
+**字符串的子串**
+
+使用String类的substring方法可以从一个较大的字符串中提出一个字串
+
+```java
+public class TestPratice {
+    public static void main(String[] args) {
+        String a="abcdefgh";
+        String b=a.substring(0,2);
+        System.out.println(b);
+    }
+}
+//预计输出ab
+```
+
+
+
+![Snipaste_2021-10-15_16-03-33](https://gitee.com/wang-fuming/dawning/raw/master/202110151604178.png)
+
 **字符串的拼接**
 
 ```java
