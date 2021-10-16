@@ -363,9 +363,11 @@ System.out.println(a >= b);
 
 ![Snipaste_2021-10-12_21-28-01](https://gitee.com/wang-fuming/dawning/raw/master/202110122128424.png)
 
-# 分支和循环
+# 逻辑结构
 
 ## 分支结构
+
+### if
 
 ```java
 //格式1
@@ -394,6 +396,35 @@ else{
 }
 ```
 
+需要注意的是，**条件必须是布尔表达式**
+
+在C语言中```if(1)```表示进入执行，在Java中必须是```if(true)```
+
+**需要注意的else的悬垂问题**
+
+```java
+int x = 10;
+int y = 20;
+if(x==10)
+    if(y==10)
+        System.out.println("true");
+else
+    System.out.println("false");
+    
+```
+
+我们很容易看见else和第一个if在同一个缩进上，所以什么也不输出？
+
+![Snipaste_2021-10-16_19-50-03](https://gitee.com/wang-fuming/dawning/raw/master/202110161951201.png)
+
+我们看到输出了false，看来是进入到else和第二个循环是一起的
+
+**else和它最近的if在一起**
+
+在idea编译器中，敲下回车，自动缩进在第二个if。
+
+### switch
+
 ```java
 switch(整数|枚举|字符|字符串){
     case 内容1 : {
@@ -410,6 +441,10 @@ switch(整数|枚举|字符|字符串){
     }
 }
 ```
+
+整数和字符很常见，字符串类型好像没有见过，下面给出例子
+
+![Snipaste_2021-10-16_19-55-41](https://gitee.com/wang-fuming/dawning/raw/master/202110161955595.png)
 
 ## 循环结构
 
@@ -436,6 +471,10 @@ do{
     
 }while(a);
 ```
+
+需要注意的是，**do while循环先执行后判断，while先判断后执行**
+
+![Snipaste_2021-10-16_20-00-18](https://gitee.com/wang-fuming/dawning/raw/master/202110162000811.png)
 
 ### break和continue
 
