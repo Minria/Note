@@ -484,6 +484,10 @@ break会直接结束整个循环
 
 continue结束当前循环，进入下一个循环
 
+# 方法
+
+Java中的方法实质上就是C语言中的函数。
+
 # 数组
 
 ## 数组基础
@@ -521,4 +525,37 @@ int[] arr = {1,2,3};//静态初始化
 
 1. 在Java中使用.length得到数组的长度
 2. 下标访问不可越界
+
+# 类和对象
+
+类有些像C语言中的结构体，对象则对应结构体变量。
+
+## 类的成员
+
+类的成员可以包含以下：
+
+1. 字段
+2. 方法
+3. 代码块
+4. 内部类
+5. 接口
+
+### 字段
+
+```java
+class Person{
+    public String name;
+    public int age;
+}
+class Main(){
+    public static void main(String[] args){
+        Person person = new Person;
+        System.out.println(person.name);
+        System.out.println(person.age);
+        
+    }
+}
+```
+
+
 
