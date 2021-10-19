@@ -400,6 +400,8 @@ else{
 
 在C语言中```if(1)```表示进入执行，在Java中必须是```if(true)```
 
+C语言中0代表false，非0代表true，但是在java中必须是true或者false
+
 **需要注意的else的悬垂问题**
 
 ```java
@@ -482,11 +484,35 @@ do{
 
 break会直接结束整个循环
 
-continue结束当前循环，进入下一个循环
+continue结束当前循环，进入下一个循环。
+
+## 输入输出
+
+### 输出
+
+### 输入
+
+
+
+
 
 # 方法
 
 Java中的方法实质上就是C语言中的函数。
+
+来一个求和方法
+
+```java
+public static int addSum(int n){
+    int sum = 0;
+    for(int i=1;i<=n;i++){
+        sum+=i;
+    }
+    return sum;
+}
+```
+
+
 
 # 数组
 
