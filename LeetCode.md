@@ -1,5 +1,7 @@
 
 
+
+
 ## 1. 两数之和
 
 ```java
@@ -43,4 +45,19 @@ class Solution {
 ```
 
 ![Snipaste_2021-10-17_18-36-52](https://gitee.com/wang-fuming/dawning/raw/master/202110171837736.png)
+
+## 33. 搜索旋转排序数组
+
+```java
+class Solution {
+    public int search(int[] nums, int target) {
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]==target){
+                return i;
+            }
+        }
+        return -1;
+    }
+}
+```
 
