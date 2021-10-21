@@ -596,3 +596,58 @@ private和public这两个关键字表示"访问权限控制"。
 
 > 换句话说, 类的使用者根本不需要知道, 也不需要关注一个类都有哪些 private 的成员. 从而让类调用者以更低的成本来使用类.
 
+# String类
+
+## 字符串的创建
+
+```java
+String str1 = "abcdefg";
+
+String str2 = new String("abcdefg");
+
+char[] array = {'a','b','c'};
+String str3 = new String(array);
+```
+
+## 字符串相等的比较
+
+```java
+String str1 = "abcdefhg";
+String str2 = "abcdefhg";
+System.out println(str1==str2);
+System.out println(str1.equals(str2));
+System.out println("abcdefg"==str2);
+System.out println("abcdefg".equals(str1));
+```
+
+## 字符串的不可变型
+
+## 字符，字节与字符串
+
+### 字符与字符串
+
+字符串内部包含一个字符数组，String 可以和 char[] 相互转换.
+
+```java
+public String(char[] value);
+//将字符数组中的内容变为字符串
+public String(char[] value,int offset,int count);
+//将字符数组的部分内容变为字符串
+public char charAt(int index);
+//获得指定索引位置的字符，索引从0开始
+public char[] toCharArray();
+//将字符串变为字符数组返回
+```
+
+### 字节与字符串
+
+```java
+public String(byte bytes[]);
+//将字节数组中的内容变为字符串
+public String(byte bytes[],int offset,int count);
+//将字节数组的部分内容变为字符串
+public byte[] getBytes();
+//字符串以字节的形式返回
+
+```
+
