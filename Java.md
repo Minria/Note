@@ -377,21 +377,17 @@ if(a){
 //格式2
 if(a){
     
-}
-else{
+}else{
     
 }
 //格式3
 if(a){
     
-}
-else if(b){
+}else if(b){
     
-}
-else if(c){
+}else if(c){
     
-}
-else{
+}else{
     
 }
 ```
@@ -490,7 +486,47 @@ continue结束当前循环，进入下一个循环。
 
 ### 输出
 
+```java
+System.out.println(data); // 输出一个字符串, 带换行
+System.out.print(data); // 输出一个字符串, 不带换行
+System.out.printf(format, data); // 格式化输出,类似C语言中的printf
+```
+
+
+
 ### 输入
+
+Java中输入比较复杂
+
+```java
+import java.util.Scanner; // 需要导入 util 包
+Scanner scanner = new Scanner(System.in);
+System.out.println("请输入你的姓名：");
+String name = scanner.nextLine();
+System.out.println("请输入你的年龄：");
+int age = scanner.nextInt();
+System.out.println("请输入你的工资：");
+float salary = scanner.nextFloat();
+System.out.println("你的信息如下：");
+System.out.println("姓名: "+name+"\n"+"年龄："+age+"\n"+"工资："+salary);
+sc.close(); // 注意, 要记得调用关闭方法
+```
+
+如果需要多组输入
+
+```java
+Scanner sc = new Scanner(System.in);
+double sum = 0.0;
+int num = 0;
+while (sc.hasNextDouble()) {
+    double tmp = sc.nextDouble();
+    sum += tmp;
+    num++;
+}
+System.out.println("sum = " + sum);
+System.out.println("avg = " + sum / num);
+sc.close();
+```
 
 
 
@@ -511,6 +547,51 @@ public static int addSum(int n){
     return sum;
 }
 ```
+
+## 方法的重载
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        int a = 10;
+        int b = 20;
+        int ret = add(a, b);
+        System.out.println("ret = " + ret);
+        double a2 = 10.5;
+        double b2 = 20.5;
+        double ret2 = add(a2, b2);
+        System.out.println("ret2 = " + ret2);
+        double a3 = 10.5;
+        double b3 = 10.5;
+        double c3 = 20.5;
+        double ret3 = add(a3, b3, c3);
+        System.out.println("ret3 = " + ret3);
+    }
+    public static int add(int x, int y) {
+        return x + y;
+    }
+    public static double add(double x, double y) {
+        return x + y;
+    }
+    public static double add(double x, double y, double z) {
+        return x + y + z;
+    }
+}
+```
+
+![Snipaste_2021-10-23_15-47-53](https://gitee.com/wang-fuming/dawning/raw/master/202110231548032.png)
+
+方法的名字都叫 add. 但是有的 add 是计算 int 相加, 有的是 double 相加; 有的计算两个数字相加, 有的是计算三个数字相加.
+
+同一个方法名字, 提供不同版本的实现, 称为**方法重载**
+
+需要注意的是
+
+1. 方法名相同
+2. 方法的参数不同(参数个数或者参数类型)
+3. 方法的返回值类型不影响重载.
+
+区分的重点是函数名字后面的参数（类型或者数量）
 
 ## 方法的递归
 
