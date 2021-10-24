@@ -605,18 +605,31 @@ public class Main {
 
 ### 数组是什么
 
-数组本质上就是一堆相同类型的变量。
+数组本质上就是一组相同数据类型的数据结构。
 
 ### 创建数组
 
-Java数组创建和C语言有所不同
+Java数组创建和C语言有所不同。
 
 下面以整型数组为例
 
 ```java
-int[] num = new int[]{1,2,3};//动态初始化
-int[] arr = {1,2,3};//静态初始化
+int[] nums1 = new int[]{1,2,3};//1>>>动态初始化
+int[] nums2 = new int[3];//2>>>长度为3，默认初始化为0
+int[] arr1 = {1,2,3};//3>>>静态初始化
+int[] arr2 = new int[n];//可以要求n不是常量
 ```
+
+需要注意的是：
+
+1. 定义数组的时候不能写具体的数字，如`int[3] num={1,2,3};`
+2. 动态初始化的第二个[]也不能写具体数字，如`int [] num=new int[3]{1,2,3};`
+
+![Snipaste_2021-10-24_19-52-26](https://gitee.com/wang-fuming/dawning/raw/master/202110241952404.png)
+
+
+
+直接报错。
 
 ### 数组使用
 
@@ -630,12 +643,191 @@ int[] arr = {1,2,3};//静态初始化
         }
 ```
 
-![Snipaste_2021-10-13_20-01-16](https://gitee.com/wang-fuming/dawning/raw/master/202110132001300.png)
+![Snipaste_2021-10-13_20-01-16](https://gitee.com/wang-fuming/dawning/raw/master/202110241947880.png)
 
 需要注意的是
 
 1. 在Java中使用.length得到数组的长度
-2. 下标访问不可越界
+2. 下标访问不可越界,范围是[0,arr.length)
+
+**遍历数组**
+
+常见有三种实现方式
+
+1. 通过for-i循环实现
+2. 通过for-each循环实现
+3. 通过Arrays类中自带的功能实现
+
+显现附上代码
+
+```java
+    public static void main(String[] args) {
+        int[] array={1,2,3,4,5,6};
+        //for-i循环
+        for (int i = 0; i < array.length; i++) {
+            System.out.print(array[i]+" ");
+        }
+        System.out.println();
+        //for-each循环
+        for (int x:array) {
+            System.out.print(x+" ");
+        }
+        System.out.println();
+        //Arrays功能，可以自行查看
+        System.out.println(Arrays.toString(array));
+    }
+```
+
+![Snipaste_2021-10-24_19-05-25](https://gitee.com/wang-fuming/dawning/raw/master/202110241947730.png)
+
+区别：for循环可以拿到下标，而后者不能拿到下标，更多用到访问集合中的元素
+
+## 数组和方法
+
+### 数组作为方法的参数
+
+最长的就是写一个函数打印内容
+
+附上一个实现的代码
+
+```java
+    public static void main(String[] args) {
+        int[] arr={1,2,3,4,5,6};
+        printfArr(arr);
+    }
+    public static void printfArr(int[] nums){
+        for (int x: nums) {
+            System.out.print(x+" ");
+        }
+    }
+```
+
+![Snipaste_2021-10-24_19-10-04](https://gitee.com/wang-fuming/dawning/raw/master/202110241948355.png)
+
+**Java中的应用类型**
+
+在C语言中有传值掉用还有传值调用
+
+```java
+    public static void main(String[] args) {
+        int num=10;
+        changeNum(num);
+        System.out.println(num);
+    }
+    public static void changeNum(int x){
+        x=0;
+    }
+```
+
+在执行完后num的值仍然为10，而不会改变称为0。
+
+```java
+    public static void main(String[] args) {
+        int[] arr={0,0,0,0,0,0};
+        changeArr(arr);
+        for (int x:
+             arr) {
+            System.out.print(x+" ");
+        }
+    }
+    public static void changeArr(int[] arr){
+        arr[0]=1;
+        arr[1]=2;
+    }
+```
+
+![Snipaste_2021-10-24_19-17-57](https://gitee.com/wang-fuming/dawning/raw/master/202110241948753.png)
+
+通过数组引用却又改变了数值，对应了C语言中的传址调用。
+
+### 数组作为方法的返回值
+
+```java
+public static void main(String[] args) {
+        String s=getStr();
+        System.out.println(s);
+    }
+
+    public static String getStr() {
+        String s="abcdefg";
+        return s;
+    }
+```
+
+> abcdefg
+
+如果是整型数组，返回类型由`String`改变为`int[]`
+
+如果是浮点型数组，改变为`double[]`
+
+## 初识JVM
+
+什么是引用？
+
+> 引用相当于一个 "别名", 也可以理解成一个指针。
+>
+> 创建一个引用只是相当于创建了一个很小的变量, 这个变量保存了一个整数, 这个整数表示内存中的一个地址。
+
+JVM被分为5个区
+
+1. 程序计数器 (PC Register): 只是一个很小的空间, 保存下一条执行的指令的地址.
+   虚拟机栈(JVM Stack): 重点是存储局部变量表(当然也有其他信息). 我们刚才创建的 int[] arr 这样的存储地址的引用就是在这里保存。
+2. 本地方法栈(Native Method Stack): 本地方法栈与虚拟机栈的作用类似. 只不过保存的内容是Native方法的局部变量. 在有些版本的 JVM 实现中(例如HotSpot), 本地方法栈和虚拟机栈是一起的。
+3. 堆(Heap): JVM所管理的最大内存区域. 使用 new 创建的对象都是在堆上保存 (例如前面的 new int[]{1, 2,3} )
+4. 方法区(Method Area): 用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据. 方法编译出的的字节码就是保存在这个区域。
+5. 运行时常量池(Runtime Constant Pool): 是方法区的一部分, 存放字面量(字符串常量)与符号引用. (注意 从 JDK1.7 开始, 运行时常量池在堆上)。
+
+下面将通过堆栈来简要说明引用
+
+```java
+    public static void main(String[] args) {
+        int[] nums1={1,2,3,4};
+        int[] nums2=nums1;
+        System.out.println(nums1==nums2);
+        nums2=new int[]{1,2,3,4};
+        System.out.println(nums1==nums2);
+    }
+```
+
+> true
+>
+> false
+
+![Snipaste_2021-10-24_19-34-26](D:\汪福明\Desktop\Snipaste_2021-10-24_19-34-26.png)
+
+分析和说明：
+
+最开始nums1指向对象是绿色的数组，nums2指向nums1的对象，也是绿色的数组
+
+它们指向相同所以第一个的true
+
+然后nums2指向另一个对象，虽然他们的内容是相同的，但是地址不同，所以输出false
+
+```java
+    public static void main(String[] args) {
+        int[] arr={0,0,0,0,};
+        System.out.println(Arrays.toString(arr));
+        changeNums(arr);
+        System.out.println(Arrays.toString(arr));
+        changeNums2(arr);
+        System.out.println(Arrays.toString(arr));
+    }
+    public static void changeNums(int[] arr){
+        arr=new int[]{1,1,1,1,1};
+    }
+    public static void changeNums2(int[] arr){
+        arr[0]=1;
+        arr=new int[]{1,2,3,4};
+    }
+```
+
+![Snipaste_2021-10-24_19-43-01](D:\汪福明\Desktop\Snipaste_2021-10-24_19-43-01.png)
+
+我们可以看见第一个函数的`int[] {1,1,1,1}`对于原来的实参没有任何影响，这是因为它**指向了其他的对象，并没有改变arr的指向**。
+
+第二个的`arr[0]=1`造成影响是因为这时候arr还指向主函数中数组的内容。
+
+按照C语言的指针理解那就是，new一个对象时指针指向了其他内容，当指针还指向内容时就可以改变内容。
 
 # 类和对象
 
