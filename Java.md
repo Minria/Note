@@ -650,6 +650,16 @@ int[] arr2 = new int[n];//可以要求n不是常量
 1. 在Java中使用.length得到数组的长度
 2. 下标访问不可越界,范围是[0,arr.length)
 
+**有关二维数组长度**
+
+```java
+int[][] nums={{1,2,3},{2,4,5}};
+int m=nums.length;//行
+int n=nums[0].length;//列
+```
+
+
+
 **遍历数组**
 
 常见有三种实现方式
