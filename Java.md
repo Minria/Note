@@ -618,6 +618,9 @@ int[] nums1 = new int[]{1,2,3};//1>>>动态初始化
 int[] nums2 = new int[3];//2>>>长度为3，默认初始化为0
 int[] arr1 = {1,2,3};//3>>>静态初始化
 int[] arr2 = new int[n];//可以要求n不是常量
+int[][] nums3 = new int[][]{{1,2,3},{1,2,3}};
+int[][] nums4 = new int[2][3];
+int[][] arr3 = {{1,2,3},{1,2,3}};
 ```
 
 需要注意的是：
@@ -690,7 +693,35 @@ int n=nums[0].length;//列
 
 ![Snipaste_2021-10-24_19-05-25](https://gitee.com/wang-fuming/dawning/raw/master/202110241947730.png)
 
+对于二维数组
+
+```java
+    public static void main(String[] args) {
+        int[][] nums={{1,2,3},{4,5,6}};
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = 0; j < nums[0].length; j++) {
+                System.out.print(nums[i][j]+" ");
+            }
+            System.out.println();
+        }
+        System.out.println("--------------------------------");
+        for (int[] ret: nums) {
+            for(int x: ret)
+                System.out.print(x+" ");
+            System.out.println();
+        }
+        System.out.println("--------------------------------");
+        System.out.println(Arrays.deepToString(nums));
+    }
+```
+
+![Snipaste_2021-10-26_21-05-58](https://gitee.com/wang-fuming/dawning/raw/master/202110262107716.png)
+
 区别：for循环可以拿到下标，而后者不能拿到下标，更多用到访问集合中的元素
+
+**二维数组的不规则性**
+
+![Snipaste_2021-10-26_21-10-00](https://gitee.com/wang-fuming/dawning/raw/master/202110262110127.png)
 
 ## 数组和方法
 
@@ -803,8 +834,6 @@ JVM被分为5个区
 >
 > false
 
-![Snipaste_2021-10-24_19-34-26](D:\汪福明\Desktop\Snipaste_2021-10-24_19-34-26.png)
-
 分析和说明：
 
 最开始nums1指向对象是绿色的数组，nums2指向nums1的对象，也是绿色的数组
@@ -812,6 +841,8 @@ JVM被分为5个区
 它们指向相同所以第一个的true
 
 然后nums2指向另一个对象，虽然他们的内容是相同的，但是地址不同，所以输出false
+
+![Snipaste_2021-10-26_22-09-11](https://gitee.com/wang-fuming/dawning/raw/master/202110262209126.png)
 
 ```java
     public static void main(String[] args) {
@@ -831,13 +862,58 @@ JVM被分为5个区
     }
 ```
 
-![Snipaste_2021-10-24_19-43-01](D:\汪福明\Desktop\Snipaste_2021-10-24_19-43-01.png)
-
 我们可以看见第一个函数的`int[] {1,1,1,1}`对于原来的实参没有任何影响，这是因为它**指向了其他的对象，并没有改变arr的指向**。
 
 第二个的`arr[0]=1`造成影响是因为这时候arr还指向主函数中数组的内容。
 
 按照C语言的指针理解那就是，new一个对象时指针指向了其他内容，当指针还指向内容时就可以改变内容。
+
+## Arrays方法
+
+1. fill函数（填充函数）
+
+```java
+    public static void main(String[] args) {
+        int[] arr1=new int[10];
+        int[] arr2=new int[10];
+        Arrays.fill(arr1,1);//将所有元素填充为1
+        Arrays.fill(arr2,1,3,9);//将下标[1,3)填充为9
+        System.out.println(Arrays.toString(arr1));
+        System.out.println(Arrays.toString(arr2));
+    }
+```
+
+![Snipaste_2021-10-26_22-04-48](https://gitee.com/wang-fuming/dawning/raw/master/202110262205000.png)
+
+2. sort排序函数
+
+```java
+    public static void main(String[] args) {
+        int[] arr={1,2,1,4,3,90,3452,21,23,2,34,6,5,78};
+        Arrays.sort(arr);
+        System.out.println(Arrays.toString(arr));
+    }
+```
+
+![Snipaste_2021-10-26_21-56-20](https://gitee.com/wang-fuming/dawning/raw/master/202110262156829.png)
+
+3. copyOf()拷贝函数和clone()克隆
+
+```java
+public static void main(String[] args) {
+        int[] arr1={1,2,3,4,5,6,7};
+        int[] arr2=Arrays.copyOf(arr1,arr1.length);//拷贝所有
+        int[] arr3=Arrays.copyOfRange(arr1,1,3);//拷贝下标[1,3)之间的元素
+        int[] arr4=arr1.clone();//拷贝所有
+        System.out.println(Arrays.toString(arr2));
+        System.out.println(Arrays.toString(arr3));
+        System.out.println(Arrays.toString(arr4));
+    }
+```
+
+![Snipaste_2021-10-26_22-00-43](https://gitee.com/wang-fuming/dawning/raw/master/202110262201871.png)
+
+
 
 # 类和对象
 
@@ -855,19 +931,26 @@ JVM被分为5个区
 
 ### 字段
 
+又称属性成员变量
+
 ```java
+//普通成员
 class Person{
     public String name;
     public int age;
-}
-class Main(){
-    public static void main(String[] args){
-        Person person = new Person;
-        System.out.println(person.name);
-        System.out.println(person.age);
-        
+    public void eat(){
+        System.out.println("eat");
     }
 }
+public class Main {
+    public static void main(String[] args){
+        Person person = new Person();
+        person.name="glacierBlue";
+        person.age=18;
+        System.out.println(person.name);//访问成员变量
+        System.out.println(person.age);
+        person.eat();//访问方法
+    }
 ```
 
 
