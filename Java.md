@@ -127,7 +127,7 @@ boolean value = false;
 2. Java 的 boolean 类型和 int 不能相互转换, 不存在 1 表示 true, 0 表示 false 这样的用法.
 3. boolean 类型有些 JVM 的实现是占 1 个字节, 有些是占 1 个比特位, 这个没有明确规定.
 
-### 字符串类型变量
+### String类型变量
 
 在C语言中没有字符串类型，但是在Java中有字符串类型
 
@@ -189,6 +189,61 @@ int b = 20;
 String result = str + a + b;
 System.out.println(result);
 ```
+
+#### 字符串的创建
+
+```java
+String str1 = "abcdefg";
+
+String str2 = new String("abcdefg");
+
+char[] array = {'a','b','c'};
+String str3 = new String(array);
+```
+
+#### 字符串相等的比较
+
+```java
+String str1 = "abcdefhg";
+String str2 = "abcdefhg";
+System.out println(str1==str2);
+System.out println(str1.equals(str2));
+System.out println("abcdefg"==str2);
+System.out println("abcdefg".equals(str1));
+```
+
+#### 字符串的不可变型
+
+#### 字符，字节与字符串
+
+#### 字符与字符串
+
+字符串内部包含一个字符数组，String 可以和 char[] 相互转换.
+
+```java
+public String(char[] value);
+//将字符数组中的内容变为字符串
+public String(char[] value,int offset,int count);
+//将字符数组的部分内容变为字符串
+public char charAt(int index);
+//获得指定索引位置的字符，索引从0开始
+public char[] toCharArray();
+//将字符串变为字符数组返回
+```
+
+#### 字节与字符串
+
+```java
+public String(byte bytes[]);
+//将字节数组中的内容变为字符串
+public String(byte bytes[],int offset,int count);
+//将字节数组的部分内容变为字符串
+public byte[] getBytes();
+//字符串以字节的形式返回
+
+```
+
+
 
 ### 转义字符
 
@@ -924,23 +979,32 @@ public static void main(String[] args) {
 类的成员可以包含以下：
 
 1. 字段
-2. 方法
-3. 代码块
-4. 内部类
-5. 接口
 
-### 字段
+   属性或者成员，又分普通成员变量和静态成员变量
+
+   普通成员变量：属于对象，放在堆区，通过对象访问
+
+   静态成员变量：属于类，放在方法区，又称类变量，通过类名访问
+
+2. 方法
+
+3. 代码块
+
+4. 内部类
+
+5. 接口
 
 又称属性成员变量
 
+引用类型默认字符串为null，整型为0
+
 ```java
-//普通成员
 class Person{
     public String name;
     public int age;
     public void eat(){
-        System.out.println("eat");
-    }
+        System.out.println(name+" is eat");
+    }//方法
 }
 public class Main {
     public static void main(String[] args){
@@ -953,7 +1017,9 @@ public class Main {
     }
 ```
 
+普通成员方法不能定义静态变量，static定义的变量属于类，叫做类变量。
 
+静态方法内部不可以调用普通方法
 
 ## 封装
 
@@ -964,60 +1030,7 @@ private和public这两个关键字表示"访问权限控制"。
 1. 被public修饰的成员变量或者成员方法，可以被类直接调用者调用。
 2. 被private修饰的成员变量或者成员方法，不能被类的调用者调用。
 
-> 换句话说, 类的使用者根本不需要知道, 也不需要关注一个类都有哪些 private 的成员. 从而让类调用者以更低的成本来使用类.
+> 换句话说, 类的使用者根本不需要知道, 也不需要关注一个类都有哪些 private 的成员. 从而让类调用者以更低的成本来使用类。
 
-# String类
-
-## 字符串的创建
-
-```java
-String str1 = "abcdefg";
-
-String str2 = new String("abcdefg");
-
-char[] array = {'a','b','c'};
-String str3 = new String(array);
-```
-
-## 字符串相等的比较
-
-```java
-String str1 = "abcdefhg";
-String str2 = "abcdefhg";
-System.out println(str1==str2);
-System.out println(str1.equals(str2));
-System.out println("abcdefg"==str2);
-System.out println("abcdefg".equals(str1));
-```
-
-## 字符串的不可变型
-
-## 字符，字节与字符串
-
-### 字符与字符串
-
-字符串内部包含一个字符数组，String 可以和 char[] 相互转换.
-
-```java
-public String(char[] value);
-//将字符数组中的内容变为字符串
-public String(char[] value,int offset,int count);
-//将字符数组的部分内容变为字符串
-public char charAt(int index);
-//获得指定索引位置的字符，索引从0开始
-public char[] toCharArray();
-//将字符串变为字符数组返回
-```
-
-### 字节与字符串
-
-```java
-public String(byte bytes[]);
-//将字节数组中的内容变为字符串
-public String(byte bytes[],int offset,int count);
-//将字节数组的部分内容变为字符串
-public byte[] getBytes();
-//字符串以字节的形式返回
-
-```
+### getter和setter方法
 
