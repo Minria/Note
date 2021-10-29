@@ -1034,3 +1034,68 @@ private和public这两个关键字表示"访问权限控制"。
 
 ### getter和setter方法
 
+```java
+class Person{
+    private String name;
+    private int age;
+    public void setName(String name){
+        this.name=name;
+    }
+    public void setAge(int age){
+        this.age=age;
+    }
+    public String getName(){
+        return name;
+    }
+    public int getAge(){
+        return age;
+    }
+}
+```
+
+
+
+## 构造方法
+
+定义：方法名和类名是相同的，并且构造方法没有返回值。
+
+需要注意的有
+
+1. 方法名称必须与类名称相同
+2. 构造方法没有返回值类型声明
+3. 每一个类中一定至少存在一个构造方法（没有明确定义，则系统自动生成一个无参构造）
+4. 如果类中没有提供任何的构造函数，那么编译器会默认生成一个不带有参数的构造函数
+5. 若类中定义了构造方法，则默认的无参构造将不再生成.
+6. 构造方法支持重载. 规则和普通方法的重载一致.
+
+```java
+
+```
+
+## 关键字this
+
+this和super有什么区别？
+
+this.data--------调用当前对象的属性
+
+this.func()------调用当前对象的方法
+
+this()-------------调用当前对象的其他构造方法，只能存放在构造函数中
+
+必须放到第一行
+
+## 代码块
+
+本地代码块
+
+实例代码块
+
+静态代码块
+
+同步代码块
+
+代码块怎么被调用？
+
+静态代码块执行在实例代码块前，并且静态代码块只执行一次
+
+就算不用实例化为对象也会执行一次
