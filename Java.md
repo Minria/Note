@@ -994,9 +994,7 @@ public static void main(String[] args) {
 
 5. 接口
 
-又称属性成员变量
-
-引用类型默认字符串为null，整型为0
+### 普通成员
 
 ```java
 class Person{
@@ -1007,19 +1005,94 @@ class Person{
     }//方法
 }
 public class Main {
-    public static void main(String[] args){
-        Person person = new Person();
-        person.name="glacierBlue";
-        person.age=18;
-        System.out.println(person.name);//访问成员变量
-        System.out.println(person.age);
-        person.eat();//访问方法
+    public static void main(String[] args) {
+        Person play1=new Person();//类实例化为对象
+        System.out.println(play1.name);
+        System.out.println(play1.age);
+        play1.eat();
     }
+}
 ```
 
-普通成员方法不能定义静态变量，static定义的变量属于类，叫做类变量。
+![Snipaste_2021-10-30_16-51-54](https://gitee.com/wang-fuming/dawning/raw/master/202110301652609.png)
 
-静态方法内部不可以调用普通方法
+我们在使用时没有初始化，**引用类型默认字符串为null，整型为0，布尔型为false**
+
+我们对其初始化后，再进行访问
+
+![Snipaste_2021-10-30_16-55-10](https://gitee.com/wang-fuming/dawning/raw/master/202110301655027.png)
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        Person play1=new Person();
+        play1.name="number1";
+        play1.age=18;
+        Person play2=new Person();
+        play2.name="number2";
+        play2.age=19;
+        System.out.println("名字:"+play1.name+" 年龄:"+play1.age);
+        System.out.println("名字:"+play2.name+" 年龄:"+play2.age);
+    }
+}
+```
+
+> 名字:number1 年龄:18
+> 名字:number2 年龄:19
+
+由此我们看出，普通成员变量是属于对象，我们对实例化第二个对象并且初始化赋值的时候并不会影响第一个对象的值。
+
+![Snipaste_2021-10-30_17-16-31](https://gitee.com/wang-fuming/dawning/raw/master/202110301716857.png)
+
+### 静态成员变量
+
+普通成员变量属于对象，而静态成员属于类
+
+```java
+class Person{
+    public String name;
+    public int age;
+    public static int count;
+}
+public class Main {
+    public static void main(String[] args) {
+        Person play1=new Person();
+        Person play2=new Person();
+        play1.count=1;
+        play2.count=2;
+        System.out.println(play1.count);
+        System.out.println(play2.count);
+    }
+}
+```
+
+![Snipaste_2021-10-30_17-57-14](https://gitee.com/wang-fuming/dawning/raw/master/202110301757668.png)
+
+我们看见
+
+1. 通过对象访问静态变量有警告
+2. “初始化”不同但是输出结果相同并且以结果第二个
+
+事实上，**静态成员变量属于类，我们可以通过类直接访问静态变量而不需要实例化一个对象**
+
+![Snipaste_2021-10-30_18-06-56](https://gitee.com/wang-fuming/dawning/raw/master/202110301807842.png)
+
+我们知道引用放在栈区上，对象放在堆区，那么静态变量放在那里？放在方法区
+
+与此对应的还有静态方法，我们通过类就能直接访问方法。
+
+static定义的变量属于类，叫做类变量；定义的方法叫做类方法。
+
+需要注意的是
+
+1. 普通成员方法内不能定义静态变量。（可以看见直接报错，语法不支持。）
+
+2. 静态方法内部不可以调用普通方法（调用普通方法需要对象）
+
+3. 普通方法内部可以调用静态方法
+4. 静态方法内部可以访问静态变量但是不能定义静态变量
+
+
 
 ## 封装
 
@@ -1038,18 +1111,43 @@ private和public这两个关键字表示"访问权限控制"。
 class Person{
     private String name;
     private int age;
-    public void setName(String name){
-        this.name=name;
-    }
-    public void setAge(int age){
-        this.age=age;
-    }
-    public String getName(){
+
+    public String getName() {
         return name;
     }
-    public int getAge(){
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
         return age;
     }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        Person person =new Person();
+        person.setAge(18);
+        person.setName("number");
+        System.out.println(person.getAge());
+        System.out.println(person.getName());
+    }
+}
+```
+
+需要注意的是
+
+set和get方法再idea编译器中提供，可以直接生成。
+
+注意以下错误
+
+```java
+public void setAge(int age) {
+        age = age;//不会赋值，两个age是相同age（局部变量有限）
 }
 ```
 
@@ -1058,6 +1156,10 @@ class Person{
 ## 构造方法
 
 定义：方法名和类名是相同的，并且构造方法没有返回值。
+
+步骤：为对象分配内存---->调用**合适的**分配方法
+
+合适的意味着调用方法不止一个。
 
 需要注意的有
 
@@ -1069,8 +1171,40 @@ class Person{
 6. 构造方法支持重载. 规则和普通方法的重载一致.
 
 ```java
+class Person{
+    public String name;
+    public int age;
 
+    public Person(String name,int age){
+        this.age=age;
+        this.name=name;
+    }
+    public Person(String name){
+        this.name=name;
+    }
+    public Person(){
+        System.out.println("无参数");
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        Person person1 =new Person();
+        Person person2 =new Person("zhangsan");
+        Person person3 =new Person("lisi",18);
+        System.out.println(person1.name+"   "+person1.age);
+        System.out.println(person2.name+"   "+person2.age);
+        System.out.println(person3.name+"   "+person3.age);
+
+    }
+}
 ```
+
+> 无参数
+> null   0
+> zhangsan   0
+> lisi   18
+
+
 
 ## 关键字this
 
@@ -1094,8 +1228,41 @@ this()-------------调用当前对象的其他构造方法，只能存放在构�
 
 同步代码块
 
+```java
+class Person{
+    public String name;
+    public int age;
+    {
+        System.out.println("实例代码块");
+    }
+    static {
+        System.out.println("静态代码块");
+    }
+    static int a=0;
+}
+public class Main {
+    public static void main(String[] args) {
+        Person person=new Person();
+        System.out.println(person);
+    }
+}
+```
+
+> 静态代码块
+> 实例代码块
+> Person@1b6d3586
+
+我们可以看见静态代码块是最先被执行的并且**静态代码块只会被执行一次**
+
+并且静态代码块不用实例化对象也会被执行
+
+
+
+
+
 代码块怎么被调用？
 
 静态代码块执行在实例代码块前，并且静态代码块只执行一次
 
 就算不用实例化为对象也会执行一次
+
