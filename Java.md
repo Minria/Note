@@ -1,4 +1,4 @@
-# 数据类型
+数据类型
 
 ## 变量和类型
 
@@ -1265,4 +1265,379 @@ public class Main {
 静态代码块执行在实例代码块前，并且静态代码块只执行一次
 
 就算不用实例化为对象也会执行一次
+
+# 面向对象
+
+## 包
+
+包 (package) 是组织类的一种方式.
+使用包的主要目的是保证类的唯一性.
+
+> 例如, 你在代码中写了一个 Test 类. 然后你的同事也可能写一个 Test 类. 如果出现两个同名的类, 就会冲突, 导致代码不能编译通过.
+
+### 导入包中的类
+
+Java 中已经提供了很多现成的类供我们使用. 例如
+
+```java
+public class Test {
+    public static void main(String[] args) {
+        java.util.Date date = new java.util.Date();
+    	// 得到一个毫秒级别的时间戳
+    	System.out.println(date.getTime());
+	}
+}
+```
+
+可以使用` java.util.Date` 这种方式引入 `java.util` 这个包中的 Date 类。
+
+但是这种写法比较麻烦一些, 可以使用` import` 语句导入包.
+
+```java
+import java.util.Date;
+public class Test {
+	public static void main(String[] args) {
+		Date date = new Date();
+		// 得到一个毫秒级别的时间戳
+		System.out.println(date.getTime());
+	}
+}
+```
+
+如果需要使用`java.util` 中的其他类, 可以使用 `import java.util.*`
+
+```java
+import java.util.*;
+public class Test {
+	public static void main(String[] args) {
+		Date date = new Date();
+		// 得到一个毫秒级别的时间戳
+		System.out.println(date.getTime());
+	}
+}
+```
+
+但是我们更建议显式的指定要导入的类名. 否则还是容易出现冲突的情况.
+
+```java
+import java.util.*;
+import java.sql.*;
+public class Test {
+	public static void main(String[] args) {
+		// util 和 sql 中都存在一个 Date 这样的类, 此时就会出现歧义, 编译出错
+		Date date = new Date();
+		System.out.println(date.getTime());
+	}
+}
+```
+
+> Error:(5, 9) java: 对Date的引用不明确
+> java.sql 中的类 java.sql.Date 和 java.util 中的类 java.util.Date 都匹配
+
+在这种情况下需要使用完整的类名
+
+```java
+import java.util.*;
+import java.sql.*;
+public class Test {
+	public static void main(String[] args) {
+		java.util.Date date = new java.util.Date();
+		System.out.println(date.getTime());
+	}
+}
+```
+
+注意事项: `import` 和 C++ 的 `#include` 差别很大. C++ 必须 `#include` 来引入其他文件内容, 但是 Java 不需要.
+`import `只是为了写代码的时候更方便. `import` 更类似于 C++ 的 `namespace` 和 `using`
+
+### 静态导入
+
+使用`import static` 可以导入包中的静态的方法和字段.
+
+```java
+import static java.lang.System.*;
+public class Test {
+	public static void main(String[] args) {
+		out.println("hello");
+	}
+}
+```
+
+使用这种方式可以更方便的写一些代码, 例如
+
+```java
+import static java.lang.Math.*;
+public class Test {
+	public static void main(String[] args) {
+		double x = 30;
+		double y = 40;
+		// 静态导入的方式写起来更方便一些.
+		// double result = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+		double result = sqrt(pow(x, 2) + pow(y, 2));
+		System.out.println(result);
+	}
+}
+```
+
+### 将类放到包中
+
+基本规则
+1、在文件的最上方加上一个 package 语句指定该代码在哪个包中.
+2、包名需要尽量指定成唯一的名字, 通常会用公司的域名的颠倒形式(例如` com.bit.demo1 `).
+
+3、包名要和代码路径相匹配. 例如创建 com.bit.demo1 的包, 那么会存在一个对应的路径 `com/bit/demo1` 来存储代码.
+3、如果一个类没有 package 语句, 则该类被放到一个默认包中.
+
+### 包的访问权限
+
+我们已经了解了类中的 public 和 private. private 中的成员只能被类的内部使用.
+
+如果某个成员不包含 public 和 private 关键字, 此时这个成员可以在包内部的其他类使用, 但是不能在包外部的类使用.
+
+下面的代码给了一个示例. Demo1 和 Demo2 是同一个包中, Test 是其他包中.
+
+### 常见的系统包
+
+常见的系统包
+1. java.lang:系统常用基础类(String、Object),此包从JDK1.1后自动导入。
+2. java.lang.reflect:java 反射编程包;
+3. java.net:进行网络编程开发包。
+4. java.sql:进行数据库开发的支持包。
+5. java.util:是java提供的工具程序包。(集合类等) 非常重要
+6. java.io:I/O编程开发包。
+
+## 继承
+
+### 背景
+
+代码中创建的类, 主要是为了抽象现实中的一些事物(包含属性和方法).
+
+有的时候客观事物之间就存在一些关联关系, 那么在表示成类和对象的时候也会存在一定的关联.
+例如, 设计一个类表示动物
+
+**注意**, 我们可以给每个类创建一个单独的 java 文件. 类名必须和 .java 文件名匹配(大小写敏感).
+
+```java
+// Animal.java
+public class Animal {
+	public String name;
+	public Animal(String name) {
+		this.name = name;
+	}
+	public void eat(String food) {
+		System.out.println(this.name + "正在吃" + food);
+	}
+}
+// Cat.java
+class Cat {
+	public String name;
+	public Cat(String name) {
+		this.name = name;
+	}
+	public void eat(String food) {
+		System.out.println(this.name + "正在吃" + food);
+	}
+}
+// Bird.java
+class Bird {
+	public String name;
+	public Bird(String name) {
+		this.name = name;
+	}
+	public void eat(String food) {
+		System.out.println(this.name + "正在吃" + food);
+	}
+	public void fly() {
+		System.out.println(this.name + "正在飞 ︿(￣︶￣)︿");
+	}
+}
+
+```
+
+这个代码我们发现其中存在了大量的冗余代码.
+仔细分析, 我们发现 Animal 和 Cat 以及 Bird 这几个类中存在一定的关联关系:
+
+这三个类都具备一个相同的 eat 方法, 而且行为是完全一样的.
+
+这三个类都具备一个相同的 name 属性, 而且意义是完全一样的。
+
+从逻辑上讲, Cat 和 Bird 都是一种 Animal (is - a 语义).
+
+此时我们就可以让 Cat 和 Bird 分别继承 Animal 类, 来达到代码重用的效果.
+
+此时, Animal 这样被继承的类, 我们称为 父类 , 基类 或 超类, 对于像 Cat 和 Bird 这样的类, 我们称为 子类, 派生类
+
+和现实中的儿子继承父亲的财产类似, 子类也会继承父类的字段和方法, 以达到代码重用的效果.
+
+### 语法规则
+
+```java
+class 子类 extends 父类 {
+}
+```
+
+使用 extends 指定父类.
+1、Java 中一个子类只能继承一个父类 (而C++/Python等语言支持多继承).
+2、子类会继承父类的所有 **public 的字段和方法**.
+3、对于父类的 private 的字段和方法, 子类中是无法访问的.
+4、子类的实例中, 也包含着父类的实例. **可以使用 super 关键字得到父类实例的引用.**
+
+对于上面的代码, 可以使用继承进行改进. 此时我们让 Cat 和 Bird 继承自 Animal 类, 那么 Cat 在定义的时候就不必再写 name 字段和 eat 方法.
+
+```java
+class Animal {
+public String name;
+	public Animal(String name) {
+		this.name = name;
+	}
+	public void eat(String food) {
+		System.out.println(this.name + "正在吃" + food);
+	}
+}
+
+class Cat extends Animal {
+	public Cat(String name) {
+		// 使用 super 调用父类的构造方法.
+		super(name);
+	}
+}
+
+class Bird extends Animal {
+	public Bird(String name) {
+    	super(name);
+	}
+	public void fly() {
+		System.out.println(this.name + "正在飞 ︿(￣︶￣)︿");
+	}
+}
+public class Test {
+	public static void main(String[] args) {
+		Cat cat = new Cat("小黑");
+		cat.eat("猫粮");
+		Bird bird = new Bird("圆圆");
+		bird.fly();
+	}
+}
+```
+
+> extends 英文原意指 "扩展". 而我们所写的类的继承, 也可以理解成基于父类进行代码上的 "扩展".
+> 例如我们写的 Bird 类, 就是在 Animal 的基础上扩展出了 fly 方法.
+
+如果我们把 name 改成 private, 那么此时子类就不能访问了.
+
+```java
+class Bird extends Animal {
+	public Bird(String name) {
+		super(name);
+	}
+	public void fly() {
+		System.out.println(this.name + "正在飞 ︿(￣︶￣)︿");
+	}
+}
+```
+
+> Error:(19, 32) java: name 在 Animal 中是 private 访问控制
+
+### protected 关键字
+
+刚才我们发现, 如果把字段设为 private, 子类不能访问. 但是设成 public, 又违背了我们 "封装" 的初衷.
+
+两全其美的办法就是 protected 关键字.
+
+1、对于类的调用者来说, protected 修饰的字段和方法是不能访问的
+2、对于类的子类 和 同一个包的其他类 来说, protected 修饰的字段和方法是可以访问的
+
+```java
+// Animal.java
+public class Animal {
+	protected String name;
+	public Animal(String name) {
+    	this.name = name;
+	}
+	public void eat(String food) {
+		System.out.println(this.name + "正在吃" + food);
+	}
+}
+// Bird.java
+public class Bird extends Animal {
+	public Bird(String name) {
+		super(name);
+	}
+	public void fly() {
+	// 对于父类的 protected 字段, 子类可以正确访问
+		System.out.println(this.name + "正在飞 ︿(￣︶￣)︿");
+	}
+}
+// Test.java 和 Animal.java 不在同一个 包 之中了.
+public class Test {
+	public static void main(String[] args) {
+		Animal animal = new Animal("小动物");
+		System.out.println(animal.name); // 此时编译出错, 无法访问 name
+	}
+}
+```
+
+小结: Java 中对于字段和方法共有四种访问权限
+1、private: 类内部能访问, 类外部不能访问
+2、默认(也叫包访问权限): 类内部能访问, 同一个包中的类可以访问, 其他类不能访问.
+3、protected: 类内部能访问, 子类和同一个包中的类可以访问, 其他类不能访问.
+4、public : 类内部和类的调用者都能访问
+
+### final 关键字
+
+曾经我们学习过 final 关键字, 修饰一个变量或者字段的时候, 表示 常量 (不能修改).
+
+```java
+final int a = 10;
+a = 20; // 编译出错
+```
+
+final 关键字也能修饰类, 此时表示被修饰的类就不能被继承.
+
+```java
+final public class Animal {
+...
+}
+public class Bird extends Animal {
+...
+}
+```
+
+> Error:(3, 27) java: 无法从最终com.bit.Animal进行继承
+
+final 关键字的功能是**限制** 类被继承
+"限制" 这件事情意味着 "不灵活".
+
+在编程中, 灵活往往不见得是一件好事。灵活可能意味着更容易出错。
+
+是用 final 修饰的类被继承的时候, 就会编译报错, 此时就可以提示我们这样的继承是有悖这个类设计的初衷的。
+
+## 组合
+和继承类似, 组合也是一种表达类之间关系的方式, 也是能够达到代码重用的效果.
+例如表示一个学校:
+
+```java
+public class Student {
+...
+}
+public class Teacher {
+...
+}
+public class School {
+	public Student[] students;
+	public Teacher[] teachers;
+}
+```
+
+组合并没有涉及到特殊的语法(诸如 extends 这样的关键字), 仅仅是将一个类的实例作为另外一个类的字段.
+这是我们设计类的一种常用方式之一.
+
+**组合**表示 **has - a** 语义
+在刚才的例子中, 我们可以理解成一个学校中 "包含" 若干学生和教师.
+**继承**表示 **is - a** 语义
+在上面的 "动物和猫" 的例子中, 我们可以理解成一只猫也 "是" 一种动物.
+
+## 多态
+
+## 向上转型
 
