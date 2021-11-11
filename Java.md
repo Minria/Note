@@ -1385,8 +1385,12 @@ public class Test {
 1、在文件的最上方加上一个 package 语句指定该代码在哪个包中.
 2、包名需要尽量指定成唯一的名字, 通常会用公司的域名的颠倒形式(例如` com.bit.demo1 `).
 
-3、包名要和代码路径相匹配. 例如创建 com.bit.demo1 的包, 那么会存在一个对应的路径 `com/bit/demo1` 来存储代码.
+3、包名要和代码路径相匹配. 例如创建 `com.bit.demo1`的包, 那么会存在一个对应的路径 `com/bit/demo1` 来存储代码.
 3、如果一个类没有 package 语句, 则该类被放到一个默认包中.
+
+![Snipaste_2021-11-11_16-13-01](https://gitee.com/wang-fuming/dawning/raw/master/202111111613270.png)
+
+上面的流程就是我们在`com.bit.demo1`新建了了`Main`类。
 
 ### 包的访问权限
 
@@ -1394,7 +1398,38 @@ public class Test {
 
 如果某个成员不包含 public 和 private 关键字, 此时这个成员可以在包内部的其他类使用, 但是不能在包外部的类使用.
 
-下面的代码给了一个示例. Demo1 和 Demo2 是同一个包中, Test 是其他包中.
+下面的代码给了一个示例. Demo1 和 Demo2 是同一个包中, Main 是其他包中.
+
+```java
+package com.bit.demo1;
+
+public class Demo1 {
+        int value = 0;
+}
+```
+
+```java
+package com.bit.demo1;
+
+public class Demo2 {
+    public static void Main(String[] args) {
+        Demo1 demo = new Demo1();
+        System.out.println(demo.value);
+    }
+}
+```
+
+```java
+import com.bit.demo1.Demo1;
+public class Main {
+    public static void main(String[] args) {
+        Demo1 demo = new Demo1();
+        System.out.println(demo.value);
+    }
+}
+```
+
+![Snipaste_2021-11-11_16-23-25](https://gitee.com/wang-fuming/dawning/raw/master/202111111623951.png)
 
 ### 常见的系统包
 
@@ -1455,17 +1490,18 @@ class Bird {
 ```
 
 这个代码我们发现其中存在了大量的冗余代码.
+
 仔细分析, 我们发现 Animal 和 Cat 以及 Bird 这几个类中存在一定的关联关系:
 
-这三个类都具备一个相同的 eat 方法, 而且行为是完全一样的.
+1、这三个类都具备一个相同的 eat 方法, 而且行为是完全一样的.
 
-这三个类都具备一个相同的 name 属性, 而且意义是完全一样的。
+2、这三个类都具备一个相同的 name 属性, 而且意义是完全一样的。
 
-从逻辑上讲, Cat 和 Bird 都是一种 Animal (is - a 语义).
+从逻辑上讲, Cat 和 Bird 都是一种 Animal (**is - a 语义**).
 
 此时我们就可以让 Cat 和 Bird 分别继承 Animal 类, 来达到代码重用的效果.
 
-此时, Animal 这样被继承的类, 我们称为 父类 , 基类 或 超类, 对于像 Cat 和 Bird 这样的类, 我们称为 子类, 派生类
+此时, Animal 这样被继承的类, 我们称为 父类 , **基类** 或 **超类**, 对于像 Cat 和 Bird 这样的类, 我们称为 **子类**,或者**派生类**
 
 和现实中的儿子继承父亲的财产类似, 子类也会继承父类的字段和方法, 以达到代码重用的效果.
 
@@ -1486,7 +1522,7 @@ class 子类 extends 父类 {
 
 ```java
 class Animal {
-public String name;
+	public String name;
 	public Animal(String name) {
 		this.name = name;
 	}
@@ -1520,8 +1556,12 @@ public class Test {
 }
 ```
 
+![Snipaste_2021-11-11_16-29-55](https://gitee.com/wang-fuming/dawning/raw/master/202111111630447.png)
+
 > extends 英文原意指 "扩展". 而我们所写的类的继承, 也可以理解成基于父类进行代码上的 "扩展".
 > 例如我们写的 Bird 类, 就是在 Animal 的基础上扩展出了 fly 方法.
+
+需要注意的是：在构造之类时需要**先**帮助父类构造
 
 如果我们把 name 改成 private, 那么此时子类就不能访问了.
 
@@ -1545,7 +1585,8 @@ class Bird extends Animal {
 两全其美的办法就是 protected 关键字.
 
 1、对于类的调用者来说, protected 修饰的字段和方法是不能访问的
-2、对于类的子类 和 同一个包的其他类 来说, protected 修饰的字段和方法是可以访问的
+
+2、对于**类的子类** 和 **同一个包的其他类** 来说, protected 修饰的字段和方法是可以访问的
 
 ```java
 // Animal.java
@@ -1585,7 +1626,7 @@ public class Test {
 
 ### final 关键字
 
-曾经我们学习过 final 关键字, 修饰一个变量或者字段的时候, 表示 常量 (不能修改).
+曾经我们学习过 final 关键字, 修饰一个变量或者字段的时候, 表示 **常量** (不能修改).
 
 ```java
 final int a = 10;
@@ -1641,3 +1682,173 @@ public class School {
 
 ## 向上转型
 
+在刚才的例子中, 我们写了形如下面的代码
+
+```java
+Bird bird = new Bird("圆圆");
+```
+
+这个代码也可以写成这个样子
+
+```java
+Bird bird = new Bird("圆圆");
+Animal bird2 = bird;
+// 或者写成下面的方式
+Animal bird2 = new Bird("圆圆");
+```
+
+此时 bird2 是一个父类 (Animal) 的引用, 指向一个子类 (Bird) 的实例. 这种写法称为 **向上转型**.
+
+> 向上转型这样的写法可以结合 is - a 语义来理解.
+> 例如, 我让我媳妇去喂圆圆, 我就可以说, "媳妇你喂小鸟了没?", 或者 "媳妇你喂鹦鹉了没?"
+>
+> 因为圆圆确实是一只鹦鹉, 也确实是一只小鸟~~
+
+为啥叫 "向上转型"?
+
+在面向对象程序设计中, 针对一些复杂的场景(很多类, 很复杂的继承关系), 程序猿会画一种 UML 图的方式来表示类之间的关系. 此时父类通常画在子类的上方. 所以我们就称为 "向上转型" , 表示往父类的方向转.
+
+向上转型发生的时机:
+
+1. 直接赋值
+2. 方法传参
+3. 方法返回
+
+直接赋值的方式我们已经演示了. 另外两种方式和直接赋值没有本质区别.
+
+方法传参
+
+```java
+public class Main {
+	public static void main(String[] args) {
+		Bird bird = new Bird("圆圆");
+		feed(bird);
+	}
+	public static void feed(Animal animal) {
+		animal.eat("谷子");
+	}
+}
+```
+
+此时形参 animal 的类型是 Animal (基类), 实际上对应到 Bird (父类) 的实例.
+
+方法返回
+
+```java
+public class Main {
+	public static void main(String[] args) {
+		Animal animal = findMyAnimal();
+	}
+	public static Animal findMyAnimal() {
+		Bird bird = new Bird("圆圆");
+		return bird;
+	}
+}
+```
+
+此时方法 findMyAnimal 返回的是一个 Animal 类型的引用, 但是实际上对应到 Bird 的实例.
+
+### 动态绑定
+
+当子类和父类中出现同名方法的时候, 再去调用会出现什么情况呢?
+
+对前面的代码稍加修改, 给 Bird 类也加上同名的 eat 方法, 并且在两个 eat 中分别加上不同的日志.
+
+```java
+// Animal.java
+public class Animal {
+	protected String name;
+	public Animal(String name) {
+	this.name = name;
+	}
+	public void eat(String food) {
+		System.out.println("我是一只小动物");
+		System.out.println(this.name + "正在吃" + food);
+	}
+}
+// Bird.java
+public class Bird extends Animal {
+	public Bird(String name) {
+		super(name);
+	}
+	public void eat(String food) {
+		System.out.println("我是一只小鸟");
+		System.out.println(this.name + "正在吃" + food);
+	}
+}
+// Test.java
+public class Test {
+	public static void main(String[] args) {
+		Animal animal1 = new Animal("圆圆");
+		animal1.eat("谷子");
+		Animal animal2 = new Bird("扁扁");
+		animal2.eat("谷子");
+	}
+}
+```
+
+> 我是一只小动物
+> 圆圆正在吃谷子
+> 我是一只小鸟
+> 扁扁正在吃谷子
+
+此时, 我们发现:
+`animal1 `和 `animal2` 虽然都是` Animal` 类型的引用, 但是` animal1 `指向` Animal` 类型的实例, `animal2 `指向`Bird` 类型的实例.
+针对 `animal1` 和` animal2` 分别调用 `eat` 方法, 发现 `animal1.eat()` 实际调用了父类的方法, `animal2.eat() `实际调用了子类的方法.
+因此, 在 Java 中, 调用某个类的方法, 究竟执行了哪段代码 (是父类方法的代码还是子类方法的代码) , 要看究竟这个引用指向的是父类对象还是子类对象. 这个过程是程序运行时决定的(而不是编译期), 因此称为 动态绑定.
+
+动态绑定的条件
+
+1、父类引用引用子类的对象
+
+2、通过这个父类应用调用父类和子类的同名覆盖函数
+
+### 方法重写
+
+针对刚才的 eat 方法来说:
+子类实现父类的同名方法, 并且参数的类型和个数完全相同, 这种情况称为 覆写/重写/覆盖(Override).
+关于重写的注意事项
+1. 重写和重载完全不一样. 不要混淆(思考一下, 重载的规则是啥?)
+2. 普通方法可以重写, static 修饰的静态方法不能重写.
+3. 重写中子类的方法的访问权限不能低于父类的方法访问权限.
+4. 重写的方法返回值类型不一定和父类的方法相同(但是建议最好写成相同, 特殊情况除外).
+
+方法权限示例: 将子类的 eat 改成 private
+
+```java
+// Animal.java
+public class Animal {
+	public void eat(String food) {
+	...
+	}
+}
+// Bird.java
+public class Bird extends Animal {
+// 将子类的 eat 改成 private
+	private void eat(String food) {
+	...
+	}
+}
+```
+
+> // 编译出错
+> Error:(8, 10) java: com.bit.Bird中的eat(java.lang.String)无法覆盖com.bit.Animal中的
+> eat(java.lang.String)
+> 正在尝试分配更低的访问权限; 以前为public
+
+
+
+另外, 针对重写的方法, 可以使用 @Override 注解来显式指定.
+
+```java
+// Bird.java
+public class Bird extends Animal {
+	@Override
+	private void eat(String food) {
+	...
+	}
+}
+```
+
+有了这个注解能帮我们进行一些合法性校验. 例如不小心将方法名字拼写错了 (比如写成 aet), 那么此时编译器就会发现父类中没有 `eat` 方法, 就会编译报错, 提示无法构成重写.
+我们推荐在代码中进行重写方法时显式加上` @Override` 注解.
