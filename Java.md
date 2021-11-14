@@ -12,6 +12,8 @@ int name = data;
 
 实例
 
+
+
 ```java
 int num = 1;//定义一个整型变量，数值为1
 System.out.println(num);
