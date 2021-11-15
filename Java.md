@@ -12,8 +12,6 @@ int name = data;
 
 实例
 
-
-
 ```java
 int num = 1;//定义一个整型变量，数值为1
 System.out.println(num);
@@ -1682,7 +1680,7 @@ public class School {
 
 ## 多态
 
-## 向上转型
+### 向上转型
 
 在刚才的例子中, 我们写了形如下面的代码
 
@@ -1797,7 +1795,7 @@ public class Test {
 此时, 我们发现:
 `animal1 `和 `animal2` 虽然都是` Animal` 类型的引用, 但是` animal1 `指向` Animal` 类型的实例, `animal2 `指向`Bird` 类型的实例.
 针对 `animal1` 和` animal2` 分别调用 `eat` 方法, 发现 `animal1.eat()` 实际调用了父类的方法, `animal2.eat() `实际调用了子类的方法.
-因此, 在 Java 中, 调用某个类的方法, 究竟执行了哪段代码 (是父类方法的代码还是子类方法的代码) , 要看究竟这个引用指向的是父类对象还是子类对象. 这个过程是程序运行时决定的(而不是编译期), 因此称为 动态绑定.
+因此, 在 Java 中, 调用某个类的方法, 究竟执行了哪段代码 (是父类方法的代码还是子类方法的代码) , 要看究竟这个引用指向的是父类对象还是子类对象. 这个过程是程序运行时决定的(而不是编译期), 因此称为 **动态绑定**.
 
 动态绑定的条件
 
@@ -1808,8 +1806,9 @@ public class Test {
 ### 方法重写
 
 针对刚才的 eat 方法来说:
-子类实现父类的同名方法, 并且参数的类型和个数完全相同, 这种情况称为 覆写/重写/覆盖(Override).
+子类实现父类的同名方法, 并且参数的类型和个数完全相同, 这种情况称为 ==覆写/重写/覆盖==(Override).
 关于重写的注意事项
+
 1. 重写和重载完全不一样. 不要混淆(思考一下, 重载的规则是啥?)
 2. 普通方法可以重写, static 修饰的静态方法不能重写.
 3. 重写中子类的方法的访问权限不能低于父类的方法访问权限.
@@ -1857,46 +1856,105 @@ public class Bird extends Animal {
 
 ### 理解多态
 
+```java
+ public class Shape {
+     public void draw(){
+
+     }
+}
+class Cycle extends Shape{
+    @Override
+    public void draw() {
+        System.out.println("这是一个圆>>⚪");
+    }
+}
+class Flower extends Shape{
+    @Override
+    public void draw() {
+        System.out.println("这是一朵花>>❀");
+    }
+}
+
+public class Main {
+    public void draw(Shape a){
+        a.draw();
+    }
+    public static void main(String[] args) {
+        Shape a=new Cycle();
+        Shape b=new Flower();
+        Main main=new Main();
+        main.draw(a);
+        main.draw(b);
+    }
+}
+```
+
+
+
 ## 抽象类
 
-父类 Shape 中的 draw 方法好像并没有什么实际工作, 主要的绘制图形都是由
-Shape 的各种子类的 draw 方法来完成的. 像这种没有实际工作的方法, 我们可以把它设计成一个 抽象方法(abstract method), 包含抽象方法的类我们称为 抽象类(abstract class).
+父类 `Shape` 中的 `draw` 方法好像并没有什么实际工作, 主要的绘制图形都是由`Shape` 的各种子类的 `draw` 方法来完成的. 像这种没有实际工作的方法, 我们可以把它设计成一个 抽象方法(abstract method), 包含抽象方法的类我们称为 抽象类(abstract class)。
 
-但是抽象可以包含普通类一样的成员变量和方法
+```java
+abstract class Shape {
+	abstract public void draw();
+}
+```
 
-抽象方法没有具体实现并且被abstruct修饰
 
-抽象类不能实例化被对象
 
-唯一的作用是被继承，继承后必须重写抽象类所有抽象方法
+- 在 draw 方法前加上 abstract 关键字, 表示这是一个抽象方法. 同时**抽象方法没有方法体**(没有 { }, 不能执行具体代码).
+- 对于包含抽象方法的类, 必须加上 abstract 关键字表示这是一个抽象类.
 
-一个抽象类A，如果继承了一个抽象类B，可以不用重写
+1、**抽象类不能实例化被对象**
 
-但是如果有普通类继承A，还是需要重写抽象方法。
+```java
+Shape shape=new Shape();
+```
 
-抽象类不能被final修饰
+> Shape是抽象的; 无法实例化
+
+2、**抽象方法不能是 private 的**
+
+```java
+abstract private void draw2();
+```
+
+> java: 非法的修饰符组合: abstract和private
+
+3、**抽象类中可以包含其他的非抽象方法, 也可以包含字段. 这个非抽象方法和普通方法的规则都是一样的, 可以被重写,也可以被子类直接调用**
+
+4、**唯一的作用是被继承，继承后普通类必须重写抽象类所有抽象方法**
+
+5、**一个抽象类A，如果继承了一个抽象类B，可以不用实现父类B的抽象方法**
+
+6、**但是如果有普通类继承A，还是需要重写抽象方法，A和B的都有重写。**
+
+7、**抽象类不能被final修饰，抽象方法也不能被final修饰**
 
 ## 接口
 
-使用interfa来修饰
+在抽象类中，还可以包含非抽象方法, 和字段。而接口中包含的方法**都是**抽象方法, 字段**只能**包含静态常量（final static）
 
-接口里面的普通不能有具体的方法实现。如果非要实现可以加一个default来修饰。
+1、**使用interfa来修饰**
 
-接口里面可以有static方法
+2、**接口里面的普通不能有具体的方法实现。如果非要实现可以加一个default来修饰。**
 
-里面所有的方法都是通过public
+3、**接口里面可以有static方法**
 
-抽象方法默认为public abstract
+4、**里面所有的方法都是public，可以省略public**
 
-接口不能通过new来实例化
+5、**方法一定是抽象方法，可以省略abstract**
 
+6、**接口不能通过new来实例化**
 
+### 实现多个接口
+
+有的时候我们需要让一个类同时继承自多个父类. 这件事情在有些编程语言通过 多继承 的方式来实现的.然而 Java 中**只支持单继承**, 一个类只能 extends 一个父类. 但是可以同时实现多个接口, 也能达到多继承类似的效果.
 
 ### 三个常用接口
 
 #### Comparable
-
-
 
 #### Compartor
 
