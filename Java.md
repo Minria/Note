@@ -204,15 +204,17 @@ String str3 = new String(array);
 #### 字符串相等的比较
 
 ```java
-String str1 = "abcdefhg";
-String str2 = "abcdefhg";
-System.out println(str1==str2);
-System.out println(str1.equals(str2));
-System.out println("abcdefg"==str2);
-System.out println("abcdefg".equals(str1));
+        String str1 = "abcdefhg";
+        String str2 = "abcdefhg";
+        System.out.println(str1==str2);
+        System.out.println(str1.equals(str2));
+        System.out.println("abcdefhg"==str2);
+        System.out.println("abcdefhg".equals(str1));
 ```
 
-#### 字符串的不可变型
+#### 字符串的不可变性
+
+双引号引起的是字面值常量，无法修改
 
 #### 字符，字节与字符串
 
