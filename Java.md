@@ -245,6 +245,77 @@ public byte[] getBytes();
 
 ```
 
+### 字符串的常见的操作
+
+**字符串比较**
+
+```java
+//区分大小写比较
+public boolean equals(Object anObject);
+//不区分大小写比较
+public boolean equalsIgnoreCase(String anotherString);
+//比较两个字符串大小关系
+public int compareTo(String anotherString);
+```
+
+**字符串查找**
+
+```java
+//判断子字符串是否存在
+public boolean contains(CharSequence s);
+//查找子串的起始位置，没有返回-1
+public int indexOf(String s);
+//指定起始位置查询
+public int indexOf(String s,int fromIndex);
+//后向前查找
+public int lastIndexOf(String s);
+//从指定位置后向前查找
+public int lastIndexOf(String s,int fromIndex);
+//判断是否以指定字符串开头
+public boolean starsWith(String prefix);
+//从指定位置判断是否以指定字符串开头
+public boolean starsWith(String prefix,int toffset);
+//判断是否指定字符串结尾
+public boolean endsWith(String suffix);
+```
+
+**字符串替换**
+
+```java
+//替换所有
+public String replaceAll(String regex,String replacement);
+//替换第一个
+public String replaceFirst(String regex,String replacement);
+```
+
+**字符串拆分**
+
+```java
+//将字符串全部拆分
+public String[] split(String regex);
+//将字符串部分拆分
+public String[] split(String regex,int limit);
+```
+
+**字符串截取**
+
+```java
+public String substring(int beginIndex);
+public String sunstring(int beginIndex,int endIndex);
+```
+
+**其他操作方法**
+
+```java
+public String trim();//清理前后空格
+public String toUpperCase();//字符串转大写
+public String toLowerCase();//转小写
+public native String intern();//字符串入池
+public String concat(String str);//字符串连接，不入池
+public int length();
+public boolean isEmpty();
+```
+
 
 
 ### 转义字符
