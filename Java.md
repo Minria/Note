@@ -316,7 +316,40 @@ public int length();
 public boolean isEmpty();
 ```
 
+### StringBuilder与StringBuffer
 
+字符串是不可变的那么字符串的拼接是怎么完成的
+
+这么是一个例子
+
+```java
+    public static void main(String[] args) {
+        String str="abcdefg";
+        for(int i=0;i<10;i++){
+            StringBuilder sb=new StringBuilder();
+            sb.append(str).append(i);
+            str=sb.toString();
+        }
+        System.out.println(str);
+    }
+```
+
+我们可以看到在拼接的过程中产生了大量的临时对象，对其进行改进
+
+```java
+    public static void main(String[] args) {
+        StringBuilder sb=new StringBuilder();
+        String str="abcdefg";
+        sb.append(str);
+        for(int i=0;i<10;i++){
+            sb.append(i);
+        }
+        str=sb.toString();
+        System.out.println(str);
+    }
+```
+
+在此过程仅有一个对象，当在循环内进行大量拼接时，建议使用StringBuilder进行凭借
 
 ### 转义字符
 
