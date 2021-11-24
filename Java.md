@@ -17,10 +17,14 @@ int num = 1;//定义一个整型变量，数值为1
 System.out.println(num);
 ```
 
+在Java中，int占有4个字节，与操作系统无关
+
 ```java
 System.out.println(Integer.MAX_VALUE);//整型数据最大值
 System.out.println(Integer.MIN_VALUE);//整型数据最小值
 ```
+
+如果对其进行+1或者-1操作就会溢出报错
 
 ### 长整型变量
 
@@ -37,6 +41,11 @@ long num=1L;//定义一个长整型变量，初始值为 1L
 long num2=1l;//后面的字母也可以用小写，但是小写特别像1，改用大些用以区分
 ```
 
+```java
+System.out.println(Long.MAX_VALUE);
+System.out.println(Long.MIN_VALUE);
+```
+
 ### 双精度浮点型
 
 基本语法格式
@@ -50,6 +59,8 @@ double name = data;
 ```java
 double num = 1.0;
 ```
+
+在 Java 中, int 除以 int 的值仍然是 int，后面的小数点被舍去，如果需要得到小数，就需要转换为浮点数进行运算
 
 ### 单精度浮点型
 
@@ -78,6 +89,7 @@ char name = data;
 
 ```JAVA
 char ch = 'A';
+char ch = '啊';
 ```
 
 需要注意的是，**Java中字符类型占两个字节**，与C语言中所占一个字节有区别
@@ -98,6 +110,8 @@ byte value=0;
 
 在C语言中没有这个类型，这个类型占一个字节。
 
+字节类型表示的也是整数. 只占一个字节, 表示范围较小，取值范围是 [-128,127 ]
+
 ### 短整型变量
 
 基本语法格式
@@ -105,6 +119,8 @@ byte value=0;
 ```java
 short name = data;
 ```
+
+short占用两个字节
 
 ### 布尔类型变量
 
@@ -189,6 +205,18 @@ int b = 20;
 String result = str + a + b;
 System.out.println(result);
 ```
+
+### 转义字符
+
+| 字符 | 意义       |
+| ---- | ---------- |
+| \n   | 换行       |
+| \t   | 水平制表符 |
+| \\'  | 单引号     |
+| \\"  | 双引号     |
+| \\\  | 反斜杠     |
+
+## 
 
 #### 字符串的创建
 
@@ -351,15 +379,7 @@ public boolean isEmpty();
 
 在此过程仅有一个对象，当在循环内进行大量拼接时，建议使用StringBuilder进行凭借
 
-### 转义字符
-
-| 字符 | 意义       |
-| ---- | ---------- |
-| \n   | 换行       |
-| \t   | 水平制表符 |
-| \\'  | 单引号     |
-| \\"  | 双引号     |
-| \\\  | 反斜杠     |
+### 
 
 ## 常量
 
