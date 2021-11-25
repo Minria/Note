@@ -2347,14 +2347,25 @@ final
 
 修饰变量，表示常量
 
+![Snipaste_2021-11-25_22-14-28](https://gitee.com/wang-fuming/dawning/raw/master/Snipaste_2021-11-25_22-14-28.png)
+
 修饰类，表示类不可被继承
 
+![Snipaste_2021-11-25_22-16-35](https://gitee.com/wang-fuming/dawning/raw/master/Snipaste_2021-11-25_22-16-35.png)
+
 修饰方法，表示类被继承后方法不可被重写
+
+![Snipaste_2021-11-25_22-20-19](https://gitee.com/wang-fuming/dawning/raw/master/Snipaste_2021-11-25_22-20-19.png)
 
 static
 
 修饰方法，属于静态方法，不需要对象就可以调用
 
-修饰变量，属于静态变量，
+![Snipaste_2021-11-25_22-26-32](https://gitee.com/wang-fuming/dawning/raw/master/Snipaste_2021-11-25_22-26-32.png)
+
+修饰变量，属于静态变量，也通过类进行访问
+
+![Snipaste_2021-11-25_22-28-47](https://gitee.com/wang-fuming/dawning/raw/master/Snipaste_2021-11-25_22-28-47.png)
 
 修饰代码块
+
