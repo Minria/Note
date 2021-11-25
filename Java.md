@@ -2070,7 +2070,7 @@ abstract private void draw2();
 
 4、**里面所有的方法都是public，可以省略public**
 
-5、**方法一定是抽象方法，可以省略abstract**
+5、**方法一定是抽象方法，可以省略abstract，字段一定是静态常量**
 
 6、**接口不能通过new来实例化**
 
@@ -2088,6 +2088,273 @@ abstract private void draw2();
 
 # 异常
 
+## 异常的背景
 
+在先前的编程中就已经接触一些异常
 
-异常体系
+**除以0**
+
+```java
+System.out.println(10 / 0);
+```
+
+> Exception in thread "main" java.lang.ArithmeticException: / by zero
+
+**数组越界访问**
+
+```java
+int[] arr = {1, 2, 3};
+System.out.println(arr[100]);
+```
+
+> Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 100
+
+**空指针异常**
+
+```java
+public class Test {
+	public int num = 10;
+	public static void main(String[] args) {
+		Test t = null;
+		System.out.println(t.num);
+	}
+}
+```
+
+> Exception in thread "main" java.lang.NullPointerException
+
+异常就是在程序**运行时**出现的错误，与编译时错误要分别开
+
+## LBYL&&EAFP
+
+**LBYL**: Look Before You Leap.
+**EAFP**: It's Easier to Ask Forgiveness than Permission.
+
+前者在程序执行前解决问题，后者出现问题后解决
+
+## 异常的好处
+
+下面给出一个例子
+
+LBYL风格
+
+```java
+boolean ret = false;
+ret = 登陆游戏();
+if (!ret) {
+	//处理登陆游戏错误;
+	return;
+}
+ret = 开始匹配();
+if (!ret) {
+	//处理匹配错误;
+	return;
+}
+ret = 游戏确认();
+if (!ret) {
+	//处理游戏确认错误;
+	return;
+}
+ret = 选择英雄();
+if (!ret) {
+	//处理选择英雄错误;
+	return;
+}
+ret = 载入游戏画面();
+if (!ret) {
+	//处理载入游戏错误;
+	return;
+}
+```
+
+```java
+try {
+	//登陆游戏();
+	//开始匹配();
+	//游戏确认();
+	//选择英雄();
+	//载入游戏画面();
+	//...
+} catch (登陆游戏异常) {
+	//处理登陆游戏异常;
+} catch (开始匹配异常) {
+	//处理开始匹配异常;
+} catch (游戏确认异常) {
+	//处理游戏确认异常;
+} catch (选择英雄异常) {
+	//处理选择英雄异常;
+} catch (载入游戏画面异常) {
+	//处理载入游戏画面异常;
+}
+```
+
+## 异常的用法
+
+### 捕获异常
+
+一般通过`try catch`对异常进行捕捉
+
+```java
+try{
+    //可能出现异常的部分
+}catch(异常类型 异常对象){
+    //执行程序
+}finally{
+    //执行语句
+}
+/**
+*1、try 代码块中放的是可能出现异常的代码.
+*2、catch 代码块中放的是出现异常后的处理行为.
+*3、finally 代码块中的代码用于处理善后工作, 会在最后执行.
+*4、其中 catch 和 finally 都可以根据情况选择加或者不加.
+*5、finally语句无条件执行
+*/
+```
+
+```java
+public class Ex {
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 3};
+        System.out.println("before");
+        System.out.println(arr[100]);
+        System.out.println("after");
+    }
+}
+```
+
+![Snipaste_2021-11-25_10-46-20](https://gitee.com/wang-fuming/dawning/raw/master/Snipaste_2021-11-25_10-46-20.png)
+
+```java
+int[] arr = {1, 2, 3};
+try {
+	System.out.println("before");
+	System.out.println(arr[100]);
+	System.out.println("after");
+} catch (ArrayIndexOutOfBoundsException e) {
+// 打印出现异常的调用栈
+	e.printStackTrace();
+}
+System.out.println("after try catch");
+```
+
+![Snipaste_2021-11-25_11-21-06](https://gitee.com/wang-fuming/dawning/raw/master/Snipaste_2021-11-25_11-21-06.png)
+
+我们发现, 一旦 try 中出现异常, 那么 try 代码块中的程序就不会继续执行, 而是交给 catch 中的代码来执行. catch 执行完毕会继续往下执行.
+
+### 异常处理
+
+**有关异常的处理**
+
+1、异常的种类有很多, 我们要根据不同的业务场景来决定.
+
+2、对于比较严重的问题(例如和算钱相关的场景), 应该让程序直接崩溃, 防止造成更严重的后果
+
+3、对于不太严重的问题(大多数场景), 可以记录错误日志, 并通过监控报警程序及时通知程序猿
+
+4、对于可能会恢复的问题(和网络相关的场景), 可以尝试进行重试.
+
+5、在我们当前的代码中采取的是经过简化的第二种方式. 我们记录的错误日志是出现异常的方法调用信息, 能很快速的让我们找到出现异常的位置. 以后在实际工作中我们会采取更完备的方式来记录异常信息.
+
+**流程**
+
+1、程序先执行 try 中的代码
+
+2、如果 try 中的代码出现异常, 就会结束 try 中的代码, 看和 catch 中的异常类型是否匹配.
+
+3、如果找到匹配的异常类型, 就会执行 catch 中的代码
+
+4、如果没有找到匹配的异常类型, 就会将异常向上传递到上层调用者.
+
+5、无论是否找到匹配的异常类型, finally 中的代码都会被执行到(在该方法结束之前执行).
+
+6、如果上层调用者也没有处理的了异常, 就继续向上传递.
+
+一直到 main 方法也没有合适的代码处理异常, 就会交给 JVM 来进行处理, 此时程序就会异常终止.
+
+### 异常声明
+
+我们在处理异常的时候, 通常希望知道这段代码中究竟会出现哪些可能的异常.
+
+我们可以使用 throws 关键字, 把可能抛出的异常显式的标注在方法定义的位置. 从而提醒调用者要注意捕获这些异常
+
+```java
+public static int divide(int x, int y) throws ArithmeticException {
+	if (y == 0) {
+		throw new ArithmeticException("抛出除 0 异常");
+	}
+	return x / y;
+}
+```
+
+## Java异常体系
+
+![11](https://gitee.com/wang-fuming/dawning/raw/master/11.jpg)
+
+## 自定义异常
+
+```java
+package day1125;
+
+import java.util.Scanner;
+
+class UserError extends Exception {
+    public UserError(String message) {
+        super(message);
+    }
+}
+class PasswordError extends Exception {
+    public PasswordError(String message) {
+        super(message);
+    }
+}
+public class Login {
+    private static String userName = "admin";
+    private static String password = "123456";
+
+    public static void main(String[] args) {
+        Scanner scanner =new Scanner(System.in);
+        System.out.print("输入用户名>>");
+        String name= scanner.nextLine();
+        System.out.print("输入密码>>");
+        String password=scanner.nextLine();
+        try {
+            login(name, password);
+        } catch (UserError userError) {
+            userError.printStackTrace();
+        } catch (PasswordError passwordError) {
+            passwordError.printStackTrace();
+        }
+    }
+    public static void login(String userName, String password) throws UserError,
+            PasswordError {
+        if (!Login.userName.equals(userName)) {
+            throw new UserError("用户名错误");
+        }
+        if (!Login.password.equals(password)) {
+            throw new PasswordError("密码错误");
+        }
+        System.out.println("登陆成功");
+    }
+}
+
+```
+
+![Snipaste_2021-11-25_13-43-20](https://gitee.com/wang-fuming/dawning/raw/master/Snipaste_2021-11-25_13-43-20.png)
+
+# 关键字
+
+final
+
+修饰变量，表示常量
+
+修饰类，表示类不可被继承
+
+修饰方法，表示类被继承后方法不可被重写
+
+static
+
+修饰方法，属于静态方法，不需要对象就可以调用
+
+修饰变量，属于静态变量，
+
+修饰代码块
