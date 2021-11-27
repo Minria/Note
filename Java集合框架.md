@@ -29,9 +29,20 @@
 
 
 
-## 双向链表LinkedList
+## 链表LinkedList
 
 | 构造方法     | 作用     |
 | ------------ | -------- |
 | LinkedList() | 无参构造 |
+
+## 栈Stack
+
+| 方法            | 作用           |
+| --------------- | -------------- |
+| E push(E item)  | 压栈           |
+| E pop()         | 出栈           |
+| E peek()        | 查看栈顶元素   |
+| boolean empty() | 判断栈是否为空 |
+
+## 队列Queue
 
