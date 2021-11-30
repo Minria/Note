@@ -1,3 +1,5 @@
+![Snipaste_2021-11-30_19-44-49](https://gitee.com/wang-fuming/dawning/raw/master/Snipaste_2021-11-30_19-44-49.png)
+
 # 泛型
 
 # 线性表
