@@ -59,8 +59,21 @@
 | Set<K> keySet()                           | 返回所有key不重复的集合                       |
 | Collection<V> values()                    | 返回所有value的可重复集合                     |
 | Set<Map.Entry<K,V>> entrySet()            | 返回所有的key-value映射关系                   |
-| boolean contains(Object key)              | 判断是否包含key                               |
+| boolean containsKey(Object key)           | 判断是否包含key                               |
 | boolean containsValue(Object value)       | 判断是否包含value                             |
 
 # Set
+
+| 方法                                     | 作用                             |
+| ---------------------------------------- | -------------------------------- |
+| boolean add(E e)                         | 添加元素，重复元素不会被添加     |
+| void clear()                             | 清空集合                         |
+| boolean contains(Object o)               | 判断o是否在集合中                |
+| Iterator<E> iterator()                   | 返回迭代器                       |
+| boolean remove(Object o)                 | 删除集合中的o                    |
+| int size()                               | 返回元素个数                     |
+| boolean isEmpty()                        | 检查是否为空                     |
+| Object[] toArray()                       | 将元素转换为数组返回             |
+| boolean containsAll(Collection<?> c)     | 判断一个集合的元素是否都在集合内 |
+| boolean addAll(Collection<?extends E> c) | 将c的元素加入集合，可以去重      |
 
