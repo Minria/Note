@@ -85,14 +85,27 @@ class MyArrayList<E>{
 
 ## 栈Stack
 
-| 方法            | 作用           |
-| --------------- | -------------- |
-| E push(E item)  | 压栈           |
-| E pop()         | 出栈           |
-| E peek()        | 查看栈顶元素   |
-| boolean empty() | 判断栈是否为空 |
+Java中的栈继承与矢量，但是矢量在Java中已经过时
+
+栈的底层是一个数组
+
+| 方法             | 作用           |
+| ---------------- | -------------- |
+| E push(E item)   | 压栈           |
+| E pop()          | 出栈           |
+| E peek()         | 查看栈顶元素   |
+| boolean empty()  | 判断栈是否为空 |
+| boolean search() | 查找某个元素   |
 
 ## 队列Queue
+
+| 处理         | 抛出异常  | 返回特殊值 |
+| ------------ | --------- | ---------- |
+| 入队         | add(e)    | offer(e)   |
+| 出队         | remove()  | poll()     |
+| 查看队头元素 | element() | peek()     |
+
+用add方法抛出异常，使用offer返回特殊值
 
 # Map
 
