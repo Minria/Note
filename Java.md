@@ -185,9 +185,9 @@ public class TestPratice {
 //预计输出ab
 ```
 
+程序执行结果
 
-
-![Snipaste_2021-10-15_16-03-33](https://gitee.com/wang-fuming/dawning/raw/master/202110151604178.png)
+> ab
 
 **字符串的拼接**
 
@@ -232,12 +232,12 @@ String str3 = new String(array);
 #### 字符串相等的比较
 
 ```java
-        String str1 = "abcdefhg";
-        String str2 = "abcdefhg";
-        System.out.println(str1==str2);
-        System.out.println(str1.equals(str2));
-        System.out.println("abcdefhg"==str2);
-        System.out.println("abcdefhg".equals(str1));
+String str1 = "abcdefhg";
+String str2 = "abcdefhg";
+System.out.println(str1==str2);
+System.out.println(str1.equals(str2));
+System.out.println("abcdefhg"==str2);
+System.out.println("abcdefhg".equals(str1));
 ```
 
 #### 字符串的不可变性
@@ -377,9 +377,7 @@ public boolean isEmpty();
     }
 ```
 
-在此过程仅有一个对象，当在循环内进行大量拼接时，建议使用StringBuilder进行凭借
-
-### 
+在此过程仅有一个对象，当在循环内进行大量拼接时，建议使用StringBuilder进行拼接
 
 ## 常量
 
@@ -408,8 +406,8 @@ a = 20; // 编译出错,提示无法为最终变量a分配值
 ```
 
 > 有点类似C语言中的const修饰变量
-
-![](https://gitee.com/wang-fuming/dawning/raw/master/202110131647709.png)
+>
+> java: 无法为最终变量a分配值
 
 ## 类型转换
 
@@ -429,10 +427,6 @@ b = a; // 编译通过.
 long 表示的范围更大, 可以将 int 赋值给 long, 但是不能将 long 赋值给 int.
 
 double 表示的范围更大, 可以将 int 赋值给 double, 但是不能将 double 赋值给 int.
-
-![Snipaste_2021-10-12_20-56-56](https://gitee.com/wang-fuming/dawning/raw/master/202110122058078.png)
-
-![Snipaste_2021-10-12_20-57-47](https://gitee.com/wang-fuming/dawning/raw/master/202110122058761.png)
 
 结论: **不同数字类型的变量之间赋值, 表示范围更小的类型能隐式转换成范围较大的类型, 反之则不行.**
 
@@ -500,7 +494,12 @@ System.out.println(a <= b);
 System.out.println(a >= b);
 ```
 
-![Snipaste_2021-10-11_16-39-27](https://gitee.com/wang-fuming/dawning/raw/master/202110111639797.png)
+> false
+> true
+> true
+> false
+> true
+> false
 
 ### 逻辑运算符
 
@@ -542,7 +541,21 @@ System.out.println(a >= b);
 >
 > a^b=01111=15
 
-![Snipaste_2021-10-12_21-28-01](https://gitee.com/wang-fuming/dawning/raw/master/202110122128424.png)
+```java
+    public static void main(String[] args) {
+        int a=25;
+        int b=22;
+        System.out.println(a&b);
+        System.out.println(a|b);
+        System.out.println(~a);
+        System.out.println(a^b);
+    }
+```
+
+> 16
+> 31
+> -26
+> 15
 
 # 逻辑结构
 
@@ -623,8 +636,6 @@ switch(整数|枚举|字符|字符串){
 
 整数和字符很常见，字符串类型好像没有见过，下面给出例子
 
-![Snipaste_2021-10-16_19-55-41](https://gitee.com/wang-fuming/dawning/raw/master/202110161955595.png)
-
 ## 循环结构
 
 ### while循环
@@ -653,7 +664,21 @@ do{
 
 需要注意的是，**do while循环先执行后判断，while先判断后执行**
 
-![Snipaste_2021-10-16_20-00-18](https://gitee.com/wang-fuming/dawning/raw/master/202110162000811.png)
+```java
+   public static void main(String[] args) {
+        int i=1;
+        while(i<1){
+            System.out.println("执行了1");
+            i++;
+        }
+        do{
+            System.out.println("执行了2");
+            i++;
+        }while(i<1);
+    }
+```
+
+> 执行了2
 
 ### break和continue
 
@@ -760,7 +785,9 @@ public class Main {
 }
 ```
 
-![Snipaste_2021-10-23_15-47-53](https://gitee.com/wang-fuming/dawning/raw/master/202110231548032.png)
+> ret = 30
+> ret2 = 31.0
+> ret3 = 41.5
 
 方法的名字都叫 add. 但是有的 add 是计算 int 相加, 有的是 double 相加; 有的计算两个数字相加, 有的是计算三个数字相加.
 
@@ -809,11 +836,21 @@ int[][] arr3 = {{1,2,3},{1,2,3}};
 1. 定义数组的时候不能写具体的数字，如`int[3] num={1,2,3};`
 2. 动态初始化的第二个[]也不能写具体数字，如`int [] num=new int[3]{1,2,3};`
 
-![Snipaste_2021-10-24_19-52-26](https://gitee.com/wang-fuming/dawning/raw/master/202110241952404.png)
+```java
+    public static void main(String[] args) {
+        int[3] arr={1,2,3};
+    }
+```
 
+> java: 需要']'
 
+```java
+    public static void main(String[] args) {
+        int[] arr=new int[3]{1,2,3};
+    }
+```
 
-直接报错。
+> java: 需要';'
 
 ### 数组使用
 
@@ -827,7 +864,11 @@ int[][] arr3 = {{1,2,3},{1,2,3}};
         }
 ```
 
-![Snipaste_2021-10-13_20-01-16](https://gitee.com/wang-fuming/dawning/raw/master/202110241947880.png)
+> 1
+> 2
+> 3
+> 4
+> 5
 
 需要注意的是
 
@@ -872,7 +913,9 @@ int n=nums[0].length;//列
     }
 ```
 
-![Snipaste_2021-10-24_19-05-25](https://gitee.com/wang-fuming/dawning/raw/master/202110241947730.png)
+> 1 2 3 4 5 6 
+> 1 2 3 4 5 6 
+> [1, 2, 3, 4, 5, 6]
 
 对于二维数组
 
@@ -896,13 +939,21 @@ int n=nums[0].length;//列
     }
 ```
 
-![Snipaste_2021-10-26_21-05-58](https://gitee.com/wang-fuming/dawning/raw/master/202110262107716.png)
+> 1 2 3 
+> 4 5 6 
+> --------------------------------
+> 1 2 3 
+>
+> 4 5 6 
+> --------------------------------
+>
+> [[1, 2, 3], [4, 5, 6]]
 
 区别：for循环可以拿到下标，而后者不能拿到下标，更多用到访问集合中的元素
 
 **二维数组的不规则性**
 
-![Snipaste_2021-10-26_21-10-00](https://gitee.com/wang-fuming/dawning/raw/master/202110262110127.png)
+
 
 ## 数组和方法
 
@@ -924,7 +975,7 @@ int n=nums[0].length;//列
     }
 ```
 
-![Snipaste_2021-10-24_19-10-04](https://gitee.com/wang-fuming/dawning/raw/master/202110241948355.png)
+> 1 2 3 4 5 6 
 
 **Java中的应用类型**
 
@@ -2574,29 +2625,21 @@ public class Login {
 
 # 关键字
 
-final
+**final**
 
-修饰变量，表示常量
+1、修饰变量，表示常量
 
-![Snipaste_2021-11-25_22-14-28](https://gitee.com/wang-fuming/dawning/raw/master/Snipaste_2021-11-25_22-14-28.png)
+2、修饰类，表示类不可被继承
 
-修饰类，表示类不可被继承
+3、修饰方法，表示类被继承后方法不可被重写
 
-![Snipaste_2021-11-25_22-16-35](https://gitee.com/wang-fuming/dawning/raw/master/Snipaste_2021-11-25_22-16-35.png)
+**static**
 
-修饰方法，表示类被继承后方法不可被重写
+4、修饰方法，属于静态方法，不需要对象就可以调用
 
-![Snipaste_2021-11-25_22-20-19](https://gitee.com/wang-fuming/dawning/raw/master/Snipaste_2021-11-25_22-20-19.png)
+5、修饰变量，属于静态变量，也通过类进行访问
 
-static
+6、修饰代码块,类创建时执行并且只执行一次
 
-修饰方法，属于静态方法，不需要对象就可以调用
 
-![Snipaste_2021-11-25_22-26-32](https://gitee.com/wang-fuming/dawning/raw/master/Snipaste_2021-11-25_22-26-32.png)
-
-修饰变量，属于静态变量，也通过类进行访问
-
-![Snipaste_2021-11-25_22-28-47](https://gitee.com/wang-fuming/dawning/raw/master/Snipaste_2021-11-25_22-28-47.png)
-
-修饰代码块
 
