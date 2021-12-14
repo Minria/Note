@@ -1750,6 +1750,18 @@ public class Test {
 3、protected: 类内部能访问, 子类和同一个包中的类可以访问, 其他类不能访问.
 4、public : 类内部和类的调用者都能访问
 
+
+
+|                | public | protected | default | private |
+| -------------- | ------ | --------- | ------- | ------- |
+| 同包同类       | true   | true      | true    | true    |
+| 同包不同类     | true   | true      | true    |         |
+| 同包不同类继承 | true   | true      | true    |         |
+| 不同包继承     | true   | true      |         |         |
+| 不同包无关系   | true   |           |         |         |
+
+
+
 ### final 关键字
 
 曾经我们学习过 final 关键字, 修饰一个变量或者字段的时候, 表示 **常量** (不能修改).
