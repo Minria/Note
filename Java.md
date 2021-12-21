@@ -2552,8 +2552,6 @@ public static int divide(int x, int y) throws ArithmeticException {
 
 ## Java异常体系
 
-![11](https://gitee.com/wang-fuming/dawning/raw/master/11.jpg)
-
 ## 自定义异常
 
 ```java
@@ -2603,8 +2601,6 @@ public class Login {
 
 ```
 
-![Snipaste_2021-11-25_13-43-20](https://gitee.com/wang-fuming/dawning/raw/master/Snipaste_2021-11-25_13-43-20.png)
-
 ## 有关throws和throw
 
 1、位置不同：throws在方法的声明后面，后面跟的是异常类名，而throw在方法的内部，后面跟的是异常的类名
@@ -2640,6 +2636,8 @@ public class Login {
 5、修饰变量，属于静态变量，也通过类进行访问
 
 6、修饰代码块,类创建时执行并且只执行一次
+
+# 对象的比较
 
 
 
