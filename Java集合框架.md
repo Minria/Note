@@ -107,6 +107,17 @@ Java中的栈继承与矢量，但是矢量在Java中已经过时
 
 用add方法抛出异常，使用offer返回特殊值
 
+## 双端队列Deque
+
+| 头部/尾部 | 头部元素（队首） |               |              | 尾部元素（队尾） |
+| --------- | ---------------- | ------------- | ------------ | ---------------- |
+| 错误处理  | 抛出异常         | 返回特殊值    | 抛出异常     | 返回特殊值       |
+| 入队      | addFirst(e)      | offerFirst(e) | addLast(e)   | offerLast(e)     |
+| 出队      | removeFirst()    | pollFirst()   | removeLast() | pollLast()       |
+| 获取元素  | getFirst()       | peekFirst()   | getLast()    | peekLast()       |
+
+
+
 # Map
 
 | 方法                                      | 作用                                          |
