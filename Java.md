@@ -216,15 +216,11 @@ System.out.println(result);
 | \\"  | 双引号     |
 | \\\  | 反斜杠     |
 
-## 
-
 #### 字符串的创建
 
 ```java
 String str1 = "abcdefg";
-
 String str2 = new String("abcdefg");
-
 char[] array = {'a','b','c'};
 String str3 = new String(array);
 ```

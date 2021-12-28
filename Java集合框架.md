@@ -120,17 +120,17 @@ Java中的栈继承与矢量，但是矢量在Java中已经过时
 
 # Map
 
-| 方法                                      | 作用                                          |
-| ----------------------------------------- | --------------------------------------------- |
-| V get(Objiect key)                        | 返回key对应的value                            |
-| V getOrDefault(Object key,V defaulyValue) | 返回key对应的value，如果key不存在，返回默认值 |
-| V put(K key,V value)                      | 设置key对应的value                            |
-| V remove(Object key)                      | 删除key对应的映射关系                         |
-| Set<K> keySet()                           | 返回所有key不重复的集合                       |
-| Collection<V> values()                    | 返回所有value的可重复集合                     |
-| Set<Map.Entry<K,V>> entrySet()            | 返回所有的key-value映射关系                   |
-| boolean containsKey(Object key)           | 判断是否包含key                               |
-| boolean containsValue(Object value)       | 判断是否包含value                             |
+| 方法                                       | 作用                                          |
+| ------------------------------------------ | --------------------------------------------- |
+| V get(Objiect key)                         | 返回key对应的value                            |
+| V getOrDefault(Object key,V default Value) | 返回key对应的value，如果key不存在，返回默认值 |
+| V put(K key,V value)                       | 设置key对应的value                            |
+| V remove(Object key)                       | 删除key对应的映射关系                         |
+| Set<K> keySet()                            | 返回所有key不重复的集合                       |
+| Collection<V> values()                     | 返回所有value的可重复集合                     |
+| Set<Map.Entry<K,V>> entrySet()             | 返回所有的key-value映射关系                   |
+| boolean containsKey(Object key)            | 判断是否包含key                               |
+| boolean containsValue(Object value)        | 判断是否包含value                             |
 
 # Set
 
