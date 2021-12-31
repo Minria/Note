@@ -147,3 +147,21 @@ Java中的栈继承与矢量，但是矢量在Java中已经过时
 | boolean containsAll(Collection<?> c)     | 判断一个集合的元素是否都在集合内 |
 | boolean addAll(Collection<?extends E> c) | 将c的元素加入集合，可以去重      |
 
+HashCode与equals的区别
+
+如果在hashmap中，
+
+hashcode用来定位元素在哈希表中的位置
+
+equals在hashcode定位后遍历链表用来比较key是不是相同的
+
+默认初始容量：16
+
+数组的最大容量：2<sup>30</sup>
+
+默认负载因子：0.75
+
+变成红黑树：64
+
+put：首先对key求哈希，第一次put后才会创建数组，大小16；找下标进行尾插，当数组容量大于64时且链表长度大于8，转换为红黑树
+

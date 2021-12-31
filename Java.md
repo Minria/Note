@@ -216,6 +216,8 @@ System.out.println(result);
 | \\"  | 双引号     |
 | \\\  | 反斜杠     |
 
+### 字符串
+
 #### 字符串的创建
 
 ```java
@@ -266,7 +268,6 @@ public String(byte bytes[],int offset,int count);
 //将字节数组的部分内容变为字符串
 public byte[] getBytes();
 //字符串以字节的形式返回
-
 ```
 
 ### 字符串的常见的操作
