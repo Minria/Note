@@ -198,3 +198,226 @@ desc为降序排列
 
 条件查询
 
+| 运算符            | 说明                                                         |
+| ----------------- | ------------------------------------------------------------ |
+| >,>=,<,<=         |                                                              |
+| =                 | 等于，NULL 不安全，例如 NULL = NULL 的结果是 NULL            |
+| <=>               | 等于，NULL 安全，例如 NULL <=> NULL 的结果是 TRUE(1)         |
+| !=, <>            |                                                              |
+| BETWEEN a0 AND a1 | [a0,a1]                                                      |
+| IN (option, ...)  | 如果是 option 中的任意一个，返回 TRUE(1)                     |
+| IS NULL           | 不是 NULL                                                    |
+| LIKE              | 模糊匹配。% 表示任意多个（包括 0 个）任意字符；_ 表示任意一个字<br/>符 |
+
+![Snipaste_2022-01-01_15-53-50](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011618387.png)
+
+![Snipaste_2022-01-01_15-54-35](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011618388.png)
+
+![Snipaste_2022-01-01_15-55-46](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011618389.png)
+
+![Snipaste_2022-01-01_15-57-17](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011618390.png)
+
+分页查询
+
+![Snipaste_2022-01-01_16-03-33](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011618391.png)
+
+![Snipaste_2022-01-01_16-00-20](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011618392.png)
+
+![Snipaste_2022-01-01_16-02-59](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011618393.png)
+
+## Updata
+
+```sql
+```
+
+
+
+![Snipaste_2022-01-01_15-41-32](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011618394.png)
+
+## Del
+
+![Snipaste_2022-01-01_16-16-18](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011618396.png)
+
+![Snipaste_2022-01-01_16-16-40](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011618397.png)
+
+
+
+# 进阶
+
+## 数据库的约束
+
+1、not null-指示某列不能存储null值
+
+2、unique -保证某列的每行必须有唯一的值
+
+3、defau -规定没有给列赋值时的默认值
+
+4、PRIMARY KEY - NOT NULL 和 UNIQUE 的结合。确保某列（或两个列多个列的结合）有唯一标
+识，有助于更容易更快速地找到表中的一个特定的记录。
+
+5、FOREIGN KEY - 保证一个表中的数据匹配另一个表中的值的参照完整性。
+
+6、CHECK - 保证列中的值符合指定的条件。对于MySQL数据库，对CHECK子句进行分析，但是忽略
+CHECK子句。
+
+```sql
+-- 重新设置学生表结构
+-- 对not null的测试
+DROP TABLE IF EXISTS student;
+CREATE TABLE student (
+	id INT NOT NULL,
+	sn INT,
+	name VARCHAR(20),
+	qq_mail VARCHAR(20)
+);
+```
+
+![Snipaste_2022-01-01_20-44-02](https://gitee.com/wang-fuming/dawning/raw/master/img/202201012143894.png)
+
+```sql
+-- 重新设置学生表结构
+-- 测试unique
+DROP TABLE IF EXISTS student;
+CREATE TABLE student (
+	id INT NOT NULL,
+	sn INT UNIQUE,
+	name VARCHAR(20),
+	qq_mail VARCHAR(20)
+);
+```
+
+![Snipaste_2022-01-01_20-46-33](https://gitee.com/wang-fuming/dawning/raw/master/img/202201012143895.png)
+
+```sql
+-- 重新设置学生表结构
+-- 测试default
+DROP TABLE IF EXISTS student;
+CREATE TABLE student (
+	id INT NOT NULL,
+	sn INT UNIQUE,
+	name VARCHAR(20) DEFAULT 'unkown',
+	qq_mail VARCHAR(20)
+);
+```
+
+![Snipaste_2022-01-01_20-50-30](https://gitee.com/wang-fuming/dawning/raw/master/img/202201012143897.png)
+
+```sql
+-- 重新设置学生表结构
+-- 测试主键值
+DROP TABLE IF EXISTS student;
+CREATE TABLE student (
+	id INT NOT NULL PRIMARY KEY,
+	sn INT UNIQUE,
+	name VARCHAR(20) DEFAULT 'unkown',
+	qq_mail VARCHAR(20)
+);
+```
+
+```sql
+-- 主键是 NOT NULL 和 UNIQUE 的结合，可以不用 NOT NULL
+id INT PRIMARY KEY auto_increment,
+```
+
+```sql
+foreign key (字段名) references 主表(列)、
+```
+
+![Snipaste_2022-01-01_21-12-13](https://gitee.com/wang-fuming/dawning/raw/master/img/202201012143898.png)
+
+![Snipaste_2022-01-01_21-11-38](https://gitee.com/wang-fuming/dawning/raw/master/img/202201012143899.png)
+
+```sql
+drop table if exists test_user;
+create table test_user (
+	id int,
+	name varchar(20),
+	sex varchar(1),
+	check (sex ='男' or sex='女')
+);
+```
+
+## 表的设计
+
+一对一
+
+![Snipaste_2022-01-01_21-13-49](https://gitee.com/wang-fuming/dawning/raw/master/img/202201012143900.png)
+
+一对多
+
+![Snipaste_2022-01-01_21-14-15](https://gitee.com/wang-fuming/dawning/raw/master/img/202201012143901.png)
+
+多对多
+
+![Snipaste_2022-01-01_21-14-43](https://gitee.com/wang-fuming/dawning/raw/master/img/202201012143902.png)
+
+## 新增
+
+```sql
+INSERT INTO table_name [(column [, column ...])] SELECT ...
+```
+
+![Snipaste_2022-01-01_21-42-44](https://gitee.com/wang-fuming/dawning/raw/master/img/202201012143903.png)
+
+## 查询
+
+聚合查询
+
+1、聚合函数
+
+| 函数                   |                    说明                     |
+| ---------------------- | :-----------------------------------------: |
+| COUNT([DISTINCT] expr) |           返回查询到的数据的 数量           |
+| SUM([DISTINCT] expr)   |  返回查询到的数据的 总和，不是数字没有意义  |
+| AVG([DISTINCT] expr)   | 返回查询到的数据的 平均值，不是数字没有意义 |
+| MAX([DISTINCT] expr)   | 返回查询到的数据的 最大值，不是数字没有意义 |
+| MIN([DISTINCT] expr)   | 返回查询到的数据的 最小值，不是数字没有意义 |
+
+count
+
+![Snipaste_2022-01-02_13-46-05](https://gitee.com/wang-fuming/dawning/raw/master/img/202201021517430.png)
+
+sum![Snipaste_2022-01-02_13-47-54](https://gitee.com/wang-fuming/dawning/raw/master/img/202201021517432.png)
+
+avg、max、min就是求平均值、最大值、最小值
+
+![Snipaste_2022-01-02_13-49-43](https://gitee.com/wang-fuming/dawning/raw/master/img/202201021517433.png)
+
+![Snipaste_2022-01-02_13-53-08](https://gitee.com/wang-fuming/dawning/raw/master/img/202201021517434.png)
+
+2、group by
+
+![Snipaste_2022-01-02_13-58-34](https://gitee.com/wang-fuming/dawning/raw/master/img/202201021517435.png)
+
+3、having
+
+![Snipaste_2022-01-02_14-00-34](https://gitee.com/wang-fuming/dawning/raw/master/img/202201021517436.png)
+
+联合操作
+
+```sql
+select 字段 from 表1 别名1 [inner] join 表2 别名2 on 连接条件 and 其他条件;
+select 字段 from 表1 别名1,表2 别名2 where 连接条件 and 其他条件;
+```
+
+1、查询某个人的成绩
+
+![Snipaste_2022-01-02_20-23-36](https://gitee.com/wang-fuming/dawning/raw/master/img/202201022025039.png)
+
+![](https://gitee.com/wang-fuming/dawning/raw/master/img/202201022025041.png)
+
+![Snipaste_2022-01-02_20-24-55](https://gitee.com/wang-fuming/dawning/raw/master/img/202201022025042.png)
+
+2、查找所有同学的总成绩
+
+（1）按照学生id筛选，删除无意义的数据
+
+（2）按照学生id进行group by操作
+
+![Snipaste_2022-01-02_20-18-55](https://gitee.com/wang-fuming/dawning/raw/master/img/202201022025043.png)
+
+![Snipaste_2022-01-02_20-18-25](https://gitee.com/wang-fuming/dawning/raw/master/img/202201022025044.png)
+
+![Snipaste_2022-01-02_20-17-33](https://gitee.com/wang-fuming/dawning/raw/master/img/202201022025045.png)
+
+![Snipaste_2022-01-02_20-33-02](https://gitee.com/wang-fuming/dawning/raw/master/img/202201022033658.png)

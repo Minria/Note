@@ -604,7 +604,7 @@ else
 
 我们很容易看见else和第一个if在同一个缩进上，所以什么也不输出？
 
-![Snipaste_2021-10-16_19-50-03](https://gitee.com/wang-fuming/dawning/raw/master/202110161951201.png)
+> false
 
 我们看到输出了false，看来是进入到else和第二个循环是一起的
 
@@ -1006,7 +1006,7 @@ int n=nums[0].length;//列
     }
 ```
 
-![Snipaste_2021-10-24_19-17-57](https://gitee.com/wang-fuming/dawning/raw/master/202110241948753.png)
+> 1 2 0 0 0 0 
 
 通过数组引用却又改变了数值，对应了C语言中的传址调用。
 
@@ -1071,8 +1071,6 @@ JVM被分为5个区
 
 然后nums2指向另一个对象，虽然他们的内容是相同的，但是地址不同，所以输出false
 
-![Snipaste_2021-10-26_22-09-11](https://gitee.com/wang-fuming/dawning/raw/master/202110262209126.png)
-
 ```java
     public static void main(String[] args) {
         int[] arr={0,0,0,0,};
@@ -1112,7 +1110,8 @@ JVM被分为5个区
     }
 ```
 
-![Snipaste_2021-10-26_22-04-48](https://gitee.com/wang-fuming/dawning/raw/master/202110262205000.png)
+> [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+> [0, 9, 9, 0, 0, 0, 0, 0, 0, 0]
 
 2. sort排序函数
 
@@ -1124,12 +1123,12 @@ JVM被分为5个区
     }
 ```
 
-![Snipaste_2021-10-26_21-56-20](https://gitee.com/wang-fuming/dawning/raw/master/202110262156829.png)
+>  [1, 1, 2, 2, 3, 4, 5, 6, 21, 23, 34, 78, 90, 3452]
 
 3. copyOf()拷贝函数和clone()克隆
 
 ```java
-public static void main(String[] args) {
+	public static void main(String[] args) {
         int[] arr1={1,2,3,4,5,6,7};
         int[] arr2=Arrays.copyOf(arr1,arr1.length);//拷贝所有
         int[] arr3=Arrays.copyOfRange(arr1,1,3);//拷贝下标[1,3)之间的元素
@@ -1140,7 +1139,9 @@ public static void main(String[] args) {
     }
 ```
 
-![Snipaste_2021-10-26_22-00-43](https://gitee.com/wang-fuming/dawning/raw/master/202110262201871.png)
+> [1, 2, 3, 4, 5, 6, 7]
+> [2, 3]
+> [1, 2, 3, 4, 5, 6, 7]
 
 
 
@@ -1188,7 +1189,9 @@ public class Main {
 }
 ```
 
-![Snipaste_2021-10-30_16-51-54](https://gitee.com/wang-fuming/dawning/raw/master/202110301652609.png)
+> null
+> 0
+> null is eat
 
 我们在使用时没有初始化，**引用类型默认字符串为null，整型为0，布尔型为false**
 
@@ -1216,8 +1219,6 @@ public class Main {
 
 由此我们看出，普通成员变量是属于对象，我们对实例化第二个对象并且初始化赋值的时候并不会影响第一个对象的值。
 
-![Snipaste_2021-10-30_17-16-31](https://gitee.com/wang-fuming/dawning/raw/master/202110301716857.png)
-
 ### 静态成员变量
 
 普通成员变量属于对象，而静态成员属于类
@@ -1226,7 +1227,6 @@ public class Main {
 class Person{
     public String name;
     public int age;
-    public static int count;
 }
 public class Main {
     public static void main(String[] args) {
@@ -1240,7 +1240,8 @@ public class Main {
 }
 ```
 
-![Snipaste_2021-10-30_17-57-14](https://gitee.com/wang-fuming/dawning/raw/master/202110301757668.png)
+> 2
+> 2
 
 我们看见
 
@@ -1248,8 +1249,6 @@ public class Main {
 2. “初始化”不同但是输出结果相同并且以结果第二个
 
 事实上，**静态成员变量属于类，我们可以通过类直接访问静态变量而不需要实例化一个对象**
-
-![Snipaste_2021-10-30_18-06-56](https://gitee.com/wang-fuming/dawning/raw/master/202110301807842.png)
 
 我们知道引用放在栈区上，对象放在堆区，那么静态变量放在那里？放在方法区
 
@@ -1562,8 +1561,6 @@ public class Test {
 3、包名要和代码路径相匹配. 例如创建 `com.bit.demo1`的包, 那么会存在一个对应的路径 `com/bit/demo1` 来存储代码.
 3、如果一个类没有 package 语句, 则该类被放到一个默认包中.
 
-![Snipaste_2021-11-11_16-13-01](https://gitee.com/wang-fuming/dawning/raw/master/202111111613270.png)
-
 上面的流程就是我们在`com.bit.demo1`新建了了`Main`类。
 
 ### 包的访问权限
@@ -1602,8 +1599,6 @@ public class Main {
     }
 }
 ```
-
-![Snipaste_2021-11-11_16-23-25](https://gitee.com/wang-fuming/dawning/raw/master/202111111623951.png)
 
 ### 常见的系统包
 
@@ -1730,7 +1725,8 @@ public class Test {
 }
 ```
 
-![Snipaste_2021-11-11_16-29-55](https://gitee.com/wang-fuming/dawning/raw/master/202111111630447.png)
+> 小黑正在吃猫粮
+> 圆圆正在飞 ︿(￣︶￣)︿
 
 > extends 英文原意指 "扩展". 而我们所写的类的继承, 也可以理解成基于父类进行代码上的 "扩展".
 > 例如我们写的 Bird 类, 就是在 Animal 的基础上扩展出了 fly 方法.
@@ -2483,7 +2479,9 @@ public class Ex {
 }
 ```
 
-![Snipaste_2021-11-25_10-46-20](https://gitee.com/wang-fuming/dawning/raw/master/Snipaste_2021-11-25_10-46-20.png)
+> before
+> Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 100
+> 	at TestException.main(TestException.java:5)
 
 ```java
 int[] arr = {1, 2, 3};
@@ -2498,7 +2496,10 @@ try {
 System.out.println("after try catch");
 ```
 
-![Snipaste_2021-11-25_11-21-06](https://gitee.com/wang-fuming/dawning/raw/master/Snipaste_2021-11-25_11-21-06.png)
+> before
+> after try catch
+> java.lang.ArrayIndexOutOfBoundsException: 100
+> 	at TestException.main(TestException.java:6)
 
 我们发现, 一旦 try 中出现异常, 那么 try 代码块中的程序就不会继续执行, 而是交给 catch 中的代码来执行. catch 执行完毕会继续往下执行.
 
