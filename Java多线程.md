@@ -405,3 +405,122 @@ public class SynchronizedDemo {
 
 ```
 
+# 6. volatile关键字
+
+修饰的共享变量，可以保证可见性，部分保证顺序性
+
+```java
+class ThraedDemo {
+	private volatile int n;
+}
+```
+
+```JAVA
+public class ThreadDemo7 {
+    static class Counter{
+        public volatile int count=0;
+    }
+    public static void main(String[] args) {
+        Counter counter=new Counter();
+        Thread t1=new Thread(){
+            @Override
+            /**
+             * 线程1的核心代码中，循环什么也没有干，只是在反复的快速地的比较循环条件
+             * 在当前线程中并没有改变count的值，所以编译器错误的优化了以后直接从cpu中读取数据
+             * 其他线程改变内存的数据后，但是线程1已经不会从内存中读取数据了
+             * 可以通过valatile禁止优化
+             * 使用场景：一个线程读，一个线程写，就需要使用valatile来防止优化
+             * 对于两个线程同时写无法使用这个来解决，只能用锁来解决
+             */
+            public void run() {
+                while(counter.count==0){
+                }
+                System.out.println("线程1结束了");
+            }
+        };
+        t1.start();
+        Thread t2= new Thread(() -> {
+            Scanner scanner=new Scanner(System.in);
+            System.out.print("输入一个整数>>");
+            counter.count=scanner.nextInt();
+
+        });
+        t2.start();
+    }
+}
+```
+
+# 7. 对象的等待集
+
+1、wait()的作用是让当前线程进入等待状态，同时，wait()也会让当前线程释放它所持有的锁。“直到其他线程调用此对象的 notify() 方法或 notifyAll() 方法”，当前线程被唤醒(进入“就绪状态”)
+
+2、notify()和notifyAll()的作用，则是唤醒当前对象上的等待线程；notify()是唤醒单个线程，而notifyAll()是唤醒所有的线程。
+
+3、wait(long timeout)让当前线程处于“等待(阻塞)状态”，“直到其他线程调用此对象的notify()方法或 notifyAll() 方法，或者超过指定的时间量”，当前线程被唤醒(进入“就绪状态”)。
+
+```java
+public class ThreadDemo8 {
+
+    public static void main(String[] args) {
+        Object locker = new Object();
+
+        Thread t1 = new Thread() {
+            @Override
+            public void run() {
+                synchronized (locker) {
+                    while (true) {
+                        try {
+                            System.out.println("wait 开始");
+                            locker.wait();
+                            System.out.println("wait 结束");
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        };
+
+        Thread t2 = new Thread() {
+            @Override
+            public void run() {
+                Scanner scanner = new Scanner(System.in);
+                System.out.println("输入任意一个整数, 继续执行 notify");
+                int num = scanner.nextInt();
+                synchronized (locker) {
+                    System.out.println("notify 开始");
+                    locker.notify();
+                    System.out.println("notify 结束");
+                }
+            }
+        };
+        t2.start();
+        t1.start();
+    }
+}
+```
+
+1、wait()的作用是使当前执行代码的线程进行等待，wait()方法是Object类的方法，该方法是用来将当前线程
+置入“预执行队列”中，并且在wait()所在的代码处停止执行，直到接到通知或被中断为止。
+
+2、wait()方法只能在同步方法中或同步块中调用。如果调用wait()时，没有持有适当的锁，会抛出异常。
+
+3、wait()方法执行后，当前线程释放锁，线程与其它线程竞争重新获取锁。
+
+4、方法notify()也要在同步方法或同步块中调用，该方法是用来通知那些可能等待该对象的对象锁的其它线程，对
+其发出通知notify，并使它们重新获取该对象的对象锁。如果有多个线程等待，则有线程规划器随机挑选出一个
+呈wait状态的线程。
+
+5、在notify()方法后，当前线程不会马上释放该对象锁，要等到执行notify()方法的线程将程序执行完，也就是退出同步代码块之后才会释放对象锁。
+
+需要注意的是：
+
+wait，notify必须使用在synchronized同步方法或者代码块内。
+
+wait会有三步操作，释放锁，等待通知，尝试重新获取锁
+
+notify也有三步操作，获取锁，通知，然后释放锁
+
+如果释放锁之后，notify通知在wait的等待通知之前，那么是不是就错过通知了？
+
+不，wait的前两步是原子性的，确保能接受通知。要是在wait释放锁通知就会造成死锁
