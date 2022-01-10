@@ -600,7 +600,13 @@ update accout set money=money+2000 where name = '四十大盗';
 四十大盗的账户上就没有了增加的金额。
 解决方案：使用事务来控制，保证以上两句SQL要么全部执行成功，要么全部执行失败。
 
+1、原子性：要么全做，要么全不做
 
+2、一致性：事务执行前后，数据处于合法状态
+
+3、持久性：数据写入磁盘
+
+4、隔离性：多个事务并发执行时，事务之间不能相互干扰
 
 事务指逻辑上的一组操作，组成这组操作的各个单元，要么全部成功，要么全部失败。
 在不同的环境中，都可以有事务。对应在数据库中，就是数据库事务。
@@ -620,13 +626,35 @@ update accout set money=money+2000 where name = '四十大盗';
 commit;
 ```
 
+并发编程遇到的问题
+
+1、脏读
+
+如果一个事务A正在修改数据（还么有提交），另外一个事务B读取了这里的修改内容，这样B事务的读操作就是脏读---------将写操作进行加锁操作，A进行写的时候，B不允许读
+
+2、不可重复读
+
+事务A执行过程中，两次读取的数据不相同，写的时候不允许读，读的时候也不能写
+
+3、幻读
+
+同一个事务中，两次读的结果集不一致，读加锁后读时不能改，但是可以新增和删除记录
+
+read uncommitted 允许读为提交的数据
+
+read committed 只允许读已经提交的数据
+
+repeatable read 读加锁（默认）
+
+serializeable 严格执行串行
+
 # JDBC
 
 ## 连接方式
 
-1、Connection接口实现类由数据库提供，获取Connection对象通常有两种方式
+1、`Connection`接口实现类由数据库提供，获取`Connection`对象通常有两种方式
 
-一种是通过DriverManager（驱动管理类）的静态方法获取：
+一种是通过`DriverManager`（驱动管理类）的静态方法获取：
 
 ```java
 // 加载JDBC驱动程序
@@ -635,7 +663,7 @@ Class.forName("com.mysql.jdbc.Driver");
 Connection connection = DriverManager.getConnection(url);
 ```
 
-2、一种是通过DataSource（数据源）对象获取。实际应用中会使用DataSource对象。
+2、一种是通过`DataSource`（数据源）对象获取。实际应用中会使用`DataSource`对象。
 
 ```sql
 DataSource ds = new MysqlDataSource();
@@ -647,12 +675,12 @@ Connection connection = ds.getConnection();
 
 区别
 
-1、DriverManager类来获取的Connection连接，是无法重复利用的，每次使用完以后释放资源
-时，通过connection.close()都是关闭物理连接。
+1、`DriverManager`类来获取的Connection连接，是无法重复利用的，每次使用完以后释放资源
+时，通过`connection.close()`都是关闭物理连接。
 
-2、DataSource提供连接池的支持。连接池在初始化时将创建一定数量的数据库连接，这些连接
-是可以复用的，每次使用完数据库连接，释放资源调用connection.close()都是将
-Conncetion连接对象回收。
+2、`DataSource`提供连接池的支持。连接池在初始化时将创建一定数量的数据库连接，这些连接
+是可以复用的，每次使用完数据库连接，释放资源调用`connection.close()`都是将
+`Conncetion`连接对象回收。
 
 ## Statement对象
 
@@ -660,14 +688,14 @@ Conncetion连接对象回收。
 
 ![06 MySQL JDBC编程1](https://gitee.com/wang-fuming/dawning/raw/master/img/202201042018575.jpg)
 
-1、executeQuery() 方法执行后返回单个结果集的，通常用于select语句
-2、executeUpdate()方法返回值是一个整数，指示受影响的行数，通常用于update、insert、delete
+1、`executeQuery() `方法执行后返回单个结果集的，通常用于select语句
+2、`executeUpdate()`方法返回值是一个整数，指示受影响的行数，通常用于update、insert、delete
 语句
 
 ## ResultSet对象
 
-ResultSet对象它被称为结果集，它代表符合SQL语句条件的所有行，并且它通过一套getXXX方法提供
+`ResultSet`对象它被称为结果集，它代表符合SQL语句条件的所有行，并且它通过一套`getXXX`方法提供
 了对这些行中数据的访问。
-ResultSet里的数据一行一行排列，每行有多个字段，并且有一个记录指针，指针所指的数据行叫做当
-前数据行，我们只能来操作当前的数据行。我们如果想要取得某一条记录，就要使用ResultSet的next()
-方法 ,如果我们想要得到ResultSet里的所有记录，就应该使用while循环。
+`ResultSet`里的数据一行一行排列，每行有多个字段，并且有一个记录指针，指针所指的数据行叫做当
+前数据行，我们只能来操作当前的数据行。我们如果想要取得某一条记录，就要使用`ResultSet`的`next()`
+方法 ,如果我们想要得到`ResultSet`里的所有记录，就应该使用while循环。

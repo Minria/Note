@@ -393,7 +393,7 @@ public class SynchronizedDemo {
 ```java
 public class SynchronizedDemo {
     public void method() {
-// 进入代码块会锁 this 指向对象中的锁；出代码块会释放 this 指向的对象中的锁
+// 进入代码块会锁 this 指向对象中的锁；出代码块会释放this指向的对象中的锁
         synchronized (this) {
         }
     }
@@ -524,3 +524,297 @@ notify也有三步操作，获取锁，通知，然后释放锁
 如果释放锁之后，notify通知在wait的等待通知之前，那么是不是就错过通知了？
 
 不，wait的前两步是原子性的，确保能接受通知。要是在wait释放锁通知就会造成死锁
+
+# 8. 多线程案例
+
+## 8.1 单例模式
+
+顾名思义，就是这个类只有一个实例对象
+
+分为饿汉模式和懒汉模式
+
+前者在类加载的时候就会有实例，后者在需要的时候就会有实例
+
+饿汉模式代码
+
+```java
+public class Singleton{
+    //构造方法私有化就不能通过new构造实例
+    private Singleton(){}
+    //在类加载的时候就实例化
+    Singleton insetance=new Singleton();
+    public Singleton getInsetance(){
+        return insetance;
+    }
+}
+```
+
+懒汉模式代码
+
+```java
+public class Singleton{
+    private Singleton(){}
+    Singleton instance=null;
+    public Singleton getInsetance(){
+        if(instance==null){
+            instance=new Singleton();
+        }
+        return instance;
+    }
+}
+```
+
+但是懒汉模式这样写是不安全的，上文中有
+
+线程不安全的原因就是多个变量尝试同时修改一个变量时，那么他可能就是线程不安全的
+
+对于饿汉模式，多个线程尝试读取一个变量，这线程安全
+
+对于懒汉模式，当类没有实例化的时候，就会有多少线程修改，这不安全，在实例化后就会安全
+
+那么加上锁就好了
+
+```java
+public class Singleton{
+    private Singleton(){}
+    Singleton instance=null;
+    public  static Singledog getInstance(){
+        synchronized (Singledog.class){
+            if (instance==null){
+                instance = new Singledog();
+            }
+            return instance;
+        }
+    }
+}
+```
+
+但是，加上锁之后就和高性能没有关系，需要减小锁的范围
+
+```java
+public class Singleton{
+    private Singleton(){}
+    Singleton volatile instance=null;
+	public Singledog getInstance() {
+        if(instance==null){
+            synchronized (Singledog.class){
+                if (instance==null){
+                    instance=new Singledog();
+                }
+            }
+        }
+        return instance;
+    }
+}
+```
+
+## 8.2 阻塞队列
+
+生产者消费者模式，
+
+```java
+public class BlockingQueue{
+    private int[] array=new int[1000];
+    private int front=0;
+    private int rear=0;
+    private int size=0;
+    public BlockingQueue(){};
+        public void put(int value){
+            synchronized (this){
+                while(size==array.length){
+                    try {
+                        wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                array[rear]=value;
+                rear++;
+                if(rear==array.length){
+                    rear=0;
+                }
+                size++;
+                notify();
+            }
+        }
+        public int take(){
+            synchronized (this){
+                while(size==0){
+                    try {
+                        wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                int ans=array[front];
+                front++;
+                if(front==array.length){
+                    front=0;
+                }
+                size--;
+                notify();
+                return ans;
+            }
+        }
+    
+}
+```
+
+需要注意的是：
+
+1、原先队列满入队的执行逻辑是返回空，队列空出队的逻辑是返回-1，现在就是让线程等待
+
+2、线程等待后当其他线程执行入队，出队的操作后，需要通知前面的等待结束
+
+3、留意等待处罚的条件，不会出现死锁问题
+
+4、操作不是原子性的，需要加上锁让他的操作变成原子性
+
+## 8.3 定时器
+
+定时器构成要素
+
+1、使用一个Task来描述任务，同时要记录任务执行时间
+
+2、使用一个阻塞优先队列，来组织我们的任务
+
+3、一个工作线程来扫描任务时间，检测队首任务的执行时间，如果需要执行的化就去执行任务
+
+```java
+public class Task implements Comparable<Task>{
+    //通过Runnable来描述任务
+    public Runnable command;
+    private long time;
+    //这里的after是相对时间，描述多少时间后执行任务
+    public Task(Runnable command,long after){
+        this.command=command;
+        this.time=System.CurrentTimes()+after;
+    }
+    //任务执行
+    public void run(){
+        command.run():
+    }
+    //比较接口，便于在在阻塞队列中进行比较
+    public int compareTo(Task o){
+        return (int)(this.time-o.time);
+}
+public class Work extends Thread {
+    private PriorityBlockingQueue<Task> queue = null;
+    private Object mailBox = null;
+    //需要将队列传输进行进行扫描，锁的作用在下文
+    public Worker(PriorityBlockingQueue<Task> queue, Object mailBox) {
+        this.queue = queue;
+        this.mailBox = mailBox;
+    }
+    @Override
+    public void run() {
+        // 实现具体的线程执行的内容
+        while (true) {
+            try {
+                // 1. 取出队首元素, 检查时间是否到了
+                Task task = queue.take();
+                // 2. 检查当前任务时间是否到了
+                long curTime = System.currentTimeMillis();
+                if (task.time > curTime) {
+                    // 时间还没到~, 就把任务再塞回队列中
+                    queue.put(task);
+                    //我们已经知道还有多长时间执行任务，就不要一直扫描了。
+                    //将他锁住，知道时间到了，或者有了新任务进来
+                    synchronized (mailBox) {
+                        /**
+                         * 加上时间就不会一直等，到时间就不等了
+                         * 有了新任务也需要扫描
+                         */
+                        mailBox.wait(task.time - curTime);
+                    }
+                } else {
+                    task.run();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                break;
+            }
+        }
+    }
+}
+
+public class Timer{
+    PriorityBlockingQueue<Task> queue=new PriorityBlockingQueue<>();
+    Object blocker=new Object();
+    Public Timer(){
+        Work work=new Work(queue,blocker);
+        work.start();
+    }
+    //这是一个接口，需要t
+    public void schedule(Runnable command, long after) {
+        Task task = new Task(command, after);
+        queue.put(task);
+        synchronized (mailBox) {
+            //有了新任务就要去通知解除等待
+            mailBox.notify();
+        }
+    }
+}
+```
+
+## 8.4 线程池
+
+具体操作：
+
+1、execute：将任务加入线程池
+
+2、shutdown：销毁线程池
+
+线程池组成部分：
+
+1、工作类，表示工作线程
+
+2、一个类描述线程的具体工作是什么（借助Runnable接口）
+
+3、用一个数据结构来组织任务，用阻塞队列
+
+4、用一个数据结构在组织若干个线程
+
+```java
+public class MyThreadPool{
+    BlockQueue<Runnable> queue=new BlockQueue<>();
+    List<Work> list=new ArrayList<>();
+    public void execute(Runnable command){
+        if(list.size()<10){
+            Work work=new Work();
+            work.start():
+            list.add(work);
+        }
+        queue.put(command);
+    }
+     public void shutdown() throws InterruptedException {
+            // 终止掉所有的线程.
+         for (Work work : list) {
+             worker.interrupt();
+         }
+            // 还需要等待每个线程执行结束.
+         for (Work work : list) {
+             work.join();
+         }
+     }
+}
+public class Work expends Thread{
+    BlockQueue<Runnable> queue=null;
+    public Work(BlockQueue<Runnable> queue){
+        this.queue=queue;
+    }
+    public void run(){
+        try{
+            while(!Thread.currentThread().isInterrupted()){
+                Runnable command=queue.take();
+                command.run();
+            }
+        }catch (InterruptedException e){
+            System.out.println("线程终止");
+        }
+            
+    }
+        
+}
+```
+
