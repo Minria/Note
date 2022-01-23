@@ -1,20 +1,14 @@
-数据类型
+# 1. 八大基本数据类型
 
-## 变量和类型
-
-### 整型
+## 1.1 整型(4)
 
 基本语法格式
 
 ```java
-int name = data;
-```
-
-实例
-
-```java
-int num = 1;//定义一个整型变量，数值为1
-System.out.println(num);
+byte num1=1;
+short nums=1;
+int num3=1;
+long num4=1L;//后面有一个L
 ```
 
 在Java中，int占有4个字节，与操作系统无关
@@ -26,58 +20,18 @@ System.out.println(Integer.MIN_VALUE);//整型数据最小值
 
 如果对其进行+1或者-1操作就会溢出报错
 
-### 长整型变量
+## 1.2 浮点型(2)
 
 基本语法格式
 
 ```java
-long name = data;
-```
-
-实例
-
-```java
-long num=1L;//定义一个长整型变量，初始值为 1L 
-long num2=1l;//后面的字母也可以用小写，但是小写特别像1，改用大些用以区分
-```
-
-```java
-System.out.println(Long.MAX_VALUE);
-System.out.println(Long.MIN_VALUE);
-```
-
-### 双精度浮点型
-
-基本语法格式
-
-```java
-double name = data;
-```
-
-实例
-
-```java
-double num = 1.0;
+float num1=10.1F;
+double num2=10.1;
 ```
 
 在 Java 中, int 除以 int 的值仍然是 int，后面的小数点被舍去，如果需要得到小数，就需要转换为浮点数进行运算
 
-### 单精度浮点型
-
-基本语法格式
-
-```java
-float name = data;
-```
-
-实例
-
-```java
-float num = 1.0f;
-float num2=2.0F;
-```
-
-### 字符类型
+## 1.3 字符类型(1)
 
 基本语法格式
 
@@ -94,35 +48,7 @@ char ch = '啊';
 
 需要注意的是，**Java中字符类型占两个字节**，与C语言中所占一个字节有区别
 
-### 字节类型变量
-
-基本语法格式
-
-```java
-byte name = data;
-```
-
-实例
-
-```JAVA
-byte value=0;
-```
-
-在C语言中没有这个类型，这个类型占一个字节。
-
-字节类型表示的也是整数. 只占一个字节, 表示范围较小，取值范围是 [-128,127 ]
-
-### 短整型变量
-
-基本语法格式
-
-```java
-short name = data;
-```
-
-short占用两个字节
-
-### 布尔类型变量
+## 1.4 布尔类型变量(1)
 
 基本语法格式
 
@@ -143,18 +69,12 @@ boolean value = false;
 2. Java 的 boolean 类型和 int 不能相互转换, 不存在 1 表示 true, 0 表示 false 这样的用法.
 3. boolean 类型有些 JVM 的实现是占 1 个字节, 有些是占 1 个比特位, 这个没有明确规定.
 
-### String类型变量
+# String类型变量
 
 在C语言中没有字符串类型，但是在Java中有字符串类型
 
 ```java
 String name = "data";
-```
-
-实例
-
-```java
-String name = "java";
 ```
 
 区分
@@ -168,57 +88,9 @@ String str="A";
 
 1. Java 使用 双引号 + 若干字符 的方式表示字符串字面值。
 2. 和上面的类型不同, String 不是基本类型, 而是引用类型。
-3. 字符串中的一些特定的不太方便直接表示的字符需要进行转义。
+3. 字符串中的一些特定的不太方便直接表示的字符需要进行转义
 
-**字符串的子串**
-
-使用String类的substring方法可以从一个较大的字符串中提出一个字串
-
-```java
-public class TestPratice {
-    public static void main(String[] args) {
-        String a="abcdefgh";
-        String b=a.substring(0,2);
-        System.out.println(b);
-    }
-}
-//预计输出ab
-```
-
-程序执行结果
-
-> ab
-
-**字符串的拼接**
-
-```java
-String a = "hello";
-String b = "world";
-String c = a + b;
-System.out.println(c);
-```
-
-```java
-String str = "result = ";
-int a = 10;
-int b = 20;
-String result = str + a + b;
-System.out.println(result);
-```
-
-### 转义字符
-
-| 字符 | 意义       |
-| ---- | ---------- |
-| \n   | 换行       |
-| \t   | 水平制表符 |
-| \\'  | 单引号     |
-| \\"  | 双引号     |
-| \\\  | 反斜杠     |
-
-### 字符串
-
-#### 字符串的创建
+## 2.1 字符串的创建
 
 ```java
 String str1 = "abcdefg";
@@ -227,7 +99,7 @@ char[] array = {'a','b','c'};
 String str3 = new String(array);
 ```
 
-#### 字符串相等的比较
+##  2.2 字符串相等的比较
 
 ```java
 String str1 = "abcdefhg";
@@ -238,13 +110,11 @@ System.out.println("abcdefhg"==str2);
 System.out.println("abcdefhg".equals(str1));
 ```
 
-#### 字符串的不可变性
+## 2.3 字符串的不可变性
 
 双引号引起的是字面值常量，无法修改
 
-#### 字符，字节与字符串
-
-#### 字符与字符串
+## 2.4字符与字符串
 
 字符串内部包含一个字符数组，String 可以和 char[] 相互转换.
 
@@ -259,7 +129,7 @@ public char[] toCharArray();
 //将字符串变为字符数组返回
 ```
 
-#### 字节与字符串
+## 2.5 字节与字符串
 
 ```java
 public String(byte bytes[]);
@@ -270,7 +140,7 @@ public byte[] getBytes();
 //字符串以字节的形式返回
 ```
 
-### 字符串的常见的操作
+## 2.6 字符串的常见的操作
 
 **字符串比较**
 
@@ -341,7 +211,7 @@ public int length();
 public boolean isEmpty();
 ```
 
-### StringBuilder与StringBuffer
+##  2.7 StringBuilder与StringBuffer
 
 字符串是不可变的那么字符串的拼接是怎么完成的
 
@@ -376,9 +246,19 @@ public boolean isEmpty();
 
 在此过程仅有一个对象，当在循环内进行大量拼接时，建议使用StringBuilder进行拼接
 
-## 常量
+## 2.8  转义字符
 
-### 字面值常量
+| 字符 | 意义       |
+| ---- | ---------- |
+| \n   | 换行       |
+| \t   | 水平制表符 |
+| \\'  | 单引号     |
+| \\"  | 双引号     |
+| \\\  | 反斜杠     |
+
+# 3. 常量
+
+## 3.1 字面值常量
 
 ```java
 10 // int 字面值常量(十进制)
@@ -393,9 +273,7 @@ true // boolen 字面值常量, 同样的还有 false
 "abc" // String 字面值常量, 双引号中可以有多个字符.
 ```
 
-
-
-### final修饰常量
+## 3.2final修饰常量
 
 ```java
 final int a = 10;
@@ -406,7 +284,7 @@ a = 20; // 编译出错,提示无法为最终变量a分配值
 >
 > java: 无法为最终变量a分配值
 
-## 类型转换
+## 3.3 类型转换
 
 **int和long/double相互转换**
 
@@ -470,286 +348,9 @@ System.out.println(c);
 
 
 
-## 运算符
-
-### 基本四则运算符
-
-整型相除还是整型，如果需要得到小数就需要double型变量进行运算
-
-### 关系运算符
-
-```== != < > <= >=```
-
-```java
-int a = 10;
-int b = 20;
-System.out.println(a == b);
-System.out.println(a != b);
-System.out.println(a < b);
-System.out.println(a > b);
-System.out.println(a <= b);
-System.out.println(a >= b);
-```
-
-> false
-> true
-> true
-> false
-> true
-> false
-
-### 逻辑运算符
-
-```&& || !```
-
-逻辑于------->两者都为真时为真
-
-逻辑或------->一个为真时即为真
-
-取反---------->真变假，假变真
-
-对于```a&&b```如果a为假则结束，不在判断b是真是假
-
-对于```a||b```如果a为真则结束，不在判断b是真是假
-
-### 位运算符
-
-```&  | ~ ^```
-
-**注意**：位操作符是对**二进制**位进行运算
-
-```a&b```--------->二进制位都是1则为1，否则取0
-
-```a|b```--------->二进制位只要有一个为1就是1
-
-```~a```---------->取反，二进制位是1则变0，0则变为1
-
-```a^b```--------->二进制位相同为0，相异为1
-
-> a=11001B=25
->
-> b=10110B=22
->
-> a&b=10000B=16
->
-> a||b=11111=31
->
-> a的补码0....11001取反1....00110--->原码1....11010=  -26
->
-> a^b=01111=15
-
-```java
-    public static void main(String[] args) {
-        int a=25;
-        int b=22;
-        System.out.println(a&b);
-        System.out.println(a|b);
-        System.out.println(~a);
-        System.out.println(a^b);
-    }
-```
-
-> 16
-> 31
-> -26
-> 15
-
-# 逻辑结构
-
-## 分支结构
-
-### if
-
-```java
-//格式1
-if(a){
-    
-}
-//格式2
-if(a){
-    
-}else{
-    
-}
-//格式3
-if(a){
-    
-}else if(b){
-    
-}else if(c){
-    
-}else{
-    
-}
-```
-
-需要注意的是，**条件必须是布尔表达式**
-
-在C语言中```if(1)```表示进入执行，在Java中必须是```if(true)```
-
-C语言中0代表false，非0代表true，但是在java中必须是true或者false
-
-**需要注意的else的悬垂问题**
-
-```java
-int x = 10;
-int y = 20;
-if(x==10)
-    if(y==10)
-        System.out.println("true");
-else
-    System.out.println("false");
-    
-```
-
-我们很容易看见else和第一个if在同一个缩进上，所以什么也不输出？
-
-> false
-
-我们看到输出了false，看来是进入到else和第二个循环是一起的
-
-**else和它最近的if在一起**
-
-在idea编译器中，敲下回车，自动缩进在第二个if。
-
-### switch
-
-```java
-switch(整数|枚举|字符|字符串){
-    case 内容1 : {
-        内容满足时执行语句;
-        [break;]
-    }
-    case 内容2 : {
-        内容满足时执行语句;
-        [break;]
-    }
-    default:{
-        内容都不满足时执行语句;
-        [break;]
-    }
-}
-```
-
-整数和字符很常见，字符串类型好像没有见过，下面给出例子
-
-## 循环结构
-
-### while循环
-
-```java
-while(a){
-    
-}
-```
-
-### for循环
-
-```java
-for(a;b;c){
-    
-}
-```
-
-### do while循环
-
-```java
-do{
-    
-}while(a);
-```
-
-需要注意的是，**do while循环先执行后判断，while先判断后执行**
-
-```java
-   public static void main(String[] args) {
-        int i=1;
-        while(i<1){
-            System.out.println("执行了1");
-            i++;
-        }
-        do{
-            System.out.println("执行了2");
-            i++;
-        }while(i<1);
-    }
-```
-
-> 执行了2
-
-### break和continue
-
-两者都是让循环结束，但是不同的是
-
-break会直接结束整个循环
-
-continue结束当前循环，进入下一个循环。
-
-## 输入输出
-
-### 输出
-
-```java
-System.out.println(data); // 输出一个字符串, 带换行
-System.out.print(data); // 输出一个字符串, 不带换行
-System.out.printf(format, data); // 格式化输出,类似C语言中的printf
-```
-
-
-
-### 输入
-
-Java中输入比较复杂
-
-```java
-import java.util.Scanner; // 需要导入 util 包
-Scanner scanner = new Scanner(System.in);
-System.out.println("请输入你的姓名：");
-String name = scanner.nextLine();
-System.out.println("请输入你的年龄：");
-int age = scanner.nextInt();
-System.out.println("请输入你的工资：");
-float salary = scanner.nextFloat();
-System.out.println("你的信息如下：");
-System.out.println("姓名: "+name+"\n"+"年龄："+age+"\n"+"工资："+salary);
-sc.close(); // 注意, 要记得调用关闭方法
-```
-
-如果需要多组输入
-
-```java
-Scanner sc = new Scanner(System.in);
-double sum = 0.0;
-int num = 0;
-while (sc.hasNextDouble()) {
-    double tmp = sc.nextDouble();
-    sum += tmp;
-    num++;
-}
-System.out.println("sum = " + sum);
-System.out.println("avg = " + sum / num);
-sc.close();
-```
-
-
-
-
-
 # 方法
 
-Java中的方法实质上就是C语言中的函数。
-
-来一个求和方法
-
-```java
-public static int addSum(int n){
-    int sum = 0;
-    for(int i=1;i<=n;i++){
-        sum+=i;
-    }
-    return sum;
-}
-```
+Java中的方法实质上就是C语言中的函数.
 
 ## 方法的重载
 
@@ -798,12 +399,6 @@ public class Main {
 
 区分的重点是函数名字后面的参数（类型或者数量）
 
-## 方法的递归
-
-一个方法在执行的过程中自身调用自身的过程就称为递归。
-
-为了避免死循环，递归必须要有中止条件
-
 # 数组
 
 ## 数组基础
@@ -833,39 +428,9 @@ int[][] arr3 = {{1,2,3},{1,2,3}};
 1. 定义数组的时候不能写具体的数字，如`int[3] num={1,2,3};`
 2. 动态初始化的第二个[]也不能写具体数字，如`int [] num=new int[3]{1,2,3};`
 
-```java
-    public static void main(String[] args) {
-        int[3] arr={1,2,3};
-    }
-```
-
-> java: 需要']'
-
-```java
-    public static void main(String[] args) {
-        int[] arr=new int[3]{1,2,3};
-    }
-```
-
-> java: 需要';'
-
 ### 数组使用
 
 一般是获取数组长度以及根据下标访问数组
-
-```java
-        int[] arr={1,2,3,4,5};
-        int len= arr.length;
-        for(int i=0;i<len;++i){
-            System.out.println(arr[i]);
-        }
-```
-
-> 1
-> 2
-> 3
-> 4
-> 5
 
 需要注意的是
 
@@ -879,8 +444,6 @@ int[][] nums={{1,2,3},{2,4,5}};
 int m=nums.length;//行
 int n=nums[0].length;//列
 ```
-
-
 
 **遍历数组**
 
@@ -937,8 +500,10 @@ int n=nums[0].length;//列
 ```
 
 > 1 2 3 
+>
 > 4 5 6 
 > --------------------------------
+>
 > 1 2 3 
 >
 > 4 5 6 
@@ -949,8 +514,6 @@ int n=nums[0].length;//列
 区别：for循环可以拿到下标，而后者不能拿到下标，更多用到访问集合中的元素
 
 **二维数组的不规则性**
-
-
 
 ## 数组和方法
 
@@ -976,7 +539,7 @@ int n=nums[0].length;//列
 
 **Java中的应用类型**
 
-在C语言中有传值掉用还有传值调用
+在C语言中有传值调用还有传值调用
 
 ```java
     public static void main(String[] args) {
@@ -1153,13 +716,11 @@ JVM被分为5个区
 
 类的成员可以包含以下：
 
-1. 字段
-
-   属性或者成员，又分普通成员变量和静态成员变量
+1. 字段、属性或者成员，又分普通成员变量和静态成员变量
 
    普通成员变量：属于对象，放在堆区，通过对象访问
 
-   静态成员变量：属于类，放在方法区，又称类变量，通过类名访问
+   **静态成员变量：属于类，放在方法区，又称类变量，通过类名访问**
 
 2. 方法
 
@@ -1197,8 +758,6 @@ public class Main {
 
 我们对其初始化后，再进行访问
 
-![Snipaste_2021-10-30_16-55-10](https://gitee.com/wang-fuming/dawning/raw/master/202110301655027.png)
-
 ```java
 public class Main {
     public static void main(String[] args) {
@@ -1227,6 +786,7 @@ public class Main {
 class Person{
     public String name;
     public int age;
+    public static int count;
 }
 public class Main {
     public static void main(String[] args) {
@@ -1428,8 +988,6 @@ public class Main {
 我们可以看见静态代码块是最先被执行的并且**静态代码块只会被执行一次**
 
 并且静态代码块不用实例化对象也会被执行
-
-
 
 
 
@@ -1670,7 +1228,7 @@ class Bird {
 
 此时我们就可以让 Cat 和 Bird 分别继承 Animal 类, 来达到代码重用的效果.
 
-此时, Animal 这样被继承的类, 我们称为 父类 , **基类** 或 **超类**, 对于像 Cat 和 Bird 这样的类, 我们称为 **子类**,或者**派生类**
+此时, Animal 这样被继承的类, 我们称为**父类** , **基类** 或 **超类**, 对于像 Cat 和 Bird 这样的类, 我们称为 **子类**,或者**派生类**
 
 和现实中的儿子继承父亲的财产类似, 子类也会继承父类的字段和方法, 以达到代码重用的效果.
 
@@ -1678,6 +1236,7 @@ class Bird {
 
 ```java
 class 子类 extends 父类 {
+
 }
 ```
 
@@ -1789,10 +1348,6 @@ public class Test {
 ```
 
 小结: Java 中对于字段和方法共有四种访问权限
-1、private: 类内部能访问, 类外部不能访问
-2、默认(也叫包访问权限): 类内部能访问, 同一个包中的类可以访问, 其他类不能访问.
-3、protected: 类内部能访问, 子类和同一个包中的类可以访问, 其他类不能访问.
-4、public : 类内部和类的调用者都能访问
 
 
 
@@ -1805,35 +1360,6 @@ public class Test {
 | 不同包无关系   | true   |           |         |         |
 
 
-
-### final 关键字
-
-曾经我们学习过 final 关键字, 修饰一个变量或者字段的时候, 表示 **常量** (不能修改).
-
-```java
-final int a = 10;
-a = 20; // 编译出错
-```
-
-final 关键字也能修饰类, 此时表示被修饰的类就不能被继承.
-
-```java
-final public class Animal {
-...
-}
-public class Bird extends Animal {
-...
-}
-```
-
-> Error:(3, 27) java: 无法从最终com.bit.Animal进行继承
-
-final 关键字的功能是**限制** 类被继承
-"限制" 这件事情意味着 "不灵活".
-
-在编程中, 灵活往往不见得是一件好事。灵活可能意味着更容易出错。
-
-是用 final 修饰的类被继承的时候, 就会编译报错, 此时就可以提示我们这样的继承是有悖这个类设计的初衷的。
 
 ## 组合
 和继承类似, 组合也是一种表达类之间关系的方式, 也是能够达到代码重用的效果.
@@ -1998,7 +1524,7 @@ public class Test {
 关于重写的注意事项
 
 1. 重写和重载完全不一样. 不要混淆(思考一下, 重载的规则是啥?)
-2. 普通方法可以重写, static 修饰的静态方法不能重写.
+2. 普通方法可以重写, **static 修饰的静态方法不能重写.**
 3. 重写中子类的方法的访问权限不能低于父类的方法访问权限.
 4. 重写的方法返回值类型不一定和父类的方法相同(但是建议最好写成相同, 特殊情况除外).
 
@@ -2621,7 +2147,7 @@ public class Login {
 
 **final**
 
-1、修饰变量，表示常量
+1、修饰变量，表示常量,不可被修改
 
 2、修饰类，表示类不可被继承
 
@@ -2629,13 +2155,13 @@ public class Login {
 
 **static**
 
-4、修饰方法，属于静态方法，不需要对象就可以调用
+1、修饰方法，属于静态方法，不需要对象就可以调用
 
-5、修饰变量，属于静态变量，也通过类进行访问
+2、修饰变量，属于静态变量，也通过类进行访问
 
-6、修饰代码块,类创建时执行并且只执行一次
+3、修饰代码块,类创建时执行并且只执行一次
 
-# 对象的比较
+# 
 
 
 
