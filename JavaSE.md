@@ -8,7 +8,7 @@
 byte num1=1;
 short nums=1;
 int num3=1;
-long num4=1L;//后面有一个L
+long num4=1L;//后面有一个L,可以不带
 ```
 
 在Java中，int占有4个字节，与操作系统无关
@@ -25,7 +25,7 @@ System.out.println(Integer.MIN_VALUE);//整型数据最小值
 基本语法格式
 
 ```java
-float num1=10.1F;
+float num1=10.1F;//这个后面不带Fh
 double num2=10.1;
 ```
 
