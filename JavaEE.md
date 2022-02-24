@@ -50,11 +50,11 @@ SpringBoot 默认会使用 src/main/resources 目录下的如下文件夹作为W
 1. /static：静态资源文件夹，如html，js，css等存放
 2. /public：静态资源文件夹，同上
 3. /templates：模版资源文件夹（后端模版框架使用的模版文件，会解析变量后再生成动态 html，
-  我们不学，了解即可）
-  注：在以上路径中的资源，服务路径不需要在前边再加 /static，/public。如在 static 文件夹下的
-  home.html ，服务路径为：/home.html
-  如果是使用普通Maven项目搭建，可以自行创建以上文件夹，在 src/main/resources 下创建
-  public 和 static 文件夹即可。
+    我们不学，了解即可）
+    注：在以上路径中的资源，服务路径不需要在前边再加 /static，/public。如在 static 文件夹下的
+    home.html ，服务路径为：/home.html
+    如果是使用普通Maven项目搭建，可以自行创建以上文件夹，在 src/main/resources 下创建
+    public 和 static 文件夹即可。
 
 ##  默认的自动扫描
 
@@ -93,3 +93,58 @@ SpringBoot启动的Web项目，应用上下文路径默认为 /
 通常控制器负责从视图读取数据，控制用户输入，并向模型发送数据。
 说明：一般现在主流的前后端分离的开发模式，后端人员不再写前端代码，我们也不学习前端，对应
 MVC中View的部分，我们也就不关心了。
+
+## 分析
+
+### @Controller
+
+@Controller注解标注是一个类是Web控制器，其和@Component注解等价，只不过在Web层使用，其
+
+便于区分类的作用。
+
+### @RequestMapping
+
+@RequestMapping是Spring Web应用程序中最常被用到的注解之一。
+
+在对SpringMVC进行配置的时候，需要指定请求与处理方法之间的映射关系，这时候就需要使用
+
+@RequestMapping注解。该注解可以在控制器类的级别和其方法级别上使用。如以下控制器（注：返
+
+回值可以参考下一章节《控制器方法的返回》）：
+
+```java
+@Controller
+@RequestMapping("/mvc")
+public class MVCController {
+    private static final Logger logger = LoggerFactory.getLogger(MVCController.class);
+
+    @RequestMapping("/index1")
+    public String getIndex(){
+        logger.error("我是index.html");
+        return "redirect:/index.html";
+    }
+
+    @RequestMapping("/index2")
+    public String getIndex2(){
+        logger.error("我是index2.html");
+        return "forward:/index.html";
+    }
+
+    @RequestMapping("/index3")
+    public void getIndex4(HttpServletResponse resp) {
+        logger.error("我是index3.html");
+        resp.setStatus(301);
+        resp.setHeader("Location", "/index.html");
+    }
+}
+```
+
+@RequestMapping注解能够处理的HTTP请求方法有： GET, HEAD, POST, PUT, PATCH, DELETE,
+OPTIONS, TRACE 。
+为了能够将一个请求映射到一个特定的HTTP方法，你需要在@RequestMapping中使用method参数声
+明HTTP请求所使用的方法类型。
+
+```java
+@RequestMapping(value="/index3",method = RequestMethod.GET)
+```
+
