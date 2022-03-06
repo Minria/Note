@@ -84,8 +84,6 @@ class MyRunnable implements Runnable {
     }
 }
 public class Main {
-
-
     public static void main(String[] args) {
         Thread t=new Thread(new MyRunnable());
         t.start();
@@ -117,7 +115,6 @@ public class Main {
 
 ```java
 public class Main {
-
     public static void main(String[] args) {
         Thread t=new Thread(()-> System.out.println("这是一个新线程"));
         t.start();
@@ -155,6 +152,14 @@ public class Main {
 | 是否存活     | isAlive()       | 是否存活，即简单的理解，为 run 方法是否运行结束了     |
 | 是否中断     | isInterrupted() | 线程的中断问题                                        |
 
+1、ID 是线程的唯一标识，不同线程不会重复
+2、名称是各种调试工具用到
+3、状态表示线程当前所处的一个情况，下面我们会进一步说明
+4、优先级高的线程理论上来说更容易被调度到
+5、关于后台线程，需要记住一点：JVM会在一个进程的所有非后台线程结束后，才会结束运行。
+6、是否存活，即简单的理解，为 run 方法是否运行结束了
+7、线程的中断问题，下面我们进一步说明
+
 ## 2.3 中断一个线程
 
 中断一个线程通常有两种方式
@@ -165,9 +170,10 @@ public class Main {
 
 ```java
 public class Main{
-    private static boolean isQuit=false;
-    public static void main1(String[] args) {
+private static boolean isQuit=false;
+    public static void main(String[] args) {
         Thread t=new Thread(){
+            @Override
             public void run(){
                while(!isQuit){
                    System.out.println("正在执行");
@@ -188,7 +194,6 @@ public class Main{
         }
         System.out.println("请求终止执行");
         isQuit=true;
-
     }
 }
 ```
@@ -222,11 +227,16 @@ public class Main {
 }
 ```
 
-1. 如果线程调用了 wait/join/sleep 等方法而阻塞挂起，则以 InterruptedException 异常的形式通知，清除
-    中断标志
+1. 如果线程调用了 wait/join/sleep 等方法而阻塞挂起，则以 InterruptedException 异常的形式通知，清除中断标志
 2. 否则，只是内部的一个中断标志被设置，thread 可以通过
    1. `Thread.interrupted()` 判断当前线程的中断标志被设置，**清除中断标志**
    2. `Thread.currentThread().isInterrupted()` 判断指定线程的中断标志被设置，**不清除中断标志**
+
+| 方法                                | 说明                                                         |
+| ----------------------------------- | ------------------------------------------------------------ |
+| public void interrupt()             | 中断对象关联的线程，如果线程正在阻塞，则以异常方式通知，否则设置标志位 |
+| public static boolean interrupted() | 判断当前线程的中断标志位是否设置，调用后清除标志位           |
+| public boolean isInterrupted()      | 判断对象关联的线程的标志位是否设置，调用后不清除标志位       |
 
 
 
@@ -266,7 +276,7 @@ public class Main {
 | BLOCKED       | 等待锁                               |
 | TERMINATED    | 对象还在，但是OCB对象没有了          |
 
-
+![image-20220304200526610](https://gitee.com/wang-fuming/dawning/raw/master/image-20220304200526610.png)
 
 ## 3.2 线程的状态以及状态转移的意义
 
@@ -615,7 +625,9 @@ public class BlockingQueue{
     private int[] array=new int[1000];
     private int front=0;
     private int rear=0;
-    private int size=0;
+//    private int size=0;
+    //防止频繁读取而优化
+    private volatile int size=0;
     public BlockingQueue(){};
         public void put(int value){
             synchronized (this){
@@ -771,7 +783,7 @@ public class Timer{
 
 3、用一个数据结构来组织任务，用阻塞队列
 
-4、用一个数据结构在组织若干个线程
+4、用一个数据结构在组织若干个线程，线性表
 
 ```java
 public class MyThreadPool{
@@ -809,8 +821,7 @@ public class Work expends Thread{
             }
         }catch (InterruptedException e){
             System.out.println("线程终止");
-        }
-            
+        }            
     }
         
 }
@@ -889,4 +900,57 @@ compare and swap（比较并交换）
 5、锁粗化：如果段逻辑中，需要多次加锁解锁，并且在解锁的过程中没有其他的线程进行竞争，就会把多组加锁合并在一起。
 
 # 12.线程安全集合类
+
+# 面试
+
+其实理论上 wait 和 sleep 完全是没有可比性的，因为一个是用于线程之间的通信的，一个是让线程阻塞一段时间，
+唯一的相同点就是都可以让线程放弃执行一段时间。用生活中的例子说的话就是婚礼时会吃糖，和家里自己吃糖之间
+有差别。说白了放弃线程执行只是 wait 的一小段现象。
+当然为了面试的目的，我们还是总结下：
+1. wait 之前需要请求锁，而wait执行时会先释放锁，等被唤醒时再重新请求锁。这个锁是 wait 对像上的 monitor
+lock
+2. sleep 是无视锁的存在的，即之前请求的锁不会释放，没有锁也不会请求。
+3. wait 是 Object 的方法
+4. sleep 是 Thread 的静态方法
+
+
+
+11.1 线程的优点
+1. 创建一个新线程的代价要比创建一个新进程小得多
+2. 与进程之间的切换相比，线程之间的切换需要操作系统做的工作要少很多
+3. 线程占用的资源要比进程少很多
+4. 能充分利用多处理器的可并行数量
+5. 在等待慢速I/O操作结束的同时，程序可执行其他的计算任务
+5. 计算密集型应用，为了能在多处理器系统上运行，将计算分解到多个线程中实现
+7. I/O密集型应用，为了提高性能，将I/O操作重叠。线程可以同时等待不同的I/O操作。
+
+11.2 进程与线程的区别
+1. 进程是系统进行资源分配和调度的一个独立单位，线程是程序执行的最小单位。
+2. 进程有自己的内存地址空间，线程只独享指令流执行的必要资源，如寄存器和栈。
+3. 由于同一进程的各线程间共享内存和文件资源，可以不通过内核进行直接通信。
+4. 线程的创建、切换及终止效率更高。
+
+```
+1、**说下乐观锁悲观锁**
+2、object类的原生方法有哪些？
+3、说下b树和b+树
+4、**说下hashmap实现原理，为什么线程不安全？**
+5、**Concurrenthashmap如何实现线程安全？**
+6、**Concurrenthashmap在jdk1.8做了哪些优化？**
+7、知道BIO和NIO吗？
+8、仔细讲讲Websockt
+9、说说Tcp断开连接的过程
+10、Hashcode方法有什么作用？
+12、说下equals和＝＝的区别
+13、如果判断一个链表有环，环的入口在哪
+14、一共100个乒乓，每次拿一到六个，我和你轮流拿，能拿到最后一个球的人获胜，你先拿，你怎么才能赢？
+15、有4个g的数据，给你256m的空间，怎么把它排序，然后写进另一个文件里？
+16、知道类加载器吗？有哪些？说说类加载机制
+17、你知道哪些异常？说说异常的执行过程
+18、**你自己如何实现一个线程池，要用什么数据结构？**
+19、**知道threatlocal吗？说一下原理**
+20、用过哪些数据库，MySQL如何保证安全？有哪些锁？
+21、静态方法和实例方法的区别，在内存中存放的位置
+22、说下http协议，http1.0、http1.1、http2.0有什么区别？https呢？如何保证安全的？
+```
 
