@@ -78,6 +78,10 @@ SpringBoot启动的Web项目，应用上下文路径默认为 /
 
 如果是使用普通Maven项目搭建，可以自行编写启动类：类上使用 @SpringBootApplication 注解：
 
+## 缓存
+
+
+
 # Spring MVC
 
 ![Snipaste_2022-02-23_16-04-02](https://gitee.com/wang-fuming/dawning/raw/master/Snipaste_2022-02-23_16-04-02.png)
