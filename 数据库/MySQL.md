@@ -128,11 +128,11 @@ create table stu_test (
 
 对于的字段的数目和类型要与表结构一致
 
-插入其中几列
+2、插入其中几列
 
 `insert into [表名] (id,chinese) values(); `
 
-一次多插入
+3、一次多插入
 
 `insert into [表名]  values(),(),(); `
 
@@ -140,19 +140,19 @@ create table stu_test (
 
 ## Retrieve
 
-全列查找
+1、全列查找
 
 `select *from [表名];`
 
 ![Snipaste_2022-01-01_11-51-43](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011152544.png)
 
-指定列查找
+2、指定列查找
 
-`select* [列名] from [表名];`
+`select [列名] from [表名];`
 
 ![Snipaste_2022-01-01_11-54-52](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011231309.png)
 
-查询字段为表达式
+3、查询字段为表达式
 
 `select [列名0], [列名1] +[列名2]+[列名3] from [表名];`
 
@@ -166,17 +166,17 @@ create table stu_test (
 
 ![Snipaste_2022-01-01_12-17-17](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011231312.png)
 
-去重查询
+4、去重查询
 
 `select distinct [列名] from [表名];`
 
 ![Snipaste_2022-01-01_12-21-05](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011231313.png)
 
-`select distinct [列名1],[列名2] from [表名];`
+5、`select distinct [列名1],[列名2] from [表名];`
 
 ![Snipaste_2022-01-01_12-22-31](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011231314.png)
 
-排序
+5、**排序**
 
 `select*from [表名] order by [列名] asc;`
 
@@ -196,7 +196,7 @@ desc为降序排列
 
 ![Snipaste_2022-01-01_12-31-21](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011231318.png)
 
-条件查询
+6、条件查询
 
 | 运算符            | 说明                                                         |
 | ----------------- | ------------------------------------------------------------ |
@@ -380,23 +380,23 @@ INSERT INTO table_name [(column [, column ...])] SELECT ...
 | MAX([DISTINCT] expr)   | 返回查询到的数据的 最大值，不是数字没有意义 |
 | MIN([DISTINCT] expr)   | 返回查询到的数据的 最小值，不是数字没有意义 |
 
-count
+**count**
 
 ![Snipaste_2022-01-02_13-46-05](https://gitee.com/wang-fuming/dawning/raw/master/img/202201021517430.png)
 
-sum![Snipaste_2022-01-02_13-47-54](https://gitee.com/wang-fuming/dawning/raw/master/img/202201021517432.png)
+**sum**![Snipaste_2022-01-02_13-47-54](https://gitee.com/wang-fuming/dawning/raw/master/img/202201021517432.png)
 
-avg、max、min就是求平均值、最大值、最小值
+**avg、max、min就是求平均值、最大值、最小值**
 
 ![Snipaste_2022-01-02_13-49-43](https://gitee.com/wang-fuming/dawning/raw/master/img/202201021517433.png)
 
 ![Snipaste_2022-01-02_13-53-08](https://gitee.com/wang-fuming/dawning/raw/master/img/202201021517434.png)
 
-2、group by
+2、**group by**
 
 ![Snipaste_2022-01-02_13-58-34](https://gitee.com/wang-fuming/dawning/raw/master/img/202201021517435.png)
 
-3、having
+3、**having**
 
 ![Snipaste_2022-01-02_14-00-34](https://gitee.com/wang-fuming/dawning/raw/master/img/202201021517436.png)
 
