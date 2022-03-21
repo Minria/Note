@@ -831,11 +831,31 @@ public class Work expends Thread{
 
 ## 9.1 乐观锁VS悲观锁
 
+乐观锁：乐观锁假设认为数据一般情况下不会产生并发冲突，所以在数据进行提交更新的时候，才会正式对数据是
+
+否产生并发冲突进行检测，如果发现并发冲突了，则让返回用户错误的信息，让用户决定如何去做。
+
+悲观锁：总是假设最坏的情况，每次去拿数据的时候都认为别人会修改，所以每次在拿数据的时候都会上锁，这样
+
+别人想拿这个数据就会阻塞直到它拿到锁。
+
+悲观锁的问题：总是需要竞争锁，进而导致发生线程切换，挂起其他线程；所以性能不高。
+
+乐观锁的问题：并不总是能处理所有问题，所以会引入一定的系统复杂度。
+
 乐观锁：多个线程竞争一把锁的概率会很低（效率高）
 
 悲观锁：多个线程竞争一把锁的概率会很高（安全高）
 
 ## 9.2 读写锁
+
+多线程之间，数据的读取方之间不会产生线程安全问题，但数据的写入方互相之间以及和读者之间都需要进行互
+
+斥。如果两种场景下都用同一个锁，就会产生极大的性能损耗。所以读写锁因此而产生。
+
+读写锁（readers-writer lock），看英文可以顾名思义，在执行加锁操作时需要额外表明读写意图，复数读者之间
+
+并不互斥，而写者则要求与任何人互斥。
 
 加锁操作分为两个步骤读锁和写锁
 
@@ -855,9 +875,9 @@ public class Work expends Thread{
 
 ## 9.4 挂起等待锁VS自旋锁
 
-挂起等待锁表示当前取锁失败后，对应的线程就要在内核中挂起（放弃CPU，进入等待队列），需要在锁释放后由操作系统唤醒。通常是重量级锁
+挂起等待锁表示当前取锁失败后，对应的线程就要在内核中挂起（放弃CPU，进入等待队列），需要在锁释放后由操作系统唤醒。（通常是重量级锁）
 
-自旋锁表示在获取锁失败后，不会立即放弃CPU，而是快速频繁询问锁的持有状态，一旦锁被释放，就能立刻获取到锁。通常是轻量级锁。
+自旋锁表示在获取锁失败后，不会立即放弃CPU，而是快速频繁询问锁的持有状态，一旦锁被释放，就能立刻获取到锁。（通常是轻量级锁。）
 
 ## 9.5 公平锁VS非公平锁
 
@@ -868,6 +888,16 @@ public class Work expends Thread{
 非公平锁：新来的线程直接获取到锁，之前的线程继续等待。
 
 ## 9.6 可重复锁
+
+可重入锁的字面意思是“可以重新进入的锁”，即允许同一个线程多次获取同一把锁。
+
+比如一个递归函数里有加锁操作，递归过程中这个锁会阻塞自己吗？
+
+如果不会，那么这个锁就是可重入锁（因为这个原因可重入锁也叫做递归锁）。
+
+Java里只要以Reentrant开头命名的锁都是可重入锁，而且JDK提供的所有现成的Lock实现类，包括synchronized
+
+关键字锁都是可重入的。
 
 一个线程针对一把锁，连续加锁两次，不会死锁。
 
@@ -883,11 +913,79 @@ N个线程针对N把锁分别加锁
 
 compare and swap（比较并交换）
 
+```
+我们假设内存中的原数据V，旧的预期值A，需要修改的新值B。 1. 比较 A 与 V 是否相等。（比较） 2. 如果
+比较相等，将 B 写入 V。（交换） 3. 返回操作是否成功。
+```
+
+当多个线程同时对某个资源进行CAS操作，只能有一个线程操作成功，但是并不会阻塞其他线程,其他线程只会收到操作失败的信号。可见 CAS 其实是一个乐观锁。
+
 应用场景
 
 无锁编程：不使用锁，而是使用CAS来保证线程安全
 
+## CAS 是怎么实现的
+
+针对不同的操作系统，JVM 用到了不同的 CAS 实现原理，简单来讲：
+
+1. java 的 CAS 利用的的是 unsafe 这个类提供的 CAS 操作；
+2. unsafe 的 CAS 依赖了的是 jvm 针对不同的操作系统实现的 Atomic::cmpxchg；
+3. Atomic::cmpxchg 的实现使用了汇编的 CAS 操作，并使用 cpu 硬件提供的 lock 机制保证其原子性。
+
+简而言之，是因为硬件予以了支持，软件层面才能做到。
+
+## CAS的应用
+
+```java
+//实现自旋锁
+public class SpinLock {
+	private AtomicReference<Thread> sign =new AtomicReference<>();
+    public void lock(){
+		Thread current = Thread.currentThread();
+		// 不放弃 CPU，一直在这里旋转判断
+		while(!sign .compareAndSet(null, current)){
+		}
+	}
+	public void unlock (){
+		Thread current = Thread.currentThread();
+		sign.compareAndSet(current, null);
+	}
+}
+//实现原子类
+public class AtomicInteger {
+	public final int incrementAndGet() {
+		return unsafe.getAndAddInt(this, valueOffset, 1) + 1;
+	}
+}
+public class Unsafe {
+	public final int getAndAddInt(Object var1, long var2, int var4) {
+		int var5;
+		do {
+			var5 = this.getIntVolatile(var1, var2);
+		} while(!this.compareAndSwapInt(var1, var2, var5, var5 + var4));
+		return var5;
+	}
+}
+```
+
+## ABA问题
+
+ABA 的问题，就是一个值从A变成了B又变成了A，而这个期间我们不清楚这个过程。
+解决方法：加入版本信息，例如携带 AtomicStampedReference 之类的时间戳作为版本信息，保证不会出现老的
+值。
+
 # 11. 锁优化-sychronized
+
+```
+面试题:
+1. 什么是偏向锁?
+
+2. java 的 synchronized 是怎么实现的，有了解过么？
+
+3. synchronized 实现原理 是什么？
+```
+
+一些提高锁优化的策略
 
 1、锁消除：编译器+JVM会根据代码运行的情况只能判断锁是否必要。
 
@@ -899,7 +997,53 @@ compare and swap（比较并交换）
 
 5、锁粗化：如果段逻辑中，需要多次加锁解锁，并且在解锁的过程中没有其他的线程进行竞争，就会把多组加锁合并在一起。
 
+## JUC
+
+1、原子类
+
+```java
+java.util.concurrent.atomic
+```
+
+2、locks 包含了其他的锁
+
+3、Callable/Future/FutureTask
+
+创建线程的方式
+
+1. 直接创建类，继承Thread，重写run方法（具名类/匿名类）
+2. 创建Runnable接口，重写run方法，设置到Thread中（具名类/匿名类）
+3. 使用lambda表达式
+4. 使用Callable搭配FutureTask创建线程
+
+```java
+Callable<Integer> callable = new Callable<>(){
+    @Override
+    public Integer call(){
+        int ret=0;
+        for(int i=0;i<100;i++){
+            ret+=i;
+        }
+        return ret;
+    }
+}
+```
+
+4、Executors/ExectorService ThreadPoolExecutor
+
+5、Semaphore信号量
+
 # 12.线程安全集合类
+
+Vector，Srack，HashTable线程安全，其他的线程不安全
+
+对于ArrayList来说
+
+自己加锁或者Collection.sychronizedList
+
+对于HashMap来说
+
+自己加锁，HashTable，ConcurrentMap
 
 # 面试
 
