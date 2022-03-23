@@ -1,88 +1,4 @@
-# Spring 核心容器
 
-## 简介
-
-本模块由 spring-core , spring-beans , spring-context , spring-context-support , and springexpression
-(Spring Expression Language) 4 个模块组成。
-
-## IoC和DI
-
-**什么叫IoC**
-
-IoC (Inversion of Control，控制反转) ，是面向对象编程中的一种设计原则，可以用来减低计算机代码之间的耦合度。只是因为该理论时间成熟相对较晚，并没有包含在GoF中。
-
-系统中通过引入实现了IoC模式的IoC容器，即可由IoC容器来管理对象的生命周期、依赖关系等，从而使得应用程序的配置和依赖性规范与实际的应用程序代码分离。
-
-从使用上看，以前手动new对象，并设置对象中属性的方式，控制权是掌握在应用程序自身。现在则全部转移到了容器，由容器来统一进行管理对象。因为控制权发生了扭转，所以叫控制反转。
-**什么又是IoC容器**
-
-实现了IoC思想的容器就是IoC容器，比如：SpringFremework, Guice（Google开源的轻量级DI框架）
-**什么是DI**
-
-DI (Dependency Injection，依赖注入) 是实现IoC的方法之一。所谓依赖注入，就是由IOC容器在运行期
-间，动态地将某种依赖关系注入到对象之中。
-
-所以，依赖注入（DI）和控制反转（IoC）是从不同的角度的描述的同一件事情，就是指通过引入 IoC 容
-器，利用依赖关系注入的方式，实现对象之间的解耦。
-
-## Spring使用流程
-
-![1](https://gitee.com/wang-fuming/dawning/raw/master/1.jpg)
-
-
-
-
-
-# Spring Boot
-
-## 项目建立
-
-通过start.spring.io建立
-
-## 开发说明
-
-SpringBoot 已经集成了 Tomcat，以后就不用像传统 Web 开发那样还需要下载一个 Tomcat 程序，配
-置启动了。只需要启动生成的启动类即可。
-
-## 默认的Web资源文件夹
-SpringBoot 默认会使用 src/main/resources 目录下的如下文件夹作为Web资源文件夹：
-
-1. /static：静态资源文件夹，如html，js，css等存放
-2. /public：静态资源文件夹，同上
-3. /templates：模版资源文件夹（后端模版框架使用的模版文件，会解析变量后再生成动态 html，
-    我们不学，了解即可）
-    注：在以上路径中的资源，服务路径不需要在前边再加 /static，/public。如在 static 文件夹下的
-    home.html ，服务路径为：/home.html
-    如果是使用普通Maven项目搭建，可以自行创建以上文件夹，在 src/main/resources 下创建
-    public 和 static 文件夹即可。
-
-##  默认的自动扫描
-
-SpringBoot默认会扫描启动类所在包，只要位于该包以下的使用了Spring注解的类，都可以注册到容器
-中，如以前学过的@Controller，@Service等。
-示例：如启动类为 org.example.Application ，则可以扫描到
-org.example.controller.LoginController 中的类注解@Controller。
-
-## 默认的配置文件
-
-SpringBoot默认使用 src/main/resource/application.properties 作为启动的配置文件，可以自
-定义如启动端口等等配置。
-如果是使用普通Maven项目搭建，在 src/main/resources 下创建 application.properties ，内容
-为空即可。
-
-## 默认的应用上下文路径
-
-SpringBoot启动的Web项目，应用上下文路径默认为 /
-
-## 启动类
-
-如果是使用普通Maven项目搭建，可以自行编写启动类：类上使用 @SpringBootApplication 注解：
-
-## 缓存
-
-
-
-# Spring MVC
 
 ![Snipaste_2022-02-23_16-04-02](https://gitee.com/wang-fuming/dawning/raw/master/Snipaste_2022-02-23_16-04-02.png)
 
@@ -96,13 +12,13 @@ SpringBoot启动的Web项目，应用上下文路径默认为 /
 
 通常控制器负责从视图读取数据，控制用户输入，并向模型发送数据。
 
-## @Controller
+# @Controller
 
 `@Controller`注解标注是一个类是Web控制器，其和`@Component`注解等价，只不过在Web层使用，其
 
 便于区分类的作用。
 
-## @RequestMapping
+# @RequestMapping
 
 `@RequestMapping`是Spring Web应用程序中最常被用到的注解。
 
@@ -120,15 +36,15 @@ OPTIONS, TRACE `。
 @RequestMapping(value="/index3",method = RequestMethod.GET)
 ```
 
-## 控制器的方法返回
+# 控制器的方法返回
 
 **String返回类型**
 有两种使用方式：
 
 1. 返回 URI 资源路径的字符串，可以使用 redirect:/服务路径 **表示重定向到某个路径**，
-forward:/服务路径 **表示转发到某个路径**，如果前边不写**默认就是转发**。
+   forward:/服务路径 **表示转发到某个路径**，如果前边不写**默认就是转发**。
 2. `@RequestMapping`结合`@ResponseBody`，返回的字符串会作为响应体内容。此时响应的
-Content-Type为 text/plain 普通文本。
+   Content-Type为 text/plain 普通文本。
 
 没有注解返回的就是页面，有注解返回文本
 
@@ -159,11 +75,9 @@ Content-Type为 text/plain 普通文本。
     public String getIndex6(){
         System.out.println("index6");
         return "index/html";
-    }
-```
-
-**返回普通的Java类型**
+    }**返回普通的Java类型**
 返回类型为Object，一般使用带Getter，Setter方法的模型类
+```
 
 结合@ResponseBody使用，表示将对象序列化后的数据放在响应体返回
 
@@ -197,17 +111,15 @@ Content-Type为 text/plain 普通文本。
 
 **返回ResponseEntity**
 
-
-
-## @ResponseBody
+## # @ResponseBody
 
 1. 返回类型为String，表示响应`Content-Type: text/plain`，且响应体为控制器方法的字符串返回值
 2. 返回类型为普通Java类型，表示响应`Content-Type: application/json`，以返回对象序列化为json后
-作为响应体。
+   作为响应体。
 3. `@ResponseBody`可以使用在类上，表示该类中所有方法都是默认以返回值作为响应体，也就是所
-有方法都使用`@ResponseBody`。
+   有方法都使用`@ResponseBody`。
 
-## 控制器方法支持的参数类型
+# 控制器方法支持的参数类型
 
 ## @PathVariable
 
@@ -281,9 +193,7 @@ public Object pojo3(User user, MultipartFile file) throws IOException {
 }
 ```
 
-
-
-## @RequestBody
+## # @RequestBody
 
 4、当请求的数据类型Content-Type为` application/json `时，需要显示的使用`@RequestBody`注解
 
@@ -486,152 +396,4 @@ create table user(
     updatetime datetime default now()
 );
 ```
-
-
-
-# MyBatis
-
-## 使用
-
-1、引入依赖
-
-2、配置
-
-在改路径下配置`application.properties`
-
-```xml
-# 数据库地址
-spring.datasource.url=jdbc:mysql://127.0.0.1:3306/mybatis_studycharactionEncoding=utf8&useSSL=true
-# 数据库用户名
-spring.datasource.username=root
-# 数据库密码
-spring.datasource.password=qwer1234
-# 数据库驱动
-spring.datasource.driver-class-name=com.mysql.jdbc.Driver
-
-# 映射文件地址
-mybatis.mapper-locations=classpath:/mapper/**Mapper.xml
-```
-
-3、声明映射接口
-
-```java
-//注意事项1：注解
-@Mapper
-@Component
-//注意实现2：接口
-public interface ArticleMapper {
-	Article selectById(Integer id);
-}
-```
-
-4、mapper.xml映射数据库
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="{关联的mapper接口全限定名}">
-	<resultMap id="{结果集映射id}" type="{Java实体类}">
-	<id column="{结果集唯一标识}" property="{实体类属性}" />
-	<result column="{结果集字段1}" property="{实体类属性}" />
-	<result column="{结果集字段2}" property="{实体类属性}" />
-	</resultMap>
-</mapper>
-```
-
-```java
-	int add(User user);
-
-    <insert id="add" parameterType="com.example.mybatis_study.model.User">
-        insert into user(username,password,photo) values (#{username},#{password},#{photo})
-    </insert>
-```
-
-
-
-## 查询
-
-单一参数查询
-
-```java
-	User selectById(int id);
-    <select id="selectById" 
-        parameterType="java.lang.Integer" 
-        resultType="com.example.mybatis_study.model.User">
-       
-        select * from user where id=#{id}
-    </select>
-```
-
-多元素查询
-
-```java
-    //多个参数需要保证映射一致，不一致可以使用@Param实现一致
-    User selectByNameAndPassword(@Param("name") String username, String password);
-    <select id="selectByNameAndPassword" 
-        parameterType="java.lang.String" 
-        resultType="com.example.mybatis_study.model.User">
-        
-        select * from user where username=#{name} and password=#{password}
-
-    </select>
-        
-    User selectByNameAndPassword(String username, String password);
-    <select id="selectByNameAndPassword" 
-        parameterType="java.lang.String" 
-        resultType="com.example.mybatis_study.model.User">
-        
-        select * from user where username=#{username} and password=#{password}
-
-    </select>
-
-```
-
-#和$的区别
-
-对于 #{参数} 的使用来说，如果参数是字符串，在替换占位符时，会在 sql 语句中加上单引号。
-如果是不能使用单引号的字符串，例如 sql 语句是 order by 字段 {传入参数} ，此时 {传入参数} 就需
-要使用 ${传入参数} 这样的占位符，替换时不会带上单引号。
-
-区别就是：#会给参数加上引号，而$不会
-
-但也要注意由此带来sql注入问题
-
-有关sql注入的问题
-
-```java
-username=username.replace("'", "").replace("or", "");//手动过滤信息
-<select id="getListByName2" resultType="com.example.demo.model.User">
-        select * from userinfo where username like concat('%',#{username},'%')
-    </select>
-    //使用mysql提供的方法进行拼接（t
-```
-
-
-
-获取自增主键
-
-useGeneratedKeys：这会令 MyBatis 使用 JDBC 的 getGeneratedKeys 方法来取出由数据库内部生成的主键（比如：像 MySQL 和 SQL Server 这样的关系型数据库管理系统的自动递增字段），默认值：false。
-
-keyColumn：设置生成键值在表中的列名，在某些数据库（像 PostgreSQL）中，当主键列不是表中的第一列的时候，是必须设置的。如果生成列不止一个，可以用逗号分隔多个属性名称。
-
-keyProperty：指定能够唯一识别对象的属性，MyBatis 会使用 getGeneratedKeys 的返回值或insert 语句的 selectKey 子元素设置它的值，默认值：未设置（ unset ）。如果生成列不止一个，可以用逗号分隔多个属性名称。
-
-```java
-    <insert id="add" parameterType="com.example.mybatis_study.model.User"
-    useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        insert into user(username,password,photo) values (#{username},#{password},#{photo})
-    </insert>
-```
-
-
-
-1、先创建一个实体对象
-
-2、在mappper接口定义查询方法
-
-3、在mapper.xml定义resultMap映射和association
-
-## 动态sql
 
