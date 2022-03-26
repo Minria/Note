@@ -4,9 +4,11 @@
 
 1、查看数据库
 
-`show databases;`
+```sql
+show databases;
+```
 
-![Snipaste_2022-01-01_11-02-47](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011152533.png)
+
 
 2、创建数据库
 
@@ -17,25 +19,22 @@ create_specification] ...]
 create_specification:
 	[DEFAULT] CHARACTER SET charset_name
 	[DEFAULT] COLLATE collation_name
+	
+create database db_name;
+create database if not exists db_name;
 ```
-
-![Snipaste_2022-01-01_11-09-27](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011152534.png)
 
 3、使用数据库
 
 ```sql
-use name;
+use db_name;
 ```
-
-![Snipaste_2022-01-01_11-11-06](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011152536.png)
 
 4、删除数据库
 
 ```sql
-DROP DATABASE [IF EXISTS] db_name;
+drop database [if exists] db_name;
 ```
-
-![Snipaste_2022-01-01_11-06-21](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011152537.png)
 
 ## 数据类型
 
@@ -72,14 +71,12 @@ DROP DATABASE [IF EXISTS] db_name;
 1、创建表
 
 ```sql
-CREATE TABLE table_name (
+create table table_name (
 	field1 datatype,
 	field2 datatype,
 	field3 datatype
 );
 ```
-
-![Snipaste_2022-01-01_11-33-52](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011152538.png)
 
 可以使用comment增加字段说明。
 
@@ -96,105 +93,128 @@ create table stu_test (
 );
 ```
 
-![Snipaste_2022-01-01_11-36-51](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011152539.png)
-
 2、查看表结构
 
-`desc [表名];`
-
-![Snipaste_2022-01-01_11-37-53](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011152540.png)
+````sql
+desc table_name;
+````
 
 3、查看表
 
-`show tables;`
-
-![](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011152541.png)
+```sql
+show tables;
+```
 
 4、删除表
 
-`drop table [表名];`
+```sql
+-- 删除 stu_test 表
+drop table stu_test;
+-- 如果存在 stu_test 表，则删除 stu_test 表
+drop table if exists stu_test;
+```
 
-![Snipaste_2022-01-01_11-41-54](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011152542.png)
+
 
 # CRUD
 
 ## Create
 
+```sql
+INSERT [INTO] table_name
+	[(column [, column] ...)]
+	VALUES (value_list) [, (value_list)] ...
+	value_list: value, [, value] .
+```
+
 使用上文的students表
 
 1、单行数据全列插入
 
-`insert into [表名] values();`
+````sql
+insert into table_name values();
+````
 
-对于的字段的数目和类型要与表结构一致
+**对于的字段的数目和类型要与表结构一致**
 
 2、插入其中几列
 
-`insert into [表名] (id,chinese) values(); `
+```sql
+insert into table_name (id,chinese) values();
+```
 
 3、一次多插入
 
-`insert into [表名]  values(),(),(); `
-
-![Snipaste_2022-01-01_11-49-57](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011152543.png)
+```sql
+insert into table_name values(),(),(); 
+```
 
 ## Retrieve
 
+```sql
+SELECT
+	[DISTINCT] {* | {column [, column] ...}
+	[FROM table_name]
+	[WHERE ...]
+	[ORDER BY column [ASC | DESC], ...]
+	LIMIT ...
+```
+
+
+
 1、全列查找
 
-`select *from [表名];`
-
-![Snipaste_2022-01-01_11-51-43](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011152544.png)
+```sql
+select * from table_name;
+```
 
 2、指定列查找
 
-`select [列名] from [表名];`
-
-![Snipaste_2022-01-01_11-54-52](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011231309.png)
+```sql
+select id,name from table_name;
+```
 
 3、查询字段为表达式
 
-`select [列名0], [列名1] +[列名2]+[列名3] from [表名];`
-
-![Snipaste_2022-01-01_12-15-09](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011231310.png)
-
-`select [列名0], [列名1] +10 from [表名];`
-
-![Snipaste_2022-01-01_12-16-26](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011231311.png)
-
-`select [列名0], [列名1] +[列名2]+[列名3] as total from [表名];`
-
-![Snipaste_2022-01-01_12-17-17](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011231312.png)
+```sql
+-- 表达式不包含字段
+select id, name, 10 from exam_result;
+-- 表达式包含一个字段
+select id, name, english + 10 from exam_result;
+-- 表达式包含多个字段
+select id, name, chinese + math + english from exam_result;
+-- 可以加上别名
+select id, name, chinese + math + english as sum from exam_result;
+```
 
 4、去重查询
 
-`select distinct [列名] from [表名];`
-
-![Snipaste_2022-01-01_12-21-05](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011231313.png)
-
-5、`select distinct [列名1],[列名2] from [表名];`
-
-![Snipaste_2022-01-01_12-22-31](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011231314.png)
+```sql
+select distinct math,english from exam_result;
+```
 
 5、**排序**
 
-`select*from [表名] order by [列名] asc;`
+```sql
+-- ASC 为升序（从小到大）
+-- DESC 为降序（从大到小）
+-- 默认为 ASC
+SELECT ... FROM table_name [WHERE ...]
+ORDER BY column [ASC|DESC], [...];
+```
 
-desc为降序排列
+```sql
+select * from table_name order by column desc;
+select * from table_name order by column asc;
 
-![Snipaste_2022-01-01_12-25-18](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011231315.png)
+select chinese + english + math from exam_result order by chinese + english + math desc;
+select name, chinese + english + math total from exam_result order by total desc;
 
-`select [列名0], [列名1]+[列名2] from [表名]  order by [列名1]+[列名2] desc;`
+-- 多组排序，前面的优先级高
+select name, math, english, chinese from exam_result order by math desc, english, chinese desc;
+```
 
-![Snipaste_2022-01-01_12-28-49](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011231316.png)
 
-`select [列名0], [列名1]+[列名2] as newName  from [表名]  order by newName desc;`
-
-![Snipaste_2022-01-01_12-29-51](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011231317.png)
-
-`select *from [表名] order by [列名1] desc,[列名2] desc;`
-
-![Snipaste_2022-01-01_12-31-21](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011231318.png)
 
 6、条件查询
 
@@ -209,45 +229,19 @@ desc为降序排列
 | IS NULL           | 不是 NULL                                                    |
 | LIKE              | 模糊匹配。% 表示任意多个（包括 0 个）任意字符；_ 表示任意一个字<br/>符 |
 
-![Snipaste_2022-01-01_15-53-50](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011618387.png)
-
-![Snipaste_2022-01-01_15-54-35](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011618388.png)
-
-![Snipaste_2022-01-01_15-55-46](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011618389.png)
-
-![Snipaste_2022-01-01_15-57-17](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011618390.png)
-
-分页查询
-
-![Snipaste_2022-01-01_16-03-33](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011618391.png)
-
-![Snipaste_2022-01-01_16-00-20](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011618392.png)
-
-![Snipaste_2022-01-01_16-02-59](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011618393.png)
-
 ## Updata
 
 ```sql
-update [表名] set [字段] where 
+update table_name set column = ? where condition 
 ```
 
 
-
-![Snipaste_2022-01-01_15-41-32](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011618394.png)
 
 ## Delete
 
 ```mysql
-delete from [表名] where 
+delete from table_name where condition; 
 ```
-
-
-
-![Snipaste_2022-01-01_16-16-18](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011618396.png)
-
-![Snipaste_2022-01-01_16-16-40](https://gitee.com/wang-fuming/dawning/raw/master/img/202201011618397.png)
-
-
 
 # 进阶
 
@@ -279,8 +273,6 @@ CREATE TABLE student (
 );
 ```
 
-![Snipaste_2022-01-01_20-44-02](https://gitee.com/wang-fuming/dawning/raw/master/img/202201012143894.png)
-
 ```sql
 -- 重新设置学生表结构
 -- 测试unique
@@ -293,8 +285,6 @@ CREATE TABLE student (
 );
 ```
 
-![Snipaste_2022-01-01_20-46-33](https://gitee.com/wang-fuming/dawning/raw/master/img/202201012143895.png)
-
 ```sql
 -- 重新设置学生表结构
 -- 测试default
@@ -306,8 +296,6 @@ CREATE TABLE student (
 	qq_mail VARCHAR(20)
 );
 ```
-
-![Snipaste_2022-01-01_20-50-30](https://gitee.com/wang-fuming/dawning/raw/master/img/202201012143897.png)
 
 ```sql
 -- 重新设置学生表结构
@@ -330,10 +318,6 @@ id INT PRIMARY KEY auto_increment,
 foreign key (字段名) references 主表(列)、
 ```
 
-![Snipaste_2022-01-01_21-12-13](https://gitee.com/wang-fuming/dawning/raw/master/img/202201012143898.png)
-
-![Snipaste_2022-01-01_21-11-38](https://gitee.com/wang-fuming/dawning/raw/master/img/202201012143899.png)
-
 ```sql
 drop table if exists test_user;
 create table test_user (
@@ -348,23 +332,21 @@ create table test_user (
 
 一对一
 
-![Snipaste_2022-01-01_21-13-49](https://gitee.com/wang-fuming/dawning/raw/master/img/202201012143900.png)
+![一对一](..\picture\sql\一对一.png)
 
 一对多
 
-![Snipaste_2022-01-01_21-14-15](https://gitee.com/wang-fuming/dawning/raw/master/img/202201012143901.png)
+![一对多](..\picture\sql\一对多.png)
 
 多对多
 
-![Snipaste_2022-01-01_21-14-43](https://gitee.com/wang-fuming/dawning/raw/master/img/202201012143902.png)
+![一对一](..\picture\sql\多对多.png)
 
 ## 新增
 
 ```sql
-INSERT INTO table_name [(column [, column ...])] SELECT ...
+insert into table_name [(column [, column ...])] value ...
 ```
-
-![Snipaste_2022-01-01_21-42-44](https://gitee.com/wang-fuming/dawning/raw/master/img/202201012143903.png)
 
 ## 查询
 
@@ -374,7 +356,7 @@ INSERT INTO table_name [(column [, column ...])] SELECT ...
 
 | 函数                   |                    说明                     |
 | ---------------------- | :-----------------------------------------: |
-| COUNT([DISTINCT] expr) |           返回查询到的数据的 数量           |
+| COUNT([DISTINCT] expr) |           返回查询到的数据的数量            |
 | SUM([DISTINCT] expr)   |  返回查询到的数据的 总和，不是数字没有意义  |
 | AVG([DISTINCT] expr)   | 返回查询到的数据的 平均值，不是数字没有意义 |
 | MAX([DISTINCT] expr)   | 返回查询到的数据的 最大值，不是数字没有意义 |
@@ -382,23 +364,11 @@ INSERT INTO table_name [(column [, column ...])] SELECT ...
 
 **count**
 
-![Snipaste_2022-01-02_13-46-05](https://gitee.com/wang-fuming/dawning/raw/master/img/202201021517430.png)
-
-**sum**![Snipaste_2022-01-02_13-47-54](https://gitee.com/wang-fuming/dawning/raw/master/img/202201021517432.png)
-
 **avg、max、min就是求平均值、最大值、最小值**
-
-![Snipaste_2022-01-02_13-49-43](https://gitee.com/wang-fuming/dawning/raw/master/img/202201021517433.png)
-
-![Snipaste_2022-01-02_13-53-08](https://gitee.com/wang-fuming/dawning/raw/master/img/202201021517434.png)
 
 2、**group by**
 
-![Snipaste_2022-01-02_13-58-34](https://gitee.com/wang-fuming/dawning/raw/master/img/202201021517435.png)
-
 3、**having**
-
-![Snipaste_2022-01-02_14-00-34](https://gitee.com/wang-fuming/dawning/raw/master/img/202201021517436.png)
 
 联合操作
 
@@ -409,33 +379,25 @@ select 字段 from 表1 别名1,表2 别名2 where 连接条件 and 其他条件
 
 1、查询某个人的成绩
 
-![Snipaste_2022-01-02_20-23-36](https://gitee.com/wang-fuming/dawning/raw/master/img/202201022025039.png)
-
-![](https://gitee.com/wang-fuming/dawning/raw/master/img/202201022025041.png)
-
-![Snipaste_2022-01-02_20-24-55](https://gitee.com/wang-fuming/dawning/raw/master/img/202201022025042.png)
-
 2、查找所有同学的总成绩
 
 （1）按照学生id筛选，删除无意义的数据
 
 （2）按照学生id进行group by操作
 
-![Snipaste_2022-01-02_20-18-55](https://gitee.com/wang-fuming/dawning/raw/master/img/202201022025043.png)
+![202201022025039](../picture/sql/202201022025039.png)
 
-![Snipaste_2022-01-02_20-18-25](https://gitee.com/wang-fuming/dawning/raw/master/img/202201022025044.png)
+![202201022025041](../picture/sql/202201022025041.png)
 
-![Snipaste_2022-01-02_20-17-33](https://gitee.com/wang-fuming/dawning/raw/master/img/202201022025045.png)
 
-![Snipaste_2022-01-02_20-33-02](https://gitee.com/wang-fuming/dawning/raw/master/img/202201022033658.png)
 
 自连接
 
 本质上就是将同一列的两行记录转换为同一行的数据
 
-![Snipaste_2022-01-03_13-51-47](https://gitee.com/wang-fuming/dawning/raw/master/img/202201031542083.png)
-
 将一个表对自身进行笛卡尔积，需要现在id相同，需要限制课程id，然后需要现在分数大小的限制
+
+![202201031542083](../picture/sql/202201031542083.png)
 
 子查询
 
@@ -443,13 +405,13 @@ select 字段 from 表1 别名1,表2 别名2 where 连接条件 and 其他条件
 
 单行子查询：
 
-![Snipaste_2022-01-03_14-03-55](https://gitee.com/wang-fuming/dawning/raw/master/img/202201031542084.png)
+![202201031542084](../picture/sql/202201031542084.png)
 
 多行子查询
 
-![Snipaste_2022-01-03_14-11-17](https://gitee.com/wang-fuming/dawning/raw/master/img/202201031542086.png)
+![202201031542086](../picture/sql/202201031542086.png)
 
-![Snipaste_2022-01-03_14-12-47](https://gitee.com/wang-fuming/dawning/raw/master/img/202201031542087.png)
+![202201031542087](../picture/sql/202201031542087.png)
 
 前者：先执行子查询然后执行主查询
 
@@ -460,8 +422,6 @@ select 字段 from 表1 别名1,表2 别名2 where 连接条件 and 其他条件
 合并查询
 
 相当于把多个查询的结果集合合并为一个集合（需要保证多个集合字段一致）
-
-![Snipaste_2022-01-03_14-21-26](https://gitee.com/wang-fuming/dawning/raw/master/img/202201031542088.png)
 
 自带去重效果，如果不需要去重，使用 `union all`
 
@@ -529,9 +489,7 @@ drop index 索引名 on 表名;
 
 考虑到二叉搜素树的中序遍历是有序的，这样好像可以应用于查找范围但是它的时间复杂度太高
 
-
-
-![Snipaste_2022-01-03_16-27-58](https://gitee.com/wang-fuming/dawning/raw/master/img/202201031730935.png)
+![202201031730935](../picture/sql/202201031730935.png)
 
 1、如果索引数据很多，树的层次会很高（只有左右两个子节点），数据量大时查询还是会慢
 
@@ -541,7 +499,7 @@ drop index 索引名 on 表名;
 
 > 在B-树中查找给定[关键字](https://baike.baidu.com/item/关键字/7105697)的方法是，首先把根结点取来，在根结点所包含的关键字K1,…,Kn查找给定的关键字（可用顺序查找或二分查找法），若找到等于给定值的关键字，则查找成功；否则，一定可以确定要查找的关键字在Ki与Ki+1之间，Pi为指向子树根节点的指针，此时取[指针](https://baike.baidu.com/item/指针/2878304)Pi所指的结点继续查找，直至找到，或指针Pi为空时查找失败。
 
-![Snipaste_2022-01-03_16-40-27](https://gitee.com/wang-fuming/dawning/raw/master/img/202201031730937.png)
+![202201031730937](../picture/sql/202201031730937.png)
 
 
 
@@ -561,7 +519,7 @@ BTREE被作为实现索引的数据结构被创造出来，是因为它能够完
 
 早期MySQL索引就是使用B树，后来发生变种引出了B+树
 
-![Snipaste_2022-01-03_16-41-04](https://gitee.com/wang-fuming/dawning/raw/master/img/202201031730938.png)
+![202201031730938](../picture/sql/202201031730938.png)
 
 
 
@@ -617,6 +575,8 @@ update accout set money=money+2000 where name = '四十大盗';
 
 解决方案：使用事务来控制，保证以上两句SQL要么全部执行成功，要么全部执行失败。
 
+## 事务的定义
+
 事务指逻辑上的一组操作，组成这组操作的各个单元，要么全部成功，要么全部失败。
 
 在不同的环境中，都可以有事务。对应在数据库中，就是数据库事务。
@@ -646,7 +606,7 @@ commit;
 
 4、隔离性：多个事务并发执行时，事务之间不能相互干扰
 
-并发编程遇到的问题
+## 并发编程遇到的问题
 
 1、脏读
 
@@ -712,9 +672,9 @@ Connection connection = ds.getConnection();
 
 ## Statement对象
 
-![06 MySQL JDBC编程](https://gitee.com/wang-fuming/dawning/raw/master/img/202201042018574.jpg)
+![202201042018574](../picture/sql/202201042018574.jpg)
 
-![06 MySQL JDBC编程1](https://gitee.com/wang-fuming/dawning/raw/master/img/202201042018575.jpg)
+![202201042018575](../picture/sql/202201042018575.jpg)
 
 1、`executeQuery() `方法执行后返回单个结果集的，通常用于select语句
 2、`executeUpdate()`方法返回值是一个整数，指示受影响的行数，通常用于update、insert、delete

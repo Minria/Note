@@ -133,7 +133,7 @@ File类不支持文件内容处理，如果要处理文件内容，必须要通�
 1、字节流：数据流中最小的数据单元是字节 。InputStream、OutputStream
 2、字符流：数据流中最小的数据单元是字符， Java中的字符是Unicode编码，一个字符占用两个字节。Reader、Writer
 
-![3](https://gitee.com/wang-fuming/dawning/raw/master/img/202201111827001.jpg)
+![3](../picture/java/202201111827001.jpg)
 
 ## 2.4 字节流
 

@@ -276,7 +276,7 @@ public class Main {
 | BLOCKED       | 等待锁                               |
 | TERMINATED    | 对象还在，但是OCB对象没有了          |
 
-![image-20220304200526610](https://gitee.com/wang-fuming/dawning/raw/master/image-20220304200526610.png)
+![dxc1](../picture/java/dxc1.png)
 
 ## 3.2 线程的状态以及状态转移的意义
 

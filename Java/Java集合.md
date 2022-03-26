@@ -1,4 +1,4 @@
-![java-collection-hierarchy.71519bdb](https://gitee.com/wang-fuming/dawning/raw/master/img/202201201611256.png)
+![java-collection-hierarchy.71519bdb](../picture/ds/202201201611256.png)
 
 # 线性表
 

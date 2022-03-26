@@ -1,6 +1,6 @@
+# 设计模式
 
-
-![Snipaste_2022-02-23_16-04-02](https://gitee.com/wang-fuming/dawning/raw/master/Snipaste_2022-02-23_16-04-02.png)
+![s1](../picture/java/s1.png)
 
 **Model（模型）**是应用程序中用于处理应用程序数据逻辑的部分。
 
@@ -38,13 +38,13 @@ OPTIONS, TRACE `。
 
 # 控制器的方法返回
 
-**String返回类型**
+## String返回类型
 有两种使用方式：
 
 1. 返回 URI 资源路径的字符串，可以使用 redirect:/服务路径 **表示重定向到某个路径**，
    forward:/服务路径 **表示转发到某个路径**，如果前边不写**默认就是转发**。
 2. `@RequestMapping`结合`@ResponseBody`，返回的字符串会作为响应体内容。此时响应的
-   Content-Type为 text/plain 普通文本。
+   `Content-Type`为 `text/plain` 普通文本。
 
 没有注解返回的就是页面，有注解返回文本
 
@@ -75,9 +75,11 @@ OPTIONS, TRACE `。
     public String getIndex6(){
         System.out.println("index6");
         return "index/html";
-    }**返回普通的Java类型**
-返回类型为Object，一般使用带Getter，Setter方法的模型类
+    }
 ```
+
+## 返回普通的Java类型
+返回类型为Object，一般使用带Getter，Setter方法的模型类
 
 结合@ResponseBody使用，表示将对象序列化后的数据放在响应体返回
 
@@ -111,7 +113,7 @@ OPTIONS, TRACE `。
 
 **返回ResponseEntity**
 
-## # @ResponseBody
+## @ResponseBody
 
 1. 返回类型为String，表示响应`Content-Type: text/plain`，且响应体为控制器方法的字符串返回值
 2. 返回类型为普通Java类型，表示响应`Content-Type: application/json`，以返回对象序列化为json后
