@@ -332,7 +332,7 @@ create table test_user (
 
 一对一
 
-![一对一](..\picture\sql\一对一.png)
+![一对一]((..\picture\sql\一对一.png))
 
 一对多
 
