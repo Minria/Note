@@ -684,11 +684,13 @@ public class BlockingQueue{
 
 定时器构成要素
 
-1、使用一个Task来描述任务，同时要记录任务执行时间
+1、使用一个Task来描述任务，同时要记录任务执行时间（里面有一个Runnable和时间，由于需要排序所以要加一个接口）
 
 2、使用一个阻塞优先队列，来组织我们的任务
 
 3、一个工作线程来扫描任务时间，检测队首任务的执行时间，如果需要执行的化就去执行任务
+
+4、一个类用来启动定时器以及向里面添加任务
 
 ```java
 public class Task implements Comparable<Task>{
