@@ -42,15 +42,80 @@ Redis和Memcached
 
 # Redis使用
 
+key-value型，key都是字符串型
+
 1、String-字符串
 
-2、Has-字典
+比较常用
+
+```redis
+set key value
+get key
+setex key seconds value
+setnx key value 
+```
+
+
+
+2、Hash-字典
+
+适合存储对象
+
+```redis
+HSET key field value 将哈希表key中的字段field的值设为value
+HGET key field 获取存储在哈希表中指定字段的值
+HDEL key field 删除存储在哈希表中的指定字段
+HKEYS key 获取哈希表中所有字段
+HVALS key 获取哈希表中所有值
+HGETALL key 获取在哈希表中指定key的所有字段和值
+```
+
+
 
 3、List-列表
 
+按照插入顺序排序，可以重复；可以实现任务队列
+
+```redis
+LPUSH key value1 [value2] 将一个或多个值插入到列表头部
+LRANGE key start stop 获取列表指定范围内的元素
+RPOP key 移除并获取列表最后一个元素
+LLEN key 获取列表长度
+BRPOP key1 [key2 timeout 移出并获取列表的最后一个元素，如果列表没有元素会阻塞列表直到等待超时
+或发现可弹出元素为止
+```
+
+
+
 4、Set-集合类型
 
+无序的、不允许有重复元素的
+
+```redis
+SADD key member1 [member2] 向集合添加一个或多个成员
+SMEMBERS key 返回集合中的所有成员
+SCARD key 获取集合的成员数
+SINTER key1 [key2] 返回给定所有集合的交集
+SUNION key1 [key2] 返回所有给定集合的并集
+SDIFF key1 [key2) 返回给定所有集合的差集
+SREM key member1 [member2] 移除集合中一个或多个成员
+```
+
+
+
 5、ZSet-有序集合类型
+
+6、通用命令
+
+```redis
+KEYS pattern 查找所有符合给定模式(pattern)的key
+EXISTS key 检查给定key是否存在
+TYPE key 返回key所储存的值的类型
+TTL key 返回给定key的剩余生存时间(TTL,time to live),以秒为单位
+DEL key 该命令用于在key存在是副除key
+```
+
+
 
 # 持久化
 
