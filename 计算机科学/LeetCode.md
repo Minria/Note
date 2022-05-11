@@ -55,3 +55,72 @@
 方法3：
 
 采用归并排序思想
+
+**24. 两两交换链表中的节点**
+
+![Snipaste_2022-05-11_22-37-21](../picture/leetcode/Snipaste_2022-05-11_22-37-21.png)
+
+为了方便操作，首先给链表加上一个头节点
+
+我们将链表截断，三部分，已经完成交换的，正要交换的，将要交换的
+
+最开始是，添加的节点就是已经交换，1，2就是正要交换，3，4是将要交换
+
+需要注意的是，如果没有两个节点就终止交换
+
+**25. K 个一组翻转链表**
+
+这个题是上一个题的进一步拓展
+
+```java
+class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if(head==null) return null;
+        ListNode dummy = new ListNode();
+        dummy.next = head;
+        ListNode p1=dummy;
+        while(true){
+            // p1代表已经反转好的最后一个节点
+            // p2是正在反转的第一节点
+            // p3是正在反转的最后节点
+            ListNode p2=p1.next;
+            ListNode p3=p2;
+            int tmp=k;
+            while(tmp>1&&p3!=null){
+                p3=p3.next;
+                tmp--;
+            }
+            // 表明正在反转的节点数不足k个
+            if(p3==null){
+                break;
+            }
+            // p4是将要反转的节点
+            ListNode p4=p3.next;
+            p1.next=null;
+            p3.next=null;
+            // 反转
+            p1.next=reverse(p2);
+            //更新
+            p2.next=p4;
+            p1=p2;
+        }
+        return dummy.next;
+    }
+    // 反转链表
+    private ListNode reverse(ListNode head){
+        if(head==null){
+            return null;
+        }
+        ListNode pre=null;
+        ListNode cur=head;
+        while(cur!=null){
+            ListNode curNext = cur.next;
+            cur.next=pre;
+            pre=cur;
+            cur=curNext;
+        }
+        return pre;
+    }
+}
+```
+
