@@ -124,3 +124,117 @@ class Solution {
 }
 ```
 
+# 二分查找
+
+
+
+**34. 在排序数组中查找元素的第一个和最后一个位置**
+
+不存在返回[-1,-1]
+
+```
+输入：nums = [5,7,7,8,8,10], target = 8
+输出：[3,4]
+```
+
+思路：
+
+- 二分查找之区间查找，不存在就返回[-1,-1]
+- 由于采用[)的方式也需要打补丁进行修改，我们采用[]的方式
+
+```java
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        int left = leftBound(nums,target);
+        int right = rightBound(nums,target);
+        return new int[]{left,right};
+    }
+    private int leftBound(int[] nums,int target){
+        int left = 0;
+        int right = nums.length - 1;
+        while(left <= right){
+            int mid = (left + right)>>>1;
+            if(nums[mid] == target){
+                right = mid - 1;
+            }else if(nums[mid] < target){
+                left = mid + 1;
+            }else{
+                right = mid - 1;
+            }
+        }
+        if(left >= nums.length || nums[left] != target){
+            return -1;
+        }
+        return left;
+    }
+    private int rightBound(int[] nums,int target){
+        int left = 0;
+        int right = nums.length - 1;
+        while(left <= right){
+            int mid = (left + right)>>>1;
+            if(nums[mid] == target){
+                left = mid + 1;
+            }else if(nums[mid] < target){
+                left = mid + 1;
+            }else{
+                right = mid - 1;
+            }
+        }
+        if(right < 0 ||nums[right] != target){
+            return -1;
+        }  
+        return right;
+    }
+}
+```
+
+**35. 搜索插入位置** 
+
+不存在就找到插入的位置
+
+思路：
+
+- 如果不存在就需要找到插入位置，不能仅仅返回-1，这需要区间搜索
+- 采用左边界搜索（why?)
+
+```java
+class Solution {
+    public int searchInsert(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length - 1;
+        while(left <= right){
+            int mid = (left+right)>>>1;
+            if(nums[mid]==target){
+                return mid;
+            }else if(nums[mid] < target){
+                left = mid + 1;
+            }else{
+                right = mid - 1;
+            }
+        }
+        return left;
+    }
+}
+```
+
+
+
+**704. 二分查找**
+
+```java
+// 模版一「相等返回」写法
+class Solution {
+    public int search(int[] nums, int target) {
+        int left = 0, right = nums.length - 1;
+        while(left <= right){ // 循环条件
+            int mid = left + (right - l) / 2; // 中间值坐标
+            /int mid = (left + right) >>> 1;
+            if(nums[mid] == target) return mid; // 相等返回
+            else if(nums[mid] < target) left = mid + 1; // #1 更新后l左侧元素「必」小于target
+            else right = mid - 1; // #2 更新后r右侧元素「必」大于target 
+        }
+        return -1; 
+    }
+}
+```
+
