@@ -124,6 +124,70 @@ class Solution {
 }
 ```
 
+**61. 旋转链表**
+
+```
+输入：head = [1,2,3,4,5], k = 2
+输出：[4,5,1,2,3]
+```
+
+```
+head = [0,1,2], k = 4
+输出：[2,0,1]
+```
+
+思路：
+
+将链表从倒数k个位置阶段
+
+不过需要提前知道链表的长度
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        if(head==null) return head;
+        int n=0;
+        ListNode cur=head;
+        // 计算链表长度
+        while(cur!=null){
+            cur=cur.next;
+            n++;
+        }
+        // 如果旋转整数倍就相当于没有旋转
+        if(k%n==0) return head;
+        // 如果k过大
+        else k=k%n;
+        //开始分段并且找到最后一个节点
+        cur=head;
+        ListNode pre=head;
+        while(k>0){
+            cur=cur.next;
+            k--;
+        }
+        while(cur.next!=null){
+            pre=pre.next;
+            cur=cur.next;
+        }
+        cur.next=head;
+        head=pre.next;
+        pre.next=null;
+        return head;
+    }
+}
+```
+
+
+
 # 二分查找
 
 **33. 搜索旋转排序数组**
