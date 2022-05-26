@@ -186,6 +186,92 @@ class Solution {
 }
 ```
 
+**82. 删除排序链表中的重复元素 II**
+
+思路1：
+
+- 步骤1：判断当前节点和后一个节点的值是否相同，这需要保证两个节点都存在
+- 步骤2：如果相同，用一个数记录，后面遇到这个数都跳过，相当于删除
+- 步骤3：如果不同，将该节点加入新节点，重复步骤1
+- 注意1：如果当前节点为空，说明链表遍历完，可以退出
+- 注意2：后一个节点为空，这是最后一个节点，可以直接加入。为什么排除和前面重复的情况---直接删除
+- 注意3：新链表尾为空
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        ListNode cur = head;
+        ListNode dum = new ListNode(0);
+        ListNode p = dum;
+        while(cur!=null){
+            if(cur.next==null){
+                p.next = cur;
+                cur = cur.next;
+                p = p.next;
+                //为什么这里不用标记尾为空？
+            }else{
+                if(cur.val==cur.next.val){
+                    int num = cur.val;
+                    while(cur!=null&&cur.val==num){
+                        cur = cur.next;
+                    }
+                }else{
+                    p.next = cur;
+                    cur = cur.next;
+                    p = p.next;
+                    //为什么z
+                    p.next = null;
+                }
+            }
+        }
+        return dum.next;
+    }
+}
+```
+
+
+
+思路2：
+
+- 将链表填一个头节点，一个指针指向头节点，表明该指针以前都是处理好的
+- 如果后一个节点后两个节点不为空，且值不相等，加入
+- 如果相等，标记值，删除后一个节点
+
+```java
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        if (head == null||head.next==null) {
+            return head;
+        }
+        ListNode dumb = new ListNode(0, head);
+        ListNode cur = dumb;
+        while(cur.next!=null&&cur.next.next!=null){
+            if(cur.next.val==cur.next.next.val){
+                int x=cur.next.val;
+                while(cur.next!=null&&cur.next.val==x){
+                    cur.next=cur.next.next;
+                }
+            }else{
+                cur=cur.next;
+            }
+        }
+        return dumb.next;
+    }
+}
+```
+
+
+
 # 堆
 
 **215. 数组中的第K个最大元素**
