@@ -1,3 +1,13 @@
+
+
+**JVM 执行流程**
+程序在执行之前先要把java代码转换成字节码（class文件），JVM 首先需要把字节码通过一定的方式
+**类加载器（ClassLoader）** 把文件加载到内存中 **运行时数据区（Runtime Data Area）** ，而字节码
+文件是 JVM 的一套指令集规范，并不能直接交个底层操作系统去执行，因此需要特定的命令解析器 执
+行引擎（Execution Engine）将字节码翻译成底层系统指令再交由CPU去执行，而这个过程中需要调
+用其他语言的接口 本地库接口（Native Interface） 来实现整个程序的功能，这就是这4个主要组成部
+分的职责与功能。
+
 # 1. JVM中的内存区域划分
 
 ![Java运行时数据区域JDK1.8.5c3da749](https://gitee.com/wang-fuming/dawning/raw/master/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9FJDK1.8.5c3da749.png)
