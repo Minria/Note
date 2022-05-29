@@ -10,6 +10,8 @@
 
 # 链表
 
+## 1-10
+
 **2. 两数相加**
 
 思路：
@@ -266,6 +268,87 @@ class Solution {
             }
         }
         return dumb.next;
+    }
+}
+```
+
+**83. 删除排序链表中的重复元素**
+
+思路：
+
+- 双指针，如果指向链表1的元素值和链表2的值相同，跳过，不一样，就加入
+
+## 11-20
+
+**86. 分隔链表**
+
+给你一个链表的头节点 head 和一个特定值 x ，请你对链表进行分隔，使得所有 小于 x 的节点都出现在 大于或等于 x 的节点之前。
+
+你应当 保留 两个分区中每个节点的初始相对位置。
+
+思路：
+
+- 先准备两个链表，对原链表进行遍历，如果值大于x加入链表2，反之加入链表1，然后对两个链表进行拼接处理
+
+**92. 反转链表2**
+
+给你单链表的头指针 head 和两个整数 left 和 right ，其中 left <= right 。请你反转从位置 left 到位置 right 的链表节点，返回 反转后的链表 。
+
+思路：
+
+- 可以找到[left,right]的链表，对其整体反转，然后再拼接链表
+- 需要找到下标为left-1和right-1的节点，然后把链表分割三部分
+
+```java
+class Solution {
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        ListNode dummy=new ListNode();
+        dummy.next=head;
+        ListNode p;
+        ListNode p1=dummy,p2,p3=null;
+        for(int i=1;i<left;i++){
+            p1=p1.next;
+        }
+        //p1指向left-1
+        //p指向left
+        p=p1.next;
+        p2=p1.next;
+        ListNode pre=null;
+        for(int i=left;i<=right;i++){
+            p3=p2.next;
+            p2.next=pre;
+            pre=p2;
+            p2=p3;
+        }
+        p1.next=pre;
+        p.next=p2;
+        return dummy.next;
+    }
+}
+```
+
+**109.有序链表转换为二叉平衡搜索树**
+
+```java
+class Solution {
+    public TreeNode sortedListToBST(ListNode head) {
+       List<Integer> list=new ArrayList<>();
+       ListNode p=head;
+       while(p!=null){
+           list.add(p.val);
+           p=p.next;
+       }
+       return buildBST(list,0,list.size()-1); 
+    }
+    private TreeNode buildBST(List<Integer> list,int left,int right){
+        if(left>right){
+            return null;
+        }
+        int mid=(left+right)/2;
+        TreeNode root=new TreeNode(list.get(mid));
+        root.left=buildBST(list,left,mid-1);
+        root.right=buildBST(list,mid+1,right);
+        return root;
     }
 }
 ```
