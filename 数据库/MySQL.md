@@ -315,7 +315,7 @@ id INT PRIMARY KEY auto_increment,
 ```
 
 ```sql
-foreign key (字段名) references 主表(列)、
+foreign key (字段名) references 主表(列)
 ```
 
 ```sql
