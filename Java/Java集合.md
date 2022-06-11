@@ -25,6 +25,14 @@
 | ArrayList(Collection<? extends E> c) | 利用其他 Collection 构建 ArrayList |
 | ArrayList(int initialCapacity)       | 指定顺序表初始容量                 |
 
+需要注意的是
+
+ArrayList是线程不安全的，如果需要线程安全
+
+```java
+List list = Collections.synchronizedList(new ArrayList(...))
+```
+
 
 
 ## 链表LinkedList
@@ -32,6 +40,14 @@
 | 构造方法     | 作用     |
 | ------------ | -------- |
 | LinkedList() | 无参构造 |
+
+也是线程不安全的
+
+```java
+List list = Collections.synchronizedList(new LinkedList(...))
+```
+
+
 
 ## 栈Stack
 
