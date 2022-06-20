@@ -229,6 +229,20 @@ select name, math, english, chinese from exam_result order by math desc, english
 | IS NULL           | 不是 NULL                                                    |
 | LIKE              | 模糊匹配。% 表示任意多个（包括 0 个）任意字符；_ 表示任意一个字<br/>符 |
 
+7、分页查询
+
+```sql
+-- 起始下标为 0
+-- 从 0 开始，筛选 n 条结果
+SELECT ... FROM table_name [WHERE ...] [ORDER BY ...] LIMIT n;
+-- 从 s 开始，筛选 n 条结果
+SELECT ... FROM table_name [WHERE ...] [ORDER BY ...] LIMIT s, n;
+-- 从 s 开始，筛选 n 条结果，比第二种用法更明确，建议使用
+SELECT ... FROM table_name [WHERE ...] [ORDER BY ...] LIMIT n OFFSET s;
+```
+
+
+
 ## Updata
 
 ```sql
@@ -369,6 +383,15 @@ insert into table_name [(column [, column ...])] value ...
 2、**group by**
 
 3、**having**
+
+GROUP BY 子句进行分组以后，需要对分组结果再进行条件过滤时，不能使用 WHERE 语句，而需要用
+HAVING
+
+```sql
+select role,max(salary),min(salary),avg(salary) from emp group by role having avg(salary)<1500;
+```
+
+
 
 联合操作
 
