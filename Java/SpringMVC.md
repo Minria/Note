@@ -195,7 +195,7 @@ public Object pojo3(User user, MultipartFile file) throws IOException {
 }
 ```
 
-## # @RequestBody
+## @RequestBody
 
 4、当请求的数据类型Content-Type为` application/json `时，需要显示的使用`@RequestBody`注解
 

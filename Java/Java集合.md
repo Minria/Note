@@ -66,6 +66,7 @@ Java中的栈继承与矢量，但是矢量在Java中已经过时
 | E peek()         | 查看栈顶元素   |
 | boolean empty()  | 判断栈是否为空 |
 | boolean search() | 查找某个元素   |
+| int size()       | 得到长度       |
 
 ## 队列Queue
 
