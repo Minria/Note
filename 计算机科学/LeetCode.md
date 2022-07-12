@@ -703,6 +703,7 @@ int quickMulti(int A, int B) {
 ```
 
 ```java
+//如果需要计算x^77需要x^38需要x^19需要x^9...最后递归到1
 public double quickMul(double x, long N) {
     if (N == 0) {
         return 1.0;
