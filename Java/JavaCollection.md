@@ -120,6 +120,8 @@ Java中的栈继承与矢量，但是矢量在Java中已经过时
 
 # 源码分析
 
+# ArrayList
+
 ```java
 package java.util;
 
@@ -140,7 +142,7 @@ public class ArrayList<E> extends AbstractList<E>
     private static final Object[] EMPTY_ELEMENTDATA = {};
 
      //用于默认大小空实例的共享空数组实例。
-      //我们把它从EMPTY_ELEMENTDATA数组中区分出来，以知道在添加第一个元素时容量需要增加多少。
+     //我们把它从EMPTY_ELEMENTDATA数组中区分出来，以知道在添加第一个元素时容量需要增加多少。
     private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = {};
 
     /**
@@ -623,6 +625,8 @@ public class ArrayList<E> extends AbstractList<E>
 
 
 ```
+
+
 
 
 
